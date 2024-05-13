@@ -5,10 +5,10 @@ export default function Loader() {
   return (
     <div className="flex h-[500px] w-full flex-1 items-center justify-center">
       <Image
-        src="/assets/svg/palremit-logo.svg"
+        src="/assets/svg/palremit-logo-icon.svg"
         alt="Loading"
-        height={200}
-        width={200}
+        height={50}
+        width={50}
         className="animate-pulse duration-100"
       />
     </div>
