@@ -38,15 +38,28 @@ export const truncateDecimal = (num: number | string) => {
 }
 
 export const thousandSeparator = (value: string | number) => {
-  // Convert number to string
-  let numStr = value.toString()
+  if (value) {
+    // Convert number to string
+    let numStr = value.toString()
 
-  // Split the string into parts before and after the decimal point
-  const parts = numStr.split('.')
+    // Split the string into parts before and after the decimal point
+    const parts = numStr.split('.')
+    console.log(parts)
 
-  // Add thousand separators to the integer part
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    // Add thousand separators to the integer part
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
-  // Join the parts back together with the decimal point
-  return parts.join('.')
+    // Join the parts back together with the decimal point
+    return parts.join('.')
+    // return Number(parts.join('.')).toFixed(2)
+  }
+  return null
+}
+
+export const currencyFormatter = (value: string | number) => {
+  if (value) {
+    return thousandSeparator(truncateDecimal(value))
+  }
+
+  return '--'
 }
