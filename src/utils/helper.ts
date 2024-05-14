@@ -44,7 +44,6 @@ export const thousandSeparator = (value: string | number) => {
 
     // Split the string into parts before and after the decimal point
     const parts = numStr.split('.')
-    console.log(parts)
 
     // Add thousand separators to the integer part
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -56,7 +55,7 @@ export const thousandSeparator = (value: string | number) => {
   return null
 }
 
-export const currencyFormatter = (value: string | number) => {
+export const formatCurrency = (value: string | number) => {
   if (value) {
     return thousandSeparator(truncateDecimal(value))
   }

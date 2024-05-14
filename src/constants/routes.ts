@@ -3,10 +3,10 @@ export enum Routes {
   Users = '/users',
   // Transactions
   Transactions = '/transactions',
-  Deposit = 'transactions/deposit',
+  Deposit = '/transactions/deposit',
   Send = '/transactions/send',
   Swap = '/transactions/swap',
-  Withdraw = '/transactions/withdraw',
+  Withdrawal = '/transactions/withdrawal',
   // Card
   Card = '/card',
 

@@ -8,6 +8,7 @@ import { SlArrowDown, SlArrowUp } from 'react-icons/sl'
 
 export default function Sidebar() {
   const router = useRouter()
+  console.log(router.pathname)
 
   interface Routes {
     name: string
@@ -24,7 +25,7 @@ export default function Sidebar() {
         { name: 'Deposit', route: Routes.Deposit },
         { name: 'Send', route: Routes.Send },
         { name: 'Swap', route: Routes.Swap },
-        { name: 'Withdraw', route: Routes.Withdraw },
+        { name: 'Withdrawal', route: Routes.Withdrawal },
       ],
     },
     { name: 'Card', route: Routes.Card },
@@ -123,7 +124,7 @@ export default function Sidebar() {
                         <div
                           className={cn(
                             'group flex h-12 w-full items-center justify-between pl-[72px] pr-9 text-base font-medium text-neutral-500 transition-all duration-150 hover:bg-[#F8F3AF] hover:text-primary',
-                            router.pathname
+                            router.pathname === route && 'bg-[#F8F3AF]'
                           )}
                         >
                           <div>{name}</div>
