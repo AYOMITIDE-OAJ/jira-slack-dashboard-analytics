@@ -5,6 +5,7 @@ import DataTable, {
   TableStyles,
 } from 'react-data-table-component'
 import { LuLoader2 } from 'react-icons/lu'
+import Image from 'next/image'
 
 const rowTheme: TableStyles = {
   headRow: {
@@ -155,6 +156,12 @@ export default function Table(props: Partial<ITableProps>) {
 
 const Loader = () => (
   <div className="flex h-[200px] w-full items-center justify-center">
-    <LuLoader2 />
+    <Image
+      src="/assets/svg/palremit-logo-icon.svg"
+      alt="Loading"
+      height={40}
+      width={40}
+      className="animate-pulse duration-100"
+    />
   </div>
 )

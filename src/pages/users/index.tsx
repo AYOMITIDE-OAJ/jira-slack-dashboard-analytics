@@ -1,8 +1,9 @@
 import Layout from '@/components/layout'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
+import TableSearch from '@/components/table-search'
 import DashboardApi from '@/utils/api/dashboard-api'
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
 import { HiOutlineUserCircle } from 'react-icons/hi'
 
@@ -10,6 +11,12 @@ export default function Users() {
   const [users, setUsers] = useState([])
   const [totalUsers, setTotalUsers] = useState<number>()
   const [loading, setLoading] = useState(true)
+  const [searchValue, setSearchValue] = useState('')
+  const [tableLoading, setTableLoading] = useState(false)
+
+  const handleValueChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value)
+  }
 
   const columns: TableColumn<any>[] = [
     {
@@ -68,10 +75,23 @@ export default function Users() {
     })()
   }, [])
 
+  useEffect(() => {
+    ;(async () => {
+      setTableLoading(true)
+      try {
+        const res = await DashboardApi.getAllUsers({ search: searchValue })
+        setUsers(res.records)
+      } catch (err) {
+      } finally {
+        setTableLoading(false)
+      }
+    })()
+  }, [searchValue])
+
   return (
     <Layout header="Users" loading={loading}>
       <div className="mt-10 w-full">
-        <div className="rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6">
+        <div className="flex w-full items-center justify-between rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6">
           <div>
             {totalUsers && (
               <>
@@ -82,8 +102,16 @@ export default function Users() {
               </>
             )}
           </div>
+          <div>
+            <TableSearch
+              name="searchValue"
+              value={searchValue}
+              placeholder="Search for user..."
+              onChange={handleValueChange}
+            />
+          </div>
         </div>
-        <Table columns={columns} data={users} />
+        <Table columns={columns} data={users} progressPending={tableLoading} />
       </div>
     </Layout>
   )
