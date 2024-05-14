@@ -12,7 +12,7 @@ interface Props {
 
 export default function Layout({ header, subhead, children, loading }: Props) {
   return (
-    <div className="flex h-screen w-screen">
+    <div className="h-screen w-screen">
       <Sidebar />
       <div className="flex-1">
         <div className="flex items-center justify-between border-b border-gray-300 px-5 py-5 md:px-10">
@@ -29,7 +29,7 @@ export default function Layout({ header, subhead, children, loading }: Props) {
             <div className="h-10 w-10 overflow-hidden rounded-full border border-gray-400"></div>
           </div>
         </div>
-        <div className="w-full px-5 py-5 md:px-10">
+        <div className="px-5 py-5 md:pl-[340px] md:pr-10">
           {loading ? <Loader /> : children}
         </div>
       </div>

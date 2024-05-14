@@ -46,6 +46,14 @@ const DashboardApi = {
 
     return data
   },
+
+  async getUsersKyc({ userId }: { userId?: string }): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.get(`/kyc?${userId && `userId=${userId}`}`)
+
+    return data
+  },
 }
 
 export default DashboardApi

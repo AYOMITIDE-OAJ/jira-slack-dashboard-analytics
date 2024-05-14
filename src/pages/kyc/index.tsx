@@ -7,7 +7,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
 import { HiOutlineUserCircle } from 'react-icons/hi'
 
-export default function Users() {
+export default function KYC() {
   const [users, setUsers] = useState([])
   const [totalUsers, setTotalUsers] = useState<number>()
   const [loading, setLoading] = useState(true)
@@ -21,14 +21,14 @@ export default function Users() {
   const columns: TableColumn<any>[] = [
     {
       name: 'Name',
-      selector: (row: any) => row,
+      selector: (row: any) => row?.owner,
       cell: (row: any) => (
         <div className="flex items-center space-x-2 text-sm">
           <div className="border-200 h-8 w-8 overflow-hidden rounded-full">
             <HiOutlineUserCircle className="text-neutral-400" size={32} />
           </div>
           <p className="">
-            {row?.firstName} {row?.lastName}
+            {row?.owner?.firstName} {row?.owner?.lastName}
           </p>
         </div>
       ),
@@ -36,27 +36,27 @@ export default function Users() {
     },
     {
       name: 'Email',
-      selector: (row: any) => row?.email,
-      cell: (row: any) => row?.email,
+      selector: (row: any) => row?.owner?.email,
+      cell: (row: any) => row?.owner?.email,
       width: '250px',
     },
     {
       name: 'Country',
-      selector: (row: any) => row?.country,
-      cell: (row: any) => row?.country,
+      selector: (row: any) => row?.owner?.country,
+      cell: (row: any) => row?.owner?.country,
     },
-    {
-      name: 'Status',
-      selector: (row: any) => row.isActive,
-      cell: (row: any) => (
-        <StatusPill status={row.isActive ? 'active' : 'inactive'} />
-      ),
-    },
+    // {
+    //   name: 'Status',
+    //   selector: (row: any) => row?.isActive,
+    //   cell: (row: any) => (
+    //     <StatusPill status={row.isActive ? 'active' : 'inactive'} />
+    //   ),
+    // },
     {
       name: 'Verification',
-      selector: (row: any) => row?.isVerified,
+      selector: (row: any) => row?.isKYCVerified,
       cell: (row: any) => (
-        <StatusPill status={row?.isVerified ? 'verified' : 'unverified'} />
+        <StatusPill status={row?.isKYCVerified ? 'verified' : 'unverified'} />
       ),
       width: '150px',
     },
@@ -65,11 +65,10 @@ export default function Users() {
   useEffect(() => {
     ;(async () => {
       try {
-        const [usersRes] = await Promise.all([
-          DashboardApi.getAllUsers({ page: 1, limit: 100 }),
-        ])
-        setUsers(usersRes.records)
-        setTotalUsers(usersRes.total)
+        const usersRes = await DashboardApi.getUsersKyc({})
+        console.log(usersRes)
+        setUsers(usersRes)
+        setTotalUsers(usersRes.length)
       } catch (err) {
       } finally {
         setLoading(false)
@@ -81,8 +80,8 @@ export default function Users() {
     ;(async () => {
       setTableLoading(true)
       try {
-        const res = await DashboardApi.getAllUsers({ search: searchValue })
-        setUsers(res.records)
+        const res = await DashboardApi.getUsersKyc({})
+        setUsers(res)
       } catch (err) {
       } finally {
         setTableLoading(false)
@@ -91,7 +90,7 @@ export default function Users() {
   }, [searchValue])
 
   return (
-    <Layout header="Users" loading={loading}>
+    <Layout header="KYC" loading={loading}>
       <div className="mt-10 w-full">
         <div className="flex flex-col items-start justify-between gap-4 rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6 md:flex-row md:items-center">
           <div>

@@ -36,7 +36,6 @@ export default function Dashboard() {
                 alt="Flag"
                 height={40}
                 width={40}
-                priority
               />
             </div>
             <div>
@@ -115,7 +114,7 @@ export default function Dashboard() {
       try {
         const [overviewRes, transactionsRes] = await Promise.all([
           DashboardApi.getDashBoardOverview(),
-          DashboardApi.getAllTransactions({ page: 1 }),
+          DashboardApi.getAllTransactions({ page: 1, limit: 20 }),
         ])
 
         setOverview(overviewRes.counts)
@@ -290,7 +289,7 @@ export default function Dashboard() {
           </CardLayout>
         </div>
       </div>
-      <div className="mt-10 w-full">
+      <div className="mt-10">
         <div className="rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6">
           <h1 className="text-base font-medium text-gray-600">
             Recent Transactions

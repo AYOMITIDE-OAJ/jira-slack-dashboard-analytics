@@ -8,7 +8,6 @@ import { SlArrowDown, SlArrowUp } from 'react-icons/sl'
 
 export default function Sidebar() {
   const router = useRouter()
-  console.log(router.pathname)
 
   interface Routes {
     name: string
@@ -37,7 +36,7 @@ export default function Sidebar() {
   const joinString = (name: string) => name.split(' ').join('-').toLowerCase()
 
   return (
-    <aside className="hidden h-full w-[300px] border-r border-gray-200 bg-white py-6 xl:block">
+    <aside className="fixed z-10 hidden h-screen w-[300px] border-r border-gray-200 bg-white py-6 xl:block">
       <div className="px-9">
         <svg
           width="163"
