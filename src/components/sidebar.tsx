@@ -89,7 +89,7 @@ export default function Sidebar() {
                 </div>
               )
             return (
-              <div className="mb-2 w-full">
+              <div className="mb-2 w-full" key={index}>
                 <Wrapper href={route} key={index}>
                   <div
                     className={cn(
