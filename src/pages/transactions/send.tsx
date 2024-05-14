@@ -63,7 +63,7 @@ export default function Send() {
     ;(async () => {
       try {
         const [transactionsRes] = await Promise.all([
-          DashboardApi.getAllTransactions({ page: 1, type: 'send' }),
+          DashboardApi.getAllTransactions({ page: 1, type: 'p2p' }),
         ])
         setTransactions(transactionsRes.records)
       } catch (err) {
