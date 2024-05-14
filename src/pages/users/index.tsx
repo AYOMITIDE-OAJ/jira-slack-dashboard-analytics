@@ -8,6 +8,7 @@ import { HiOutlineUserCircle } from 'react-icons/hi'
 
 export default function Users() {
   const [users, setUsers] = useState([])
+  const [totalUsers, setTotalUsers] = useState<number>()
   const [loading, setLoading] = useState(true)
 
   const columns: TableColumn<any>[] = [
@@ -59,6 +60,7 @@ export default function Users() {
           DashboardApi.getAllUsers({ page: 1, limit: 100 }),
         ])
         setUsers(usersRes.records)
+        setTotalUsers(usersRes.total)
       } catch (err) {
       } finally {
         setLoading(false)
@@ -70,7 +72,16 @@ export default function Users() {
     <Layout header="Users" loading={loading}>
       <div className="mt-10 w-full">
         <div className="rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6">
-          <h1 className="text-2xl font-medium text-gray-600">Total Users</h1>
+          <div>
+            {totalUsers && (
+              <>
+                <h1 className="text-2xl font-medium text-gray-600">
+                  {totalUsers}
+                </h1>
+                <p className="text-xs">Total Users</p>
+              </>
+            )}
+          </div>
         </div>
         <Table columns={columns} data={users} />
       </div>

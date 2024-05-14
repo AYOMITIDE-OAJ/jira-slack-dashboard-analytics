@@ -9,7 +9,6 @@ export enum Routes {
   Withdrawal = '/transactions/withdrawal',
   // Card
   Card = '/card',
-
   Kyc = '/kyc',
   FeeManagement = '/fee-management',
   Settings = '/settings',
