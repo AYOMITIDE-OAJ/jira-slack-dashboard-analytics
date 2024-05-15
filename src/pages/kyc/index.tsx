@@ -7,7 +7,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
 import { HiOutlineUserCircle } from 'react-icons/hi'
 
-export default function KYC() {
+const KYC = () => {
   const [users, setUsers] = useState([])
   const [totalUsers, setTotalUsers] = useState<number>()
   const [loading, setLoading] = useState(true)
@@ -115,3 +115,7 @@ export default function KYC() {
     </Layout>
   )
 }
+
+export default KYC
+
+KYC.auth = true

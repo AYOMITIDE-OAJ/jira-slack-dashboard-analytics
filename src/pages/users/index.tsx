@@ -7,7 +7,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
 import { HiOutlineUserCircle } from 'react-icons/hi'
 
-export default function Users() {
+const Users = () => {
   const [users, setUsers] = useState([])
   const [totalUsers, setTotalUsers] = useState<number>()
   const [loading, setLoading] = useState(true)
@@ -116,3 +116,7 @@ export default function Users() {
     </Layout>
   )
 }
+
+export default Users
+
+Users.auth = true

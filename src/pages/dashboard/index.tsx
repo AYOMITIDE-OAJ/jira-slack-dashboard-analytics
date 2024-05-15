@@ -6,6 +6,7 @@ import Table from '@/components/table'
 import DashboardApi from '@/utils/api/dashboard-api'
 import { formatCurrency, thousandSeparator } from '@/utils/helper'
 import moment from 'moment'
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
@@ -13,7 +14,9 @@ import { BsArrowRight } from 'react-icons/bs'
 import { HiOutlineUserCircle } from 'react-icons/hi'
 import { RiArrowUpSFill, RiArrowDownSFill } from 'react-icons/ri'
 
-export default function Dashboard() {
+const Dashboard = () => {
+  const { data: session } = useSession()
+  console.log(session)
   const [loading, setLoading] = useState(true)
   const [overview, setOverview] = useState<Record<string, any>>()
   const [balances, setBalances] = useState<Record<string, any>>()
@@ -300,3 +303,7 @@ export default function Dashboard() {
     </Layout>
   )
 }
+
+export default Dashboard
+
+Dashboard.auth = true

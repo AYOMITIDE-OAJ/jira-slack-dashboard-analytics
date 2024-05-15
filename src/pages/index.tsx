@@ -5,7 +5,7 @@ import { Routes } from '@/constants/routes'
 
 // const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+const Home = () => {
   const router = useRouter()
 
   useEffect(() => {
@@ -14,3 +14,7 @@ export default function Home() {
 
   return null
 }
+
+export default Home
+
+Home.auth = true

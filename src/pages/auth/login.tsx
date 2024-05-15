@@ -1,10 +1,16 @@
 import Button from '@/components/button'
 import Input from '@/components/input'
+import { Routes } from '@/constants/routes'
+import { signIn } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 
 export default function Login() {
+  const router = useRouter()
+  const [loading, setLoading] = useState(false)
+
   const [data, setData] = useState({
     email: '',
     password: '',
@@ -17,6 +23,26 @@ export default function Login() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setLoading(true)
+    try {
+      const credentials = {
+        email: String(data.email),
+        password: String(data.password),
+        role: 'admin',
+      }
+
+      const res = await signIn('credentials', {
+        redirect: false,
+        ...credentials,
+      })
+
+      if (res?.ok) {
+        router.push(Routes.Dashboard)
+      }
+    } catch (err) {
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (

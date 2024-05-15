@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
 import { HiOutlineUserCircle } from 'react-icons/hi'
 
-export default function Send() {
+const Send = () => {
   const [loading, setLoading] = useState(true)
   const [transactions, setTransactions] = useState([])
 
@@ -84,3 +84,7 @@ export default function Send() {
     </Layout>
   )
 }
+
+export default Send
+
+Send.auth = true

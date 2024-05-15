@@ -1,4 +1,6 @@
 export enum Routes {
+  Login = '/auth/login',
+  Logout = '/auth/logout',
   Dashboard = '/dashboard',
   Users = '/users',
   // Transactions
