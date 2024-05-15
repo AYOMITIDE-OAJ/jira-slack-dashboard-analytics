@@ -16,11 +16,11 @@ export default function Layout({ header, subhead, children, loading }: Props) {
       <Sidebar />
       <div className="flex-1">
         <div className="flex items-center justify-between border-b border-gray-300 px-5 py-5 md:px-10">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 md:pl-[300px]">
             <div className="xl:hidden">
               <FcMenu size={24} className="text-primary" />
             </div>
-            <div>
+            <div className="block">
               <h1 className="text-xl font-medium text-primary">{header}</h1>
               {subhead && <p className="text-sm text-gray-500">{subhead}</p>}
             </div>
