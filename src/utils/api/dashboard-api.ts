@@ -13,7 +13,7 @@ const DashboardApi = {
 
   async getAllTransactions({
     page = 1,
-    limit = 100,
+    limit = 200,
     type,
   }: {
     page?: number
@@ -31,7 +31,7 @@ const DashboardApi = {
 
   async getAllUsers({
     page = 1,
-    limit = 100,
+    limit = 200,
     search,
   }: {
     page?: number

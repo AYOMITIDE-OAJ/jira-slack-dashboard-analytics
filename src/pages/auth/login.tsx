@@ -1,6 +1,7 @@
 import Button from '@/components/button'
 import Input from '@/components/input'
 import { Routes } from '@/constants/routes'
+import { handleError } from '@/utils/notify'
 import { signIn } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -31,18 +32,24 @@ export default function Login() {
         role: 'admin',
       }
 
-      const res = await signIn('credentials', {
-        redirect: false,
-        ...credentials,
-      })
+      setTimeout(async () => {
+        const res = await signIn('credentials', {
+          redirect: false,
+          ...credentials,
+        })
 
-      if (res?.ok) {
-        router.push(Routes.Dashboard)
-      }
-    } catch (err) {
-    } finally {
+        if (res?.ok) {
+          router.push(Routes.Dashboard)
+        }
+      }, 1000)
+      setLoading(false)
+    } catch (e: any) {
+      handleError(e)
       setLoading(false)
     }
+    // finally {
+    //   setLoading(false)
+    // }
   }
 
   return (
@@ -80,7 +87,12 @@ export default function Login() {
           <div className="mt-4 text-sm text-primary">
             <Link href={'/'}>Forgot Password?</Link>
           </div>
-          <Button className="mt-10" type="submit">
+          <Button
+            className="mt-10"
+            type="submit"
+            loading={loading}
+            disabled={!(data.email && data.password)}
+          >
             Login
           </Button>
         </form>

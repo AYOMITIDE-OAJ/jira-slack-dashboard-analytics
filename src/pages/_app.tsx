@@ -18,7 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         )
       }
-      <ToastContainer />
+      <ToastContainer theme="colored" />
     </SessionProvider>
   )
 }

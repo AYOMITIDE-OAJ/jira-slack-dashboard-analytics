@@ -189,7 +189,7 @@ const Dashboard = () => {
                 </div>
                 <div className="space-y">
                   <p className="text-lg font-semibold text-primary">
-                    $ {thousandSeparator(overview?.transactions)}
+                    {thousandSeparator(overview?.transactions)}
                   </p>
                   <p className="text-xs text-gray-500">Total Transactions</p>
                 </div>
