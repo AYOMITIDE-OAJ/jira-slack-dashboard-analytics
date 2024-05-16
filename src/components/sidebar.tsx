@@ -3,11 +3,22 @@ import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useState } from 'react'
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl'
 
 export default function Sidebar() {
   const router = useRouter()
+  const [selectedAccordion, setSelectedAccordion] = useState<string | null>(
+    null
+  )
+  const toggledAccordion = (name: string) => {
+    if (name === selectedAccordion) {
+      setSelectedAccordion(null)
+      return
+    }
+    setSelectedAccordion(name)
+  }
+  const isSelected = (name: string) => name === selectedAccordion
 
   interface Routes {
     name: string
@@ -27,7 +38,11 @@ export default function Sidebar() {
         { name: 'Withdrawal', route: Routes.Withdrawal },
       ],
     },
-    { name: 'Card', route: Routes.Card },
+    {
+      name: 'Card',
+      // route: Routes.Card,
+      subRoutes: [{ name: 'Issued Cards', route: Routes.Deposit }],
+    },
     { name: 'KYC', route: Routes.Kyc },
     { name: 'Fee Management', route: Routes.FeeManagement },
     { name: 'Settings', route: Routes.Settings },
@@ -66,8 +81,6 @@ export default function Sidebar() {
       <div className="mt-14">
         <div className="w-full">
           {routes.map(({ name, route, subRoutes }, index) => {
-            let isOpen = false
-            const toggleOpen = () => (isOpen = !isOpen)
             const Wrapper = ({
               href,
               children,
@@ -78,14 +91,7 @@ export default function Sidebar() {
               href ? (
                 <Link href={href}>{children}</Link>
               ) : (
-                <div
-                  onClick={() => {
-                    toggleOpen()
-                    console.log(isOpen)
-                  }}
-                >
-                  {children}
-                </div>
+                <div onClick={() => toggledAccordion(name)}>{children}</div>
               )
             return (
               <div className="mb-2 w-full" key={index}>
@@ -109,14 +115,20 @@ export default function Sidebar() {
                       <div>{name}</div>
                     </div>
                     {subRoutes && (
-                      <div>{isOpen ? <SlArrowUp /> : <SlArrowDown />}</div>
+                      <div>
+                        {isSelected(name) ? <SlArrowUp /> : <SlArrowDown />}
+                      </div>
                     )}
                   </div>
                 </Wrapper>
                 {subRoutes && (
                   <div
-                    style={{ height: `${48 * subRoutes.length}px` }}
-                    className="transition-all duration-150"
+                    style={{
+                      height: isSelected(name)
+                        ? `${48 * subRoutes.length}px`
+                        : '0px',
+                    }}
+                    className="overflow-y-hidden transition-all duration-150"
                   >
                     {subRoutes.map(({ name, route }, index) => (
                       <Wrapper key={index} href={route}>
