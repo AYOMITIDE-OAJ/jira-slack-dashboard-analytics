@@ -75,7 +75,7 @@ const Send = () => {
 
   return (
     <Layout header="Transactions" loading={loading}>
-      <div className="mt-10 w-full">
+      <div className="mt-5 w-full">
         <div className="rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6">
           <h1 className="text-base font-medium text-gray-600">Send</h1>
         </div>

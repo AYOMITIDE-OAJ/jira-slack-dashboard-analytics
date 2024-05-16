@@ -47,10 +47,26 @@ const DashboardApi = {
     return data
   },
 
+  async getUser(userId: string): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.get(`/users/${userId}`)
+
+    return data
+  },
+
   async getUsersKyc({ userId }: { userId?: string }): Promise<any> {
     const {
       data: { data },
     } = await axiosInstance.get(`/kyc?${userId && `userId=${userId}`}`)
+
+    return data
+  },
+
+  async getUserTransactions(userId: string): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.get(`/transactions/user/${userId}`)
 
     return data
   },

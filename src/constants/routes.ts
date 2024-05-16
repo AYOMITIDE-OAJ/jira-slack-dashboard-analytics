@@ -3,13 +3,14 @@ export enum Routes {
   Logout = '/auth/logout',
   Dashboard = '/dashboard',
   Users = '/users',
-  // Transactions
+  User = '/users/user',
+  // TRANSACTIONS
   Transactions = '/transactions',
   Deposit = '/transactions/deposit',
   Send = '/transactions/send',
   Swap = '/transactions/swap',
   Withdrawal = '/transactions/withdrawal',
-  // Card
+  // CARD
   Card = '/card',
   Kyc = '/kyc',
   FeeManagement = '/fee-management',

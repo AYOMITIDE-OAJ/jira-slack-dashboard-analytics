@@ -6,8 +6,12 @@ import DashboardApi from '@/utils/api/dashboard-api'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
 import { HiOutlineUserCircle } from 'react-icons/hi'
+import { CiCircleMore } from 'react-icons/ci'
+import { useRouter } from 'next/router'
+import { Routes } from '@/constants/routes'
 
 const Users = () => {
+  const router = useRouter()
   const [users, setUsers] = useState([])
   const [totalUsers, setTotalUsers] = useState<number>()
   const [loading, setLoading] = useState(true)
@@ -38,7 +42,7 @@ const Users = () => {
       name: 'Email',
       selector: (row: any) => row?.email,
       cell: (row: any) => row?.email,
-      width: '250px',
+      width: '300px',
     },
     {
       name: 'Country',
@@ -59,6 +63,20 @@ const Users = () => {
         <StatusPill status={row?.isVerified ? 'verified' : 'unverified'} />
       ),
       width: '150px',
+    },
+    {
+      name: '',
+      selector: (row: any) => row,
+      cell: (row: any) => (
+        <CiCircleMore
+          className="text-gray-300"
+          size={35}
+          onClick={() =>
+            router.push({ pathname: Routes.User, query: { id: row._id } })
+          }
+        />
+      ),
+      width: '100px',
     },
   ]
 
@@ -92,7 +110,7 @@ const Users = () => {
 
   return (
     <Layout header="Users" loading={loading}>
-      <div className="mt-10 w-full">
+      <div className="mt-5 w-full">
         <div className="flex flex-col items-start justify-between gap-4 rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6 md:flex-row md:items-center">
           <div>
             {totalUsers && (

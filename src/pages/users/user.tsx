@@ -1,0 +1,145 @@
+import CardLayout from '@/components/card-layout'
+import Layout from '@/components/layout'
+import StatusPill from '@/components/status-pill'
+import Table from '@/components/table'
+import { cn } from '@/lib/utils'
+import DashboardApi from '@/utils/api/dashboard-api'
+import { handleError } from '@/utils/notify'
+import moment from 'moment'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
+import { TableColumn } from 'react-data-table-component'
+import { GoArrowLeft, GoArrowRight } from 'react-icons/go'
+
+export default function User() {
+  const router = useRouter()
+  const { id: userId } = router.query
+
+  const [loading, setLoading] = useState(false)
+  const [user, setUser] = useState<any>()
+  const [transactions, setTransactions] = useState([])
+
+  const columns: TableColumn<any>[] = [
+    {
+      name: 'Details',
+      selector: (row: any) => row,
+      cell: (row: any) => (
+        <div className="flex flex-col space-y-1">
+          <p className="text-xs text-neutral-400">
+            {moment(row?.createdAt).format('LLL')}
+          </p>
+          <p className="">{row?.reference}</p>
+        </div>
+      ),
+      width: '300px',
+    },
+    {
+      name: 'Amount',
+      selector: (row: any) => row,
+      cell: (row: any) => (
+        <p
+          className={cn(
+            'flex items-center space-x-1',
+            row.direction === 'credit' ? 'text-green-500' : 'text-red-500'
+          )}
+        >
+          {row.direction === 'credit' ? <GoArrowLeft /> : <GoArrowRight />}
+          <span>
+            {row?.sourceAmount} {row?.sourceCurrency}
+          </span>
+        </p>
+      ),
+    },
+    {
+      name: 'Status',
+      selector: (row: any) => row?.isActive,
+      cell: (row: any) => <StatusPill status={row?.status} />,
+    },
+  ]
+
+  useEffect(() => {
+    ;(async () => {
+      if (userId) {
+        setLoading(true)
+        try {
+          const [userRes, transactionsRes] = await Promise.all([
+            DashboardApi.getUser(String(userId)),
+            DashboardApi.getUserTransactions(String(userId)),
+          ])
+          setUser(userRes)
+          setTransactions(transactionsRes)
+        } catch (e: any) {
+          handleError(e)
+        } finally {
+          setLoading(false)
+        }
+      }
+    })()
+  }, [router.isReady, userId])
+
+  return (
+    <Layout header="User Profile" loading={loading}>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-5">
+        {user && (
+          <div className="col-span-2 rounded-lg bg-transparent">
+            <div className="divide-y divide-neutral-200 rounded-lg border border-neutral-200 bg-white">
+              <div className="flex items-center space-x-4 px-3 py-3 md:px-6 md:py-6">
+                <div className="relative h-20 w-20 overflow-hidden rounded-full border border-neutral-200">
+                  <Image src="/assets/images/avatar.png" alt="Profile" fill />
+                </div>
+                <div className="space-y">
+                  <p className="text-xl font-semibold text-primary">
+                    {user?.firstName} {user?.lastName}
+                  </p>
+                  <p className="text-sm font-light">{user?.email}</p>
+                </div>
+              </div>
+              <div className="px-3 py-3 md:px-6 md:py-6">
+                <div className="flex items-center space-x-2"></div>
+                <div className="divide-y divide-neutral-200">
+                  <div className="space-y-1 py-4">
+                    <p>{user?.username}</p>
+                    <p className="text-xs font-medium text-neutral-400">
+                      Username / User ID
+                    </p>
+                  </div>
+                  <div className="space-y py-4">
+                    <p>{user?.phone}</p>
+                    <p className="text-xs font-medium text-neutral-400">
+                      Phone Number
+                    </p>
+                  </div>
+                  <div className="space-y py-4">
+                    <p>{user?.country}</p>
+                    <p className="text-xs font-medium text-neutral-400">
+                      Country
+                    </p>
+                  </div>
+                  <div className="space-y py-4">
+                    <p>{user?.address}</p>
+                    <p className="text-xs font-medium text-neutral-400">
+                      Address
+                    </p>
+                  </div>
+                  <div className="space-y py-4">
+                    <p>{moment(user?.dob).format('DD/MM/yyyy')}</p>
+                    <p className="text-xs font-medium text-neutral-400">
+                      Date of Birth
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        <div className="col-span-3 divide-y divide-neutral-200 rounded-lg border border-neutral-200 bg-white">
+          <div className=""></div>
+          <div>
+            <Table columns={columns} data={transactions} />
+          </div>
+        </div>
+      </div>
+    </Layout>
+  )
+}
