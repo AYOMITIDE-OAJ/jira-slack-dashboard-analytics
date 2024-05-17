@@ -32,13 +32,11 @@ const KYC = () => {
           </p>
         </div>
       ),
-      width: '250px',
     },
     {
       name: 'Email',
       selector: (row: any) => row?.owner?.email,
       cell: (row: any) => row?.owner?.email,
-      width: '250px',
     },
     {
       name: 'Country',
