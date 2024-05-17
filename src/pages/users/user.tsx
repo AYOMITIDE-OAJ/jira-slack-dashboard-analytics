@@ -1,9 +1,9 @@
-import CardLayout from '@/components/card-layout'
 import Layout from '@/components/layout'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
 import { cn } from '@/lib/utils'
 import DashboardApi from '@/utils/api/dashboard-api'
+import { formatCurrency } from '@/utils/helper'
 import { handleError } from '@/utils/notify'
 import moment from 'moment'
 import Image from 'next/image'
@@ -19,6 +19,7 @@ export default function User() {
   const [loading, setLoading] = useState(false)
   const [user, setUser] = useState<any>()
   const [transactions, setTransactions] = useState([])
+  const [balances, setBalances] = useState<any[]>([])
 
   const columns: TableColumn<any>[] = [
     {
@@ -63,12 +64,14 @@ export default function User() {
       if (userId) {
         setLoading(true)
         try {
-          const [userRes, transactionsRes] = await Promise.all([
+          const [userRes, transactionsRes, walletsRes] = await Promise.all([
             DashboardApi.getUser(String(userId)),
             DashboardApi.getUserTransactions(String(userId)),
+            DashboardApi.getWallets(String(userId)),
           ])
           setUser(userRes)
           setTransactions(transactionsRes)
+          setBalances(walletsRes)
         } catch (e: any) {
           handleError(e)
         } finally {
@@ -133,8 +136,32 @@ export default function User() {
             </div>
           </div>
         )}
-        <div className="col-span-3 divide-y divide-neutral-200 rounded-lg border border-neutral-200 bg-white">
-          <div className=""></div>
+        <div className="col-span-3 divide-y divide-neutral-200 rounded-lg border border-neutral-200">
+          <div className="grid grid-cols-2 gap-2 px-3 py-3 md:grid-cols-3">
+            {balances.map((balance, index) => (
+              <div
+                className="flex items-center space-x-2 rounded-lg border border-neutral-200 bg-white p-3"
+                key={index}
+              >
+                <div className="h-6 w-6 overflow-hidden rounded-full">
+                  <Image
+                    src={`/assets/svg/${balance.currency.toLowerCase()}.svg`}
+                    alt="Flag"
+                    height={40}
+                    width={40}
+                  />
+                </div>
+                <div>
+                  <p className="text-gray-600">
+                    {formatCurrency(
+                      balance.availableBalance.split(',').join('')
+                    )}{' '}
+                    {balance.currency}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
           <div>
             <Table columns={columns} data={transactions} />
           </div>

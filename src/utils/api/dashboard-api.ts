@@ -70,6 +70,14 @@ const DashboardApi = {
 
     return data
   },
+
+  async getWallets(userId: string): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.get(`/wallets/user/${userId}`)
+
+    return data
+  },
 }
 
 export default DashboardApi
