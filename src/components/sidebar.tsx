@@ -3,14 +3,20 @@ import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl'
 
-export default function Sidebar() {
+interface Props {
+  open?: boolean
+  setOpen?: Dispatch<SetStateAction<boolean>>
+}
+
+export default function Sidebar({ setOpen }: Props) {
   const router = useRouter()
   const [selectedAccordion, setSelectedAccordion] = useState<string | null>(
     null
   )
+
   const toggledAccordion = (name: string) => {
     if (name === selectedAccordion) {
       setSelectedAccordion(null)
@@ -51,7 +57,7 @@ export default function Sidebar() {
   const joinString = (name: string) => name.split(' ').join('-').toLowerCase()
 
   return (
-    <aside className="fixed z-10 hidden h-screen w-[300px] border-r border-gray-200 bg-white py-6 xl:block">
+    <aside className="fixed z-10 h-screen w-[300px] border-r border-gray-200 bg-white py-6">
       <div className="px-9">
         <svg
           width="163"
@@ -89,12 +95,19 @@ export default function Sidebar() {
               children: JSX.Element
             }) =>
               href ? (
-                <Link href={href}>{children}</Link>
+                <Link
+                  href={href}
+                  onClick={() => {
+                    setOpen && setOpen(false)
+                  }}
+                >
+                  {children}
+                </Link>
               ) : (
                 <div onClick={() => toggledAccordion(name)}>{children}</div>
               )
             return (
-              <div className="mb-2 w-full" key={index}>
+              <div className="w-full xl:mb-2" key={index}>
                 <Wrapper href={route} key={index}>
                   <div
                     className={cn(
