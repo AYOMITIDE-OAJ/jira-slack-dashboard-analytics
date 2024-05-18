@@ -14,3 +14,11 @@ export const handleError = (error: any) => {
 export const handleGenericError = (error: string = 'An error occurred') => {
   toast.error(error)
 }
+
+export const handleGenericSuccess = (message: string = 'Success') => {
+  toast.success(message)
+}
+
+export const handleGenericInfo = (message: string = 'Heads up!') => {
+  toast.info(message)
+}

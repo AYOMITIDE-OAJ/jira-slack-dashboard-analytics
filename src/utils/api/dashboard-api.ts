@@ -78,6 +78,22 @@ const DashboardApi = {
 
     return data
   },
+
+  async getWithdrawalsRequiringApproval(): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance('/requires-approval')
+
+    return data
+  },
+
+  async approveWithdrawal(withdrawalId: string): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance(`/withdrawals/${withdrawalId}/approve`)
+
+    return data
+  },
 }
 
 export default DashboardApi

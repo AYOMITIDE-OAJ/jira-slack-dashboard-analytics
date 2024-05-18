@@ -110,7 +110,7 @@ const Users = () => {
 
   return (
     <Layout header="Users" loading={loading}>
-      <div className="mt-5 w-full">
+      <div className="w-full xl:mt-5">
         <div className="flex flex-col items-start justify-between gap-4 rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6 md:flex-row md:items-center">
           <div>
             {totalUsers && (
@@ -129,7 +129,14 @@ const Users = () => {
             onChange={handleValueChange}
           />
         </div>
-        <Table columns={columns} data={users} progressPending={tableLoading} />
+        <Table
+          columns={columns}
+          data={users}
+          progressPending={tableLoading}
+          onRowClicked={(row: any) =>
+            router.push({ pathname: Routes.User, query: { id: row._id } })
+          }
+        />
       </div>
     </Layout>
   )

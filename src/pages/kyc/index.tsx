@@ -89,7 +89,7 @@ const KYC = () => {
 
   return (
     <Layout header="KYC" loading={loading}>
-      <div className="mt-5 w-full">
+      <div className="w-full xl:mt-5">
         <div className="flex flex-col items-start justify-between gap-4 rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6 md:flex-row md:items-center">
           <div>
             {totalUsers && (

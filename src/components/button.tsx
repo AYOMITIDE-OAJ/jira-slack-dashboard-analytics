@@ -1,7 +1,12 @@
 import { cn } from '@/lib/utils'
 import React from 'react'
 
-type ButtonVariants = 'primary' | 'outline' | 'primary_outline'
+type ButtonVariants =
+  | 'primary'
+  | 'outline'
+  | 'primary_outline'
+  | 'danger'
+  | 'success'
 type ButtonSizes = 'sm' | 'lg'
 
 interface Props {
@@ -31,6 +36,10 @@ export default function Button({
       'bg-transparent hover:bg-neutral-900 text-white/80 border border-white/80 disabled:bg-secondary',
     primary_outline:
       'bg-transparent hover:bg-neutral-900 text-lime-400 border border-lime-400 disabled:bg-secondary',
+    danger:
+      'bg-red-600 hover:bg-red-600/90 text-white border border-red-600 disabled:bg-red-600/60 disabled:border-red-600/60',
+    success:
+      'bg-green-600 hover:bg-green-600/90 text-white border border-green-600 disabled:bg-green-600/60 disabled:border-green-600/60',
   }[variant]
 
   const sizes = {

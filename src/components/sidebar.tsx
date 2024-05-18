@@ -42,6 +42,7 @@ export default function Sidebar({ setOpen }: Props) {
         { name: 'Send', route: Routes.Send },
         { name: 'Swap', route: Routes.Swap },
         { name: 'Withdrawal', route: Routes.Withdrawal },
+        { name: 'Approve Withdrawal', route: Routes.ApproveWithdrawal },
       ],
     },
     {

@@ -10,6 +10,7 @@ export enum Routes {
   Send = '/transactions/send',
   Swap = '/transactions/swap',
   Withdrawal = '/transactions/withdrawal',
+  ApproveWithdrawal = '/transactions/approve-withdrawal',
   // CARD
   Card = '/card',
   Kyc = '/kyc',

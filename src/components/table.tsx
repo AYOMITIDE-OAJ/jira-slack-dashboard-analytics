@@ -10,12 +10,12 @@ import Image from 'next/image'
 const rowTheme: TableStyles = {
   headRow: {
     style: {
-      minHeight: '42px',
-      height: '42px',
+      minHeight: '45px',
+      height: '45px',
       backgroundColor: '#f7f7f7',
-      borderRadius: '5px',
+      borderRadius: '0px',
       border: '1px solid #EDECF2',
-      marginBottom: '0.1rem',
+      marginBottom: '1px',
       overflow: 'hidden',
     },
   },

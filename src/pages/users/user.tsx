@@ -83,7 +83,7 @@ export default function User() {
 
   return (
     <Layout header="User Profile" loading={loading}>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-5">
+      <div className="grid grid-cols-1 gap-y-4 md:grid-cols-5 md:gap-x-4">
         {user && (
           <div className="col-span-2 rounded-lg bg-transparent">
             <div className="divide-y divide-neutral-200 rounded-lg border border-neutral-200 bg-white">
