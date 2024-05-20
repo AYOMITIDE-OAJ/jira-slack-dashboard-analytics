@@ -17,6 +17,7 @@ interface Props {
   loading?: boolean
   type?: 'submit' | 'button'
   size?: ButtonSizes
+  rounded?: boolean
   disabled?: boolean
 }
 
@@ -24,9 +25,10 @@ export default function Button({
   children,
   className,
   loading,
-  disabled,
   variant = 'primary',
   size = 'lg',
+  rounded = true,
+  disabled,
   ...props
 }: Props) {
   const variants = {
@@ -44,7 +46,7 @@ export default function Button({
 
   const sizes = {
     sm: 'py-1 px-4 text-sm',
-    md: 'py-2 px-4 text-base',
+    md: 'py-2 px-4 text-sm',
     lg: 'py-3 px-4 text-base',
   }[size]
 
@@ -53,7 +55,8 @@ export default function Button({
       {...props}
       className={cn(
         variants,
-        'w-full cursor-pointer rounded-full px-4 py-3 text-sm font-medium disabled:cursor-not-allowed',
+        'w-full cursor-pointer px-4 py-3 text-sm font-medium disabled:cursor-not-allowed',
+        rounded ? 'rounded-full' : 'rounded-lg',
         sizes,
         className
       )}

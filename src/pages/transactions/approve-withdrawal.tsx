@@ -9,11 +9,13 @@ import { formatCurrency } from '@/utils/helper'
 import { handleError, handleGenericSuccess } from '@/utils/notify'
 import moment from 'moment'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
 import { HiOutlineUserCircle } from 'react-icons/hi'
 
 const ApproveWithdrawal = () => {
+  const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [withdrawals, setWithdrawals] = useState([])
   const [modalIsOpen, setModalIsOpen] = useState(false)
@@ -62,8 +64,8 @@ const ApproveWithdrawal = () => {
     },
     {
       name: 'Status',
-      selector: (row: any) => row.status,
-      cell: (row: any) => <StatusPill status={row.status} />,
+      selector: (row: any) => row?.approvalStatus,
+      cell: (row: any) => <StatusPill status={row?.approvalStatus} />,
     },
   ]
 
@@ -78,6 +80,7 @@ const ApproveWithdrawal = () => {
       await DashboardApi.approveWithdrawal(withdrawalId)
       setModalIsOpen(false)
       handleGenericSuccess('Withdrawal approved')
+      router.reload()
     } catch (e: any) {
       handleError(e)
     } finally {
@@ -94,7 +97,7 @@ const ApproveWithdrawal = () => {
       setLoading(true)
       try {
         const res = await DashboardApi.getWithdrawalsRequiringApproval()
-        setWithdrawals(res.records)
+        setWithdrawals(res)
       } catch (e: any) {
         handleError(e)
       } finally {
@@ -157,6 +160,7 @@ const ApproveWithdrawal = () => {
               variant="danger"
               loading={requestLoading}
               onClick={declineWithdrawal}
+              rounded={false}
             >
               Decline
             </Button>
@@ -164,6 +168,7 @@ const ApproveWithdrawal = () => {
               variant="success"
               loading={requestLoading}
               onClick={() => approveWithdrawal(selectedWithdrawal._id)}
+              rounded={false}
             >
               Approve
             </Button>
