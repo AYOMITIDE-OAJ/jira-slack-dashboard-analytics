@@ -1,3 +1,4 @@
+import Button from '@/components/button'
 import Layout from '@/components/layout'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
@@ -5,6 +6,7 @@ import { cn } from '@/lib/utils'
 import DashboardApi from '@/utils/api/dashboard-api'
 import { formatCurrency } from '@/utils/helper'
 import { handleError } from '@/utils/notify'
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
 import moment from 'moment'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -98,42 +100,100 @@ export default function User() {
                   <p className="text-sm font-light">{user?.email}</p>
                 </div>
               </div>
-              <div className="px-3 py-3 md:px-6 md:py-6">
-                <div className="flex items-center space-x-2"></div>
-                <div className="divide-y divide-neutral-200">
-                  <div className="space-y-1 py-4">
-                    <p>{user?.username}</p>
-                    <p className="text-xs font-medium text-neutral-400">
-                      Username / User ID
-                    </p>
-                  </div>
-                  <div className="space-y py-4">
-                    <p>{user?.phone}</p>
-                    <p className="text-xs font-medium text-neutral-400">
-                      Phone Number
-                    </p>
-                  </div>
-                  <div className="space-y py-4">
-                    <p>{user?.country}</p>
-                    <p className="text-xs font-medium text-neutral-400">
-                      Country
-                    </p>
-                  </div>
-                  <div className="space-y py-4">
-                    <p>{user?.address}</p>
-                    <p className="text-xs font-medium text-neutral-400">
-                      Address
-                    </p>
-                  </div>
-                  <div className="space-y py-4">
-                    <p>{moment(user?.dob).format('DD/MM/yyyy')}</p>
-                    <p className="text-xs font-medium text-neutral-400">
-                      Date of Birth
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <TabGroup className="px-3 py-3 md:px-6 md:py-6">
+                <TabList className="flex gap-4">
+                  {['Profile Details', 'Verification'].map((name) => (
+                    <Tab
+                      key={name}
+                      className="rounded-full bg-gray-100 px-3 py-1 text-sm/6 font-normal text-gray-700 focus:outline-none data-[hover]:bg-gray-200 data-[selected]:bg-primary data-[selected]:data-[hover]:bg-primary data-[selected]:text-white data-[focus]:outline-1 data-[focus]:outline-primary"
+                    >
+                      {name}
+                    </Tab>
+                  ))}
+                </TabList>
+                <TabPanels className="mt-3">
+                  <TabPanel className="divide-y divide-neutral-200">
+                    <div className="space-y-1 py-4">
+                      <p>{user?.username}</p>
+                      <p className="text-xs font-medium text-neutral-400">
+                        Username / User ID
+                      </p>
+                    </div>
+                    <div className="space-y py-4">
+                      <p>{user?.phone}</p>
+                      <p className="text-xs font-medium text-neutral-400">
+                        Phone Number
+                      </p>
+                    </div>
+                    <div className="space-y py-4">
+                      <p>{user?.country}</p>
+                      <p className="text-xs font-medium text-neutral-400">
+                        Country
+                      </p>
+                    </div>
+                    <div className="space-y py-4">
+                      <p>{user?.address}</p>
+                      <p className="text-xs font-medium text-neutral-400">
+                        Address
+                      </p>
+                    </div>
+                    <div className="space-y py-4">
+                      <p>{moment(user?.dob).format('DD/MM/yyyy')}</p>
+                      <p className="text-xs font-medium text-neutral-400">
+                        Date of Birth
+                      </p>
+                    </div>
+                  </TabPanel>
+                  <TabPanel className="divide-y divide-neutral-200">
+                    <div className="space-y-2 py-4">
+                      <StatusPill
+                        status={user?.isActive ? 'active' : 'inactive'}
+                        size="sm"
+                      />
+                      <p className="text-xs font-medium text-neutral-400">
+                        Active Status
+                      </p>
+                    </div>
+                    <div className="space-y-2 py-4">
+                      <StatusPill
+                        status={user?.isVerified ? 'verified' : 'unverified'}
+                        size="sm"
+                      />
+                      <p className="text-xs font-medium text-neutral-400">
+                        Verification Status
+                      </p>
+                    </div>
+                    <div className="space-y-2 py-4">
+                      <StatusPill
+                        status={user?.isKYCVerified ? 'verified' : 'unverified'}
+                        size="sm"
+                      />
+                      <p className="text-xs font-medium text-neutral-400">
+                        KYC Status
+                      </p>
+                    </div>
+                    <div className="space-y-2 py-4">
+                      <StatusPill
+                        status={user?.isBVNVerified ? 'verified' : 'unverified'}
+                        size="sm"
+                      />
+                      <p className="text-xs font-medium text-neutral-400">
+                        BVN Status
+                      </p>
+                    </div>
+                  </TabPanel>
+                </TabPanels>
+              </TabGroup>
             </div>
+            {user?.isActive ? (
+              <Button variant="danger" size="md" className="mt-4">
+                Disable User
+              </Button>
+            ) : (
+              <Button variant="success" size="md" className="mt-4">
+                Enable User
+              </Button>
+            )}
           </div>
         )}
         <div className="col-span-3 divide-y divide-neutral-200 rounded-lg border border-neutral-200">

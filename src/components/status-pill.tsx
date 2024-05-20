@@ -13,9 +13,10 @@ interface Props {
     | 'unverified'
     | 'pending'
     | 'processing'
+  size?: 'xs' | 'sm' | 'base'
 }
 
-export default function StatusPill({ status }: Props) {
+export default function StatusPill({ status, size = 'xs' }: Props) {
   const statuses: any = {
     success: 'bg-green-600/10 text-green-600',
     successful: 'bg-green-600/10 text-green-600',
@@ -27,14 +28,17 @@ export default function StatusPill({ status }: Props) {
     unverified: 'bg-red-600/10 text-red-600',
     pending: 'bg-amber-600/10 text-amber-600',
     processing: 'bg-amber-600/10 text-amber-600',
-  }
+  }[status]
+
+  const sizes: any = {
+    xs: 'text-xs',
+    sm: 'text-sm',
+    base: 'text-base',
+  }[size]
 
   return (
     <div
-      className={cn(
-        'rounded-full px-3 py-1 text-xs capitalize',
-        statuses[status]
-      )}
+      className={cn('w-max rounded-full px-3 py-1 capitalize', sizes, statuses)}
     >
       {status}
     </div>

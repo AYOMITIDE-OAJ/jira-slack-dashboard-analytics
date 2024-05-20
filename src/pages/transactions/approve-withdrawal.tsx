@@ -85,6 +85,10 @@ const ApproveWithdrawal = () => {
     }
   }
 
+  const declineWithdrawal = async () => {
+    setModalIsOpen(false)
+  }
+
   useEffect(() => {
     ;(async () => {
       setLoading(true)
@@ -149,7 +153,11 @@ const ApproveWithdrawal = () => {
             <KeyValueComponent name="Type" value={selectedWithdrawal?.type} />
           </div>
           <div className="grid grid-cols-2 gap-3 pt-3 md:pt-6">
-            <Button variant="danger" loading={requestLoading}>
+            <Button
+              variant="danger"
+              loading={requestLoading}
+              onClick={declineWithdrawal}
+            >
               Decline
             </Button>
             <Button

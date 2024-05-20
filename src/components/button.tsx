@@ -7,7 +7,7 @@ type ButtonVariants =
   | 'primary_outline'
   | 'danger'
   | 'success'
-type ButtonSizes = 'sm' | 'lg'
+type ButtonSizes = 'sm' | 'md' | 'lg'
 
 interface Props {
   children: any
@@ -44,6 +44,7 @@ export default function Button({
 
   const sizes = {
     sm: 'py-1 px-4 text-sm',
+    md: 'py-2 px-4 text-base',
     lg: 'py-3 px-4 text-base',
   }[size]
 
