@@ -49,7 +49,7 @@ const FormSelect = ({
         return
       }
     }
-  }, [value])
+  }, [value, options])
 
   return (
     <div className="w-full space-y-2">
