@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils'
 import React, { useState } from 'react'
 
 interface Props {
@@ -7,6 +8,7 @@ interface Props {
   placeholder?: string
   type?: string
   onChange: (e: any) => void
+  variant?: 'light' | 'dark'
 }
 
 export default function Input({
@@ -16,7 +18,13 @@ export default function Input({
   placeholder,
   type = 'text',
   onChange,
+  variant = 'light',
 }: Props) {
+  const variants = {
+    light: 'bg-white',
+    dark: 'bg-gray-100',
+  }[variant]
+
   const [inputType, setInputType] = useState(type)
   const [showText, setShowText] = useState(false)
 
@@ -30,7 +38,12 @@ export default function Input({
   }
 
   return (
-    <div className="relative w-full rounded-xl border border-gray-200 bg-white px-5 py-3">
+    <div
+      className={cn(
+        'relative w-full rounded-xl border border-gray-200 px-5 py-3',
+        variants
+      )}
+    >
       <label htmlFor={name} className="w-full font-medium text-gray-500">
         {label}
       </label>
@@ -41,7 +54,7 @@ export default function Input({
         placeholder={placeholder || label}
         type={inputType}
         onChange={onChange}
-        className="w-full border-0 text-sm font-light ring-0 focus:outline-none"
+        className="w-full border-0 bg-transparent text-sm font-light ring-0 focus:outline-none"
       />
       {type === 'password' && (
         <div
