@@ -1,4 +1,6 @@
 import { Routes } from '@/constants/routes'
+import AuthApi from '@/utils/api/auth-api'
+import { NextApiResponse } from 'next'
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { signIn } from 'next-auth/react'
@@ -6,7 +8,7 @@ import { signIn } from 'next-auth/react'
 export interface LoginCredentials {
   email: string
   password: string
-  role: string
+  role: string[]
 }
 
 export const authOptions = {
@@ -21,13 +23,13 @@ export const authOptions = {
       async authorize(credentials, req) {
         const email = String(credentials?.email)
         const password = String(credentials?.password)
-        const role = String(credentials?.role)
+        const role = credentials?.role || ['']
 
-        const res = await authenticate({ email, password, role })
-
-        if (!res) {
-          throw new Error('Invalid credentials')
-        }
+        const res: any = await AuthApi.login({
+          email,
+          password,
+          role,
+        })
 
         if (res) {
           return res

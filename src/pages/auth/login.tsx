@@ -29,27 +29,25 @@ export default function Login() {
       const credentials = {
         email: String(data.email),
         password: String(data.password),
-        role: 'admin',
+        role: ['user-admin'],
       }
 
-      setTimeout(async () => {
-        const res = await signIn('credentials', {
-          redirect: false,
-          ...credentials,
-        })
+      const res = await signIn('credentials', {
+        redirect: false,
+        ...credentials,
+      })
 
-        if (res?.ok) {
-          router.push(Routes.Dashboard)
-        }
-      }, 1000)
+      if (res?.error) {
+        if (res.error !== 'SessionRequired') handleError('Invalid credentials')
+      }
+
+      if (res?.ok) {
+        router.push(Routes.Dashboard)
+      }
       setLoading(false)
-    } catch (e: any) {
-      handleError(e)
+    } finally {
       setLoading(false)
     }
-    // finally {
-    //   setLoading(false)
-    // }
   }
 
   return (

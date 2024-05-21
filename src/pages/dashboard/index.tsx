@@ -12,11 +12,11 @@ import { useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
 import { BsArrowRight } from 'react-icons/bs'
 import { HiOutlineUserCircle } from 'react-icons/hi'
-import { RiArrowUpSFill, RiArrowDownSFill } from 'react-icons/ri'
+import { RiArrowUpSFill } from 'react-icons/ri'
 
 const Dashboard = () => {
-  const { data: session } = useSession()
-  console.log(session)
+  // const { data: session } = useSession()
+  // console.log(session)
   const [loading, setLoading] = useState(true)
   const [overview, setOverview] = useState<Record<string, any>>()
   const [balances, setBalances] = useState<Record<string, any>>()
