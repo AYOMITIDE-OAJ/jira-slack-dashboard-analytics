@@ -1,11 +1,19 @@
+import Button from '@/components/button'
+import Input from '@/components/input'
+import Modal from '@/components/modal'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
-import React, { useState } from 'react'
+import React, { ChangeEvent, Dispatch, SetStateAction, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
 import { CiCircleMore } from 'react-icons/ci'
 import { HiOutlineUserCircle } from 'react-icons/hi'
 
-export default function Admin() {
+interface Props {
+  isOpen: boolean
+  setIsOpen: Dispatch<SetStateAction<boolean>>
+}
+
+export default function Admin({ isOpen, setIsOpen }: Props) {
   const [tableLoading, setTableLoading] = useState(false)
   const [admins, setAdmins] = useState([
     {
@@ -37,6 +45,15 @@ export default function Admin() {
       status: 'active',
     },
   ])
+  const [formData, setFormData] = useState({
+    email: '',
+    role: '',
+  })
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
+  }
 
   const columns: TableColumn<any>[] = [
     {
@@ -87,6 +104,32 @@ export default function Admin() {
   return (
     <div>
       <Table columns={columns} data={admins} progressPending={tableLoading} />
+
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+        <form>
+          <div className="space-y-1">
+            <h1 className="text-lg font-medium">Add New Admin</h1>
+            <p className="text-sm text-gray-400">
+              Add new admins and organization
+            </p>
+          </div>
+          <div className="mt-6 space-y-4 md:space-y-6">
+            <Input
+              name="email"
+              value={formData.email}
+              placeholder="example@example.com"
+              label="Email"
+              onChange={handleChange}
+              variant="dark"
+            />
+          </div>
+          <div className="mt-5">
+            <Button rounded={false} className="w-full md:w-1/2">
+              Add Admin
+            </Button>
+          </div>
+        </form>
+      </Modal>
     </div>
   )
 }

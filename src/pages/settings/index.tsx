@@ -1,23 +1,26 @@
 import Layout from '@/components/layout'
-import React from 'react'
+import React, { useState } from 'react'
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
 import Profile from '@/components/page-components/settings-tabs/profile'
 import Admin from '@/components/page-components/settings-tabs/admin'
 import Password from '@/components/page-components/settings-tabs/password'
+import Button from '@/components/button'
 
 const Settings = () => {
+  const [isOpen, setIsOpen] = useState(false)
   const tabList = ['Profile', 'Admin', 'Password']
   const tabPanels = [
     { id: 1, component: <Profile /> },
-    { id: 2, component: <Admin /> },
+    { id: 2, component: <Admin isOpen={isOpen} setIsOpen={setIsOpen} /> },
     { id: 3, component: <Password /> },
   ]
+  const [selectedTabIndex, setSelectedTabIndex] = useState(0)
 
   return (
     <Layout header="Settings">
       <div className="mt-5 w-full overflow-hidden rounded-lg border border-gray-200 md:mt-10">
-        <TabGroup>
-          <div className="bg-neutral-100 px-5 py-6 md:px-8 md:py-4">
+        <TabGroup onChange={(index) => setSelectedTabIndex(index)}>
+          <div className="flex items-center justify-between bg-neutral-100 px-5 py-6 md:px-8 md:py-4">
             <TabList className="space-x-5 md:space-x-7">
               {tabList.map((tab, index) => (
                 <Tab
@@ -28,6 +31,16 @@ const Settings = () => {
                 </Tab>
               ))}
             </TabList>
+            {selectedTabIndex === 1 && (
+              <Button
+                rounded={false}
+                size="md"
+                className="w-max"
+                onClick={() => setIsOpen(true)}
+              >
+                + Add Admin
+              </Button>
+            )}
           </div>
           <TabPanels className="bg-white">
             {tabPanels.map(({ component }, index) => (
