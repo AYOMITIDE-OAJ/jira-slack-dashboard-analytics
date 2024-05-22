@@ -6,7 +6,11 @@ import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
 import DashboardApi from '@/utils/api/dashboard-api'
 import { formatCurrency } from '@/utils/helper'
-import { handleError, handleGenericSuccess } from '@/utils/notify'
+import {
+  handleError,
+  handleGenericInfo,
+  handleGenericSuccess,
+} from '@/utils/notify'
 import moment from 'moment'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -88,8 +92,18 @@ const ApproveWithdrawal = () => {
     }
   }
 
-  const declineWithdrawal = async () => {
-    setModalIsOpen(false)
+  const declineWithdrawal = async (withdrawalId: string) => {
+    setRequestLoading(true)
+    try {
+      await DashboardApi.declineWithdrawal(withdrawalId)
+      setModalIsOpen(false)
+      handleGenericInfo('Withdrawal Declined')
+      router.reload()
+    } catch (e: any) {
+      handleError(e)
+    } finally {
+      setRequestLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -159,7 +173,7 @@ const ApproveWithdrawal = () => {
             <Button
               variant="danger"
               loading={requestLoading}
-              onClick={declineWithdrawal}
+              onClick={() => declineWithdrawal(selectedWithdrawal._id)}
               rounded={false}
             >
               Decline

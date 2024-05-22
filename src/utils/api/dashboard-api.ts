@@ -94,6 +94,14 @@ const DashboardApi = {
 
     return data
   },
+
+  async declineWithdrawal(withdrawalId: string): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.post(`/withdrawals/${withdrawalId}/decline`)
+
+    return data
+  },
 }
 
 export default DashboardApi

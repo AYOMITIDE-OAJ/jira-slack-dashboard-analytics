@@ -1,6 +1,7 @@
 import Layout from '@/components/layout'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
+import TransactionDetailsModal from '@/components/transaction-details-modal'
 import DashboardApi from '@/utils/api/dashboard-api'
 import { formatCurrency } from '@/utils/helper'
 import moment from 'moment'
@@ -11,6 +12,13 @@ import { HiOutlineUserCircle } from 'react-icons/hi'
 const Withdrawal = () => {
   const [loading, setLoading] = useState(true)
   const [transactions, setTransactions] = useState([])
+  const [isOpen, setIsOpen] = useState(false)
+  const [selected, setSelected] = useState<Record<string, any>>()
+
+  const handleRowClick = (row: any) => {
+    setSelected(row)
+    setIsOpen(true)
+  }
 
   const columns: TableColumn<any>[] = [
     {
@@ -79,8 +87,17 @@ const Withdrawal = () => {
         <div className="rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6">
           <h1 className="text-base font-medium text-gray-600">Withdrawal</h1>
         </div>
-        <Table columns={columns} data={transactions} />
+        <Table
+          columns={columns}
+          data={transactions}
+          onRowClicked={handleRowClick}
+        />
       </div>
+      <TransactionDetailsModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        transaction={selected || {}}
+      />
     </Layout>
   )
 }

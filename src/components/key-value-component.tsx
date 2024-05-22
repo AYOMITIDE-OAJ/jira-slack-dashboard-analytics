@@ -4,14 +4,26 @@ import React, { ReactNode } from 'react'
 const KeyValueComponent = ({
   name,
   value,
+  size = 'base',
   onClick,
 }: {
   name: string
   value: string | number | ReactNode
+  size?: 'sm' | 'base'
   onClick?: () => void
 }) => {
+  const sizes = {
+    sm: 'text-sm',
+    base: 'text-base',
+  }[size]
+
   return (
-    <div className="flex w-full items-center justify-between space-x-3 px-2 py-3 text-base text-neutral-600">
+    <div
+      className={cn(
+        'flex w-full items-center justify-between space-x-6 px-2 py-4 text-neutral-600',
+        sizes
+      )}
+    >
       <div>
         <p className="w-max">{name}</p>
       </div>

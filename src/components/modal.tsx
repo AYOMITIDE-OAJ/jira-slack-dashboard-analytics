@@ -5,6 +5,7 @@ import {
   TransitionChild,
 } from '@headlessui/react'
 import React, { Dispatch, SetStateAction } from 'react'
+import { VscClose } from 'react-icons/vsc'
 
 export type ModalSize = 'md' | 'sm' | 'lg' | 'xl' | 'screen'
 
@@ -52,8 +53,11 @@ const Modal = ({
               leaveFrom="opacity-100 transform-[scale(100%)]"
               leaveTo="opacity-0 transform-[scale(95%)]"
             >
-              <DialogPanel className="w-full max-w-md rounded-xl bg-white p-6">
+              <DialogPanel className="relative w-full max-w-md rounded-xl bg-white p-6">
                 {children}
+                <div className="absolute right-6 top-6 cursor-pointer">
+                  <VscClose size={24} onClick={close} />
+                </div>
               </DialogPanel>
             </TransitionChild>
           </div>

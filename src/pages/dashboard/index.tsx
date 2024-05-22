@@ -162,7 +162,7 @@ const Dashboard = () => {
                   </svg>
                 </div>
                 <div className="space-y">
-                  <p className="text-lg font-semibold text-primary">
+                  <p className="text-xl font-semibold text-primary">
                     $ {thousandSeparator(overview?.totalTransactions) || '--'}
                   </p>
                   <p className="text-xs text-gray-500">Total Balance</p>
@@ -186,7 +186,7 @@ const Dashboard = () => {
                   </svg>
                 </div>
                 <div className="space-y">
-                  <p className="text-lg font-semibold text-primary">
+                  <p className="text-xl font-semibold text-primary">
                     {thousandSeparator(overview?.transactions)}
                   </p>
                   <p className="text-xs text-gray-500">Total Transactions</p>
@@ -243,7 +243,57 @@ const Dashboard = () => {
               </div>
             </div>
           </CardLayout>
-          <CardLayout className="col-span-3 px-0 py-6">
+          <div className="col-span-1 grid grid-cols-1 gap-4 md:col-span-3 md:grid-cols-2">
+            <CardLayout className="px-8 py-10">
+              <div className="flex h-full w-full items-center space-x-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-neutral-200">
+                  <svg
+                    width="30"
+                    height="28"
+                    viewBox="0 0 30 28"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M4.2481 5.84113C4.2481 4.29197 4.8635 2.80625 5.95893 1.71083C7.05435 0.615403 8.54007 0 10.0892 0C11.6384 0 13.1241 0.615403 14.2195 1.71083C15.315 2.80625 15.9304 4.29197 15.9304 5.84113C15.9304 7.3903 15.315 8.87601 14.2195 9.97144C13.1241 11.0669 11.6384 11.6823 10.0892 11.6823C8.54007 11.6823 7.05435 11.0669 5.95893 9.97144C4.8635 8.87601 4.2481 7.3903 4.2481 5.84113ZM18.0544 9.02721C18.0544 8.39961 18.178 7.77815 18.4182 7.19832C18.6584 6.61849 19.0104 6.09165 19.4542 5.64787C19.898 5.20408 20.4248 4.85206 21.0046 4.61189C21.5845 4.37171 22.2059 4.2481 22.8335 4.2481C23.4611 4.2481 24.0826 4.37171 24.6624 4.61189C25.2422 4.85206 25.7691 5.20408 26.2129 5.64787C26.6567 6.09165 27.0087 6.61849 27.2488 7.19832C27.489 7.77815 27.6126 8.39961 27.6126 9.02721C27.6126 10.2947 27.1091 11.5103 26.2129 12.4065C25.3166 13.3028 24.101 13.8063 22.8335 13.8063C21.566 13.8063 20.3504 13.3028 19.4542 12.4065C18.5579 11.5103 18.0544 10.2947 18.0544 9.02721ZM0 23.8955C3.9873e-08 21.2197 1.06297 18.6535 2.95507 16.7614C4.84717 14.8693 7.4134 13.8063 10.0892 13.8063C12.7651 13.8063 15.3313 14.8693 17.2234 16.7614C19.1155 18.6535 20.1785 21.2197 20.1785 23.8955V23.8998L20.177 24.0683C20.174 24.2484 20.1253 24.4248 20.0354 24.5808C19.9455 24.7369 19.8173 24.8675 19.663 24.9604C16.7732 26.7007 13.4626 27.6178 10.0892 27.6126C6.5888 27.6126 3.3121 26.6441 0.516852 24.9604C0.362294 24.8677 0.233882 24.7371 0.143708 24.581C0.0535349 24.425 0.00456719 24.2485 0.0014161 24.0683L0 23.8955ZM22.3025 23.8998L22.3011 24.1037C22.2932 24.5757 22.1805 25.04 21.9712 25.4631C24.4431 25.6156 26.9123 25.1227 29.1363 24.0329C29.3083 23.9488 29.4544 23.8198 29.559 23.6596C29.6637 23.4993 29.7232 23.3137 29.731 23.1224C29.781 21.9347 29.5234 20.7542 28.9832 19.6952C28.4431 18.6363 27.6386 17.7348 26.6477 17.0781C25.6568 16.4213 24.5131 16.0316 23.3274 15.9466C22.1417 15.8617 20.9541 16.0843 19.8797 16.5931C21.456 18.701 22.3057 21.2635 22.3011 23.8955L22.3025 23.8998Z"
+                      fill="#E0C11F"
+                    />
+                  </svg>
+                </div>
+                <div className="space-y">
+                  <p className="text-xl font-semibold text-primary">
+                    {thousandSeparator(overview?.totalUsers)}
+                  </p>
+                  <p className="text-xs text-gray-500">Total Users</p>
+                </div>
+              </div>
+            </CardLayout>
+            <CardLayout className="px-8 py-10">
+              <div className="flex h-full w-full items-center space-x-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-neutral-200">
+                  <svg
+                    width="26"
+                    height="27"
+                    viewBox="0 0 26 27"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M25.0271 5.16996C24.914 5.05366 24.7756 4.95964 24.6204 4.89377C24.4652 4.8279 24.2965 4.7916 24.125 4.78714C21.4608 4.72438 18.0896 2.1576 15.8607 1.15034C14.4839 0.530092 13.5749 0.121123 12.8923 0.0133897C12.7537 -0.00480721 12.6129 -0.00445475 12.4744 0.0144357C11.7918 0.122169 10.8828 0.531138 9.50719 1.15139C7.27829 2.1576 3.90708 4.72438 1.24285 4.78714C1.07123 4.79183 0.902519 4.82823 0.74716 4.89408C0.591801 4.95993 0.453108 5.05383 0.33968 5.16996C0.104569 5.40962 -0.0167362 5.72286 0.00186201 6.04228C0.574178 16.5259 4.74756 23.014 12.0704 26.7846C12.2608 26.8819 12.4721 26.9321 12.6822 26.9321C12.8923 26.9321 13.1036 26.8819 13.2952 26.7846C20.618 23.014 24.7902 16.5259 25.3637 6.04228C25.3834 5.72291 25.2624 5.40943 25.0271 5.16996ZM19.2041 9.29312L13.0247 17.5091C12.8029 17.8041 12.4547 17.9997 12.1099 17.9997C11.7639 17.9997 11.3797 17.8292 11.1371 17.6106L6.78143 13.6851C6.63922 13.5565 6.55938 13.3823 6.55938 13.2008C6.55938 13.0193 6.63922 12.8451 6.78143 12.7165L7.85757 11.7448C8.0006 11.6172 8.19376 11.5456 8.39506 11.5456C8.59636 11.5456 8.78952 11.6172 8.93255 11.7448L11.7651 14.297L16.6861 7.75242C16.8 7.60266 16.975 7.49957 17.1729 7.46567C17.3708 7.43177 17.5756 7.4698 17.7425 7.57147L19.0021 8.3413C19.1685 8.44372 19.2831 8.60132 19.321 8.77967C19.3588 8.95801 19.3168 9.1426 19.2041 9.29312Z"
+                      fill="#E0C11D"
+                    />
+                  </svg>
+                </div>
+                <div className="space-y">
+                  <p className="text-xl font-semibold text-primary">
+                    {thousandSeparator(overview?.verifiedUsers)}
+                  </p>
+                  <p className="text-xs text-gray-500">Verified Users</p>
+                </div>
+              </div>
+            </CardLayout>
+          </div>
+          {/* <CardLayout className="col-span-3 px-0 py-6">
             <div className="space-y-4">
               <div className="px-5">
                 <p className="text-sm font-semibold">Card Information</p>
@@ -266,28 +316,28 @@ const Dashboard = () => {
                   <p className="text-lg font-semibold text-green-600">
                     {`$ ${thousandSeparator(220.26)}`}
                   </p>
-                  {/* <p className="flex items-start text-xs font-light">
+                  <p className="flex items-start text-xs font-light">
                     <span className="text-base">
                       <RiArrowUpSFill className="text-green-600" />
                     </span>{' '}
                     <span className="text-gray-400">25% since last month</span>
-                  </p> */}
+                  </p>
                 </div>
                 <div className="space-y px-5">
                   <p className="text-xs">TOTAL CREDIT MADE</p>
                   <p className="text-lg font-semibold text-green-600">
                     {`$ ${thousandSeparator(220.26)}`}
                   </p>
-                  {/* <p className="flex items-start text-xs font-light">
+                  <p className="flex items-start text-xs font-light">
                     <span className="text-base">
                       <RiArrowUpSFill className="text-green-600" />
                     </span>{' '}
                     <span className="text-gray-400">25% since last month</span>
-                  </p> */}
+                  </p>
                 </div>
               </div>
             </div>
-          </CardLayout>
+          </CardLayout> */}
         </div>
       </div>
       <div className="mt-10">
