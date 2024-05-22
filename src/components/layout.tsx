@@ -5,6 +5,8 @@ import Loader from './loader'
 import { cn } from '@/lib/utils'
 import { TfiClose } from 'react-icons/tfi'
 import Image from 'next/image'
+import Link from 'next/link'
+import { Routes } from '@/constants/routes'
 
 interface Props {
   header: string
@@ -50,9 +52,11 @@ export default function Layout({ header, subhead, children, loading }: Props) {
             </div>
           </div>
           <div className="flex">
-            <div className="relative h-10 w-10 overflow-hidden rounded-full border border-gray-400">
-              <Image src="/assets/images/user-avatar.png" alt="User" fill />
-            </div>
+            <Link href={Routes.Settings}>
+              <div className="relative h-10 w-10 overflow-hidden rounded-full border border-gray-400">
+                <Image src="/assets/images/user-avatar.png" alt="User" fill />
+              </div>
+            </Link>
           </div>
         </div>
         <div className="px-5 py-5 md:pr-10 xl:pl-[340px]">
