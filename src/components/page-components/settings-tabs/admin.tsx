@@ -1,9 +1,16 @@
 import Button from '@/components/button'
 import Input from '@/components/input'
 import Modal from '@/components/modal'
+import Select from '@/components/select'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
-import React, { ChangeEvent, Dispatch, SetStateAction, useState } from 'react'
+import React, {
+  ChangeEvent,
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useState,
+} from 'react'
 import { TableColumn } from 'react-data-table-component'
 import { CiCircleMore } from 'react-icons/ci'
 import { HiOutlineUserCircle } from 'react-icons/hi'
@@ -50,9 +57,20 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
     role: '',
   })
 
+  const roles = [
+    { name: 'admin', value: 'admin' },
+    { name: 'super-admin', value: 'super-admin' },
+    { name: 'admin-user', value: 'admin-user' },
+  ]
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
+  }
+
+  const handleSelect = (option: any) => {
+    const { value } = option
+    setFormData({ ...formData, role: value })
   }
 
   const columns: TableColumn<any>[] = [
@@ -101,12 +119,15 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
     },
   ]
 
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+  }
+
   return (
     <div>
       <Table columns={columns} data={admins} progressPending={tableLoading} />
-
       <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="space-y-1">
             <h1 className="text-lg font-medium">Add New Admin</h1>
             <p className="text-sm text-gray-400">
@@ -120,6 +141,14 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
               placeholder="example@example.com"
               label="Email"
               onChange={handleChange}
+              variant="dark"
+            />
+            <Select
+              name="role"
+              label="Role"
+              value={formData.role}
+              options={roles}
+              onChange={handleSelect}
               variant="dark"
             />
           </div>

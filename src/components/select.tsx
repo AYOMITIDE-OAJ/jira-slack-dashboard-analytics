@@ -20,15 +20,22 @@ interface FormSelectProps {
   options: Option[]
   label: string
   onChange: (value: Option) => void
+  variant?: 'light' | 'dark'
 }
 
-const FormSelect = ({
+export default function Select({
   name,
   value,
   options,
   label,
   onChange,
-}: FormSelectProps) => {
+  variant = 'light',
+}: FormSelectProps) {
+  const variants = {
+    light: 'bg-white',
+    dark: 'bg-gray-100',
+  }[variant]
+
   const [selectedValue, setSelectedValue] = useState<Option>({
     name: `Select ${name}`,
     value: null,
@@ -52,17 +59,19 @@ const FormSelect = ({
   }, [value, options])
 
   return (
-    <div className="w-full space-y-2">
-      <label
-        htmlFor={selectedValue.name}
-        className="text-sm font-medium text-gray-600"
-      >
+    <div
+      className={cn(
+        'relative w-full rounded-xl border border-gray-200 px-5 py-3',
+        variants
+      )}
+    >
+      <label htmlFor={name} className="w-full font-medium text-gray-500">
         {label}
       </label>
       <Listbox value={selectedValue} onChange={onChange}>
         <ListboxButton
           className={cn(
-            'relative block w-full rounded-lg bg-gray-100 py-3 pl-3 pr-8 text-left text-sm/6',
+            'relative block w-full rounded-none bg-gray-100 py-0 pl-0 pr-8 text-left text-sm/6',
             selectedValue.value ? 'text-gray-600' : 'text-gray-400',
             'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-gray-200'
           )}
@@ -80,13 +89,13 @@ const FormSelect = ({
         >
           <ListboxOptions
             anchor="bottom"
-            className="w-[var(--button-width)] rounded-xl border border-gray-50 bg-white p-1 shadow-md [--anchor-gap:var(--spacing-1)] focus:outline-none"
+            className="z-[999] w-[var(--button-width)] rounded-xl border border-gray-50 bg-white p-0 shadow-md [--anchor-gap:var(--spacing-1)] focus:outline-none"
           >
             {options.map((option) => (
               <ListboxOption
                 key={option.name}
                 value={option}
-                className="group flex cursor-default select-none items-center gap-2 rounded-lg px-3 py-1.5 data-[focus]:bg-gray-100"
+                className="group flex cursor-default select-none items-center gap-2 rounded-none px-3 py-1.5 data-[focus]:bg-gray-100"
               >
                 <div className="text-sm/6 text-gray-600">{option.name}</div>
               </ListboxOption>
@@ -97,5 +106,3 @@ const FormSelect = ({
     </div>
   )
 }
-
-export default FormSelect
