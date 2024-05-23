@@ -1,9 +1,7 @@
 import { Routes } from '@/constants/routes'
 import AuthApi from '@/utils/api/auth-api'
-import { NextApiResponse } from 'next'
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { signIn } from 'next-auth/react'
 
 export interface LoginCredentials {
   email: string
@@ -59,9 +57,13 @@ export const authOptions = {
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    maxAge: 2 * 60 * 60,
+  },
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
     encryption: true,
+    maxAge: 2 * 60 * 60,
   },
   pages: {
     signIn: Routes.Login,

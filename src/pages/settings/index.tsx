@@ -20,7 +20,7 @@ const Settings = () => {
     <Layout header="Settings">
       <div className="mt-5 w-full overflow-hidden rounded-lg border border-gray-200 md:mt-10">
         <TabGroup onChange={(index) => setSelectedTabIndex(index)}>
-          <div className="flex items-center justify-between bg-neutral-100 px-5 py-6 md:px-8 md:py-4">
+          <div className="flex flex-col items-center justify-between bg-neutral-100 px-5 py-6 md:flex-row md:px-8 md:py-4">
             <TabList className="space-x-5 md:space-x-7">
               {tabList.map((tab, index) => (
                 <Tab
