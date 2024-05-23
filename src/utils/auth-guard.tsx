@@ -17,7 +17,7 @@ export default function AuthGuard({ children }: any) {
 
   const getSignOutRedirectUrl = useCallback(async () => {
     const newSession: any = await getSession()
-    if (!newSession?.user) {
+    if (!newSession?.user?.user) {
       // await AuthApi.logout()
       return Routes.Login
     }
