@@ -1,7 +1,7 @@
 import { ReactNode, useState } from 'react'
 import { FcMenu } from 'react-icons/fc'
 import Sidebar from './sidebar'
-import Loader from './loader'
+import Loader, { PageLoader } from './loader'
 import { cn } from '@/lib/utils'
 import { TfiClose } from 'react-icons/tfi'
 import Image from 'next/image'
@@ -60,7 +60,7 @@ export default function Layout({ header, subhead, children, loading }: Props) {
           </div>
         </div>
         <div className="px-5 py-5 md:pr-10 xl:pl-[340px]">
-          {loading ? <Loader /> : children}
+          {loading ? <PageLoader /> : children}
         </div>
       </div>
     </div>

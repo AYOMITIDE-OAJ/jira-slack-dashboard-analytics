@@ -14,3 +14,18 @@ export default function Loader() {
     </div>
   )
 }
+
+export const PageLoader = () => (
+  <div
+    className="flex flex-1 items-center justify-center"
+    style={{ width: '100%', height: `calc(100vh - 200px)` }}
+  >
+    <Image
+      src="/assets/svg/palremit-logo-icon.svg"
+      alt="Loading"
+      height={50}
+      width={50}
+      className="animate-pulse duration-100"
+    />
+  </div>
+)
