@@ -25,19 +25,6 @@ export default function User() {
 
   const columns: TableColumn<any>[] = [
     {
-      name: 'Details',
-      selector: (row: any) => row,
-      cell: (row: any) => (
-        <div className="flex flex-col space-y-1">
-          <p className="text-xs text-neutral-400">
-            {moment(row?.createdAt).format('LLL')}
-          </p>
-          <p className="">{row?.reference}</p>
-        </div>
-      ),
-      width: '300px',
-    },
-    {
       name: 'Amount',
       selector: (row: any) => row,
       cell: (row: any) => (
@@ -53,6 +40,7 @@ export default function User() {
           </span>
         </p>
       ),
+      minWidth: '200px',
     },
     {
       name: 'Type',
@@ -63,6 +51,20 @@ export default function User() {
       name: 'Status',
       selector: (row: any) => row?.isActive,
       cell: (row: any) => <StatusPill status={row?.status} />,
+      minWidth: '150px',
+    },
+    {
+      name: 'Details',
+      selector: (row: any) => row,
+      cell: (row: any) => (
+        <div className="flex flex-col space-y-1">
+          <p className="text-xs text-neutral-400">
+            {moment(row?.createdAt).format('LLL')}
+          </p>
+          <p className="">{row?.reference}</p>
+        </div>
+      ),
+      width: '300px',
     },
   ]
 
