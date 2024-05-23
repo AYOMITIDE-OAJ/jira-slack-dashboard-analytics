@@ -55,6 +55,11 @@ export default function User() {
       ),
     },
     {
+      name: 'Type',
+      selector: (row: any) => row?.type,
+      cell: (row: any) => <p className="capitalize">{row?.type}</p>,
+    },
+    {
       name: 'Status',
       selector: (row: any) => row?.isActive,
       cell: (row: any) => <StatusPill status={row?.status} />,
