@@ -142,12 +142,12 @@ export default function User() {
                         Address
                       </p>
                     </div>
-                    <div className="space-y py-4">
+                    {/* <div className="space-y py-4">
                       <p>{moment(user?.dob).format('DD/MM/yyyy')}</p>
                       <p className="text-xs font-medium text-neutral-400">
                         Date of Birth
                       </p>
-                    </div>
+                    </div> */}
                   </TabPanel>
                   <TabPanel className="divide-y divide-neutral-200">
                     <div className="space-y-2 py-4">
