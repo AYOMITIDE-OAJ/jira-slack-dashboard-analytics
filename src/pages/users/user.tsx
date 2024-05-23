@@ -54,7 +54,7 @@ export default function User() {
       minWidth: '150px',
     },
     {
-      name: 'Details',
+      name: 'Date / Ref',
       selector: (row: any) => row,
       cell: (row: any) => (
         <div className="flex flex-col space-y-1">
