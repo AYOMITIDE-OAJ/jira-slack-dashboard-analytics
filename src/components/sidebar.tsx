@@ -105,7 +105,12 @@ export default function Sidebar({ setOpen }: Props) {
                   {children}
                 </Link>
               ) : (
-                <div onClick={() => toggledAccordion(name)}>{children}</div>
+                <div
+                  onClick={() => toggledAccordion(name)}
+                  className="cursor-pointer"
+                >
+                  {children}
+                </div>
               )
             return (
               <div className="w-full xl:mb-2" key={index}>
