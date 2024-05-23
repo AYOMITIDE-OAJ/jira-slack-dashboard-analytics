@@ -191,11 +191,21 @@ export default function User() {
               </TabGroup>
             </div>
             {user?.isActive ? (
-              <Button variant="danger" size="md" className="mt-4">
+              <Button
+                variant="danger"
+                size="md"
+                className="mt-4"
+                rounded={false}
+              >
                 Disable User
               </Button>
             ) : (
-              <Button variant="success" size="md" className="mt-4">
+              <Button
+                variant="success"
+                size="md"
+                className="mt-4"
+                rounded={false}
+              >
                 Enable User
               </Button>
             )}
