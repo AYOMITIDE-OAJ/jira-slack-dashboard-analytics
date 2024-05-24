@@ -20,7 +20,7 @@ export default function TransactionDetailsModal({
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <div>
         <h1 className="text-lg">Transaction Details</h1>
-        <div className="divide-y divide-gray-200 py-3 md:py-6">
+        <div className="max-h-[660px] divide-y divide-gray-200 overflow-y-scroll py-3 md:py-6">
           <KeyValueComponent
             name="Date"
             value={moment(transaction?.createdAt).format('LLL')}
@@ -62,6 +62,7 @@ export default function TransactionDetailsModal({
             size="sm"
           />
           <KeyValueComponent name="Fee" value={transaction?.fee} size="sm" />
+          <KeyValueComponent name="Rate" value={transaction?.rate} size="sm" />
           <KeyValueComponent name="Type" value={transaction?.type} size="sm" />
           <KeyValueComponent
             name="Status"
@@ -71,9 +72,36 @@ export default function TransactionDetailsModal({
           {transaction?.failureReason && (
             <KeyValueComponent
               name="Failure Reason"
-              value={transaction.failureReason}
+              value={transaction?.failureReason}
               size="sm"
             />
+          )}
+          {transaction?.otherParty && (
+            <div className="w-full pt-4">
+              <p className="text-center text-xs">Other Party</p>
+              <div className="divide-y divide-gray-200">
+                <KeyValueComponent
+                  name="Name"
+                  value={`${transaction?.otherParty?.firstName} ${transaction?.otherParty?.lastName}`}
+                  size="sm"
+                />
+                <KeyValueComponent
+                  name="Email"
+                  value={transaction?.otherParty?.email}
+                  size="sm"
+                />
+                <KeyValueComponent
+                  name="Phone"
+                  value={transaction?.otherParty?.phone}
+                  size="sm"
+                />
+                <KeyValueComponent
+                  name="Country"
+                  value={transaction?.otherParty?.country}
+                  size="sm"
+                />
+              </div>
+            </div>
           )}
         </div>
       </div>

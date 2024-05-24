@@ -13,7 +13,7 @@ const Swap = () => {
   const [loading, setLoading] = useState(true)
   const [transactions, setTransactions] = useState([])
   const [isOpen, setIsOpen] = useState(false)
-  const [selected, setSelected] = useState<Record<string, any>>()
+  const [selected, setSelected] = useState<Record<string, any>>({})
 
   const handleRowClick = (row: any) => {
     setSelected(row)
@@ -97,7 +97,7 @@ const Swap = () => {
       <TransactionDetailsModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        transaction={selected || {}}
+        transaction={selected}
       />
     </Layout>
   )

@@ -2,6 +2,7 @@ import Button from '@/components/button'
 import Layout from '@/components/layout'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
+import TransactionDetailsModal from '@/components/transaction-details-modal'
 import { cn } from '@/lib/utils'
 import DashboardApi from '@/utils/api/dashboard-api'
 import { formatCurrency } from '@/utils/helper'
@@ -23,6 +24,10 @@ export default function User() {
   const [user, setUser] = useState<any>()
   const [transactions, setTransactions] = useState([])
   const [balances, setBalances] = useState<any[]>([])
+  const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false)
+  const [selectedTransaction, setSelectedTransaction] = useState<
+    Record<string, any>
+  >({})
 
   const columns: TableColumn<any>[] = [
     {
@@ -69,6 +74,11 @@ export default function User() {
       width: '300px',
     },
   ]
+
+  const handleRowClick = (row: any) => {
+    setSelectedTransaction(row)
+    setIsTransactionModalOpen(true)
+  }
 
   const activateUser = async () => {
     setReqLoading(true)
@@ -282,10 +292,19 @@ export default function User() {
             ))}
           </div>
           <div>
-            <Table columns={columns} data={transactions} />
+            <Table
+              columns={columns}
+              data={transactions}
+              onRowClicked={handleRowClick}
+            />
           </div>
         </div>
       </div>
+      <TransactionDetailsModal
+        isOpen={isTransactionModalOpen}
+        setIsOpen={setIsTransactionModalOpen}
+        transaction={selectedTransaction}
+      />
     </Layout>
   )
 }
