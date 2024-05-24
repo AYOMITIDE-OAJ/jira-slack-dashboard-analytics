@@ -8,11 +8,15 @@ import Button from '@/components/button'
 
 const Settings = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const tabList = ['Profile', 'Admin', 'Password']
+  const tabList = [
+    'Profile',
+    'Admin',
+    // 'Password'
+  ]
   const tabPanels = [
     { id: 1, component: <Profile /> },
     { id: 2, component: <Admin isOpen={isOpen} setIsOpen={setIsOpen} /> },
-    { id: 3, component: <Password /> },
+    // { id: 3, component: <Password /> },
   ]
   const [selectedTabIndex, setSelectedTabIndex] = useState(0)
 
