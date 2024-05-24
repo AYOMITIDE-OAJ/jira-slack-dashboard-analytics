@@ -4,7 +4,7 @@ import React from 'react'
 
 const Analytics = () => {
   return (
-    <Layout header="Analytics" subhead="MetaBase Analytics">
+    <Layout header="Analytics" subhead="Metabase Analytics">
       <iframe
         src="http://metabase.palremit.com/public/dashboard/602f36fc-92e6-4bb1-9461-099606b5e892"
         frameBorder="0"

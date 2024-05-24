@@ -39,6 +39,7 @@ export default function Sidebar({ setOpen }: Props) {
     {
       name: 'Transactions',
       subRoutes: [
+        { name: 'All', route: Routes.AllTransactions },
         { name: 'Deposit', route: Routes.Deposit },
         { name: 'Send', route: Routes.Send },
         { name: 'Swap', route: Routes.Swap },

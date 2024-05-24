@@ -25,6 +25,7 @@ const Deposit = () => {
     {
       name: 'Date',
       selector: (row: any) => moment(row?.createdAt).format('LLL'),
+      minWidth: '200px',
     },
     {
       name: 'Name',
@@ -59,7 +60,7 @@ const Deposit = () => {
     {
       name: 'Type',
       selector: (row: any) => row?.direction,
-      cell: (row: any) => <p className="capitalize">{row?.direction}</p>,
+      cell: (row: any) => <StatusPill status={row?.direction} />,
     },
     {
       name: 'Status',

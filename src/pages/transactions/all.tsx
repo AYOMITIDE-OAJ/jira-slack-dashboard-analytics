@@ -1,4 +1,5 @@
 import Layout from '@/components/layout'
+import Modal from '@/components/modal'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
 import TransactionDetailsModal from '@/components/transaction-details-modal'
@@ -9,7 +10,7 @@ import React, { useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
 import { HiOutlineUserCircle } from 'react-icons/hi'
 
-const Send = () => {
+const Deposit = () => {
   const [loading, setLoading] = useState(true)
   const [transactions, setTransactions] = useState([])
   const [isOpen, setIsOpen] = useState(false)
@@ -72,7 +73,7 @@ const Send = () => {
     ;(async () => {
       try {
         const [transactionsRes] = await Promise.all([
-          DashboardApi.getAllTransactions({ page: 1, type: 'p2p' }),
+          DashboardApi.getAllTransactions({ page: 1 }),
         ])
         setTransactions(transactionsRes.records)
       } catch (err) {
@@ -86,7 +87,7 @@ const Send = () => {
     <Layout header="Transactions" loading={loading}>
       <div className="w-full xl:mt-5">
         <div className="rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6">
-          <h1 className="text-base font-medium text-gray-600">Send</h1>
+          <h1 className="text-base font-medium text-gray-600">Deposit</h1>
         </div>
         <Table
           columns={columns}
@@ -103,6 +104,6 @@ const Send = () => {
   )
 }
 
-export default Send
+export default Deposit
 
-Send.auth = true
+Deposit.auth = true

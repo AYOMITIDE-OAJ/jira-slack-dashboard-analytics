@@ -9,6 +9,7 @@ import { HiOutlineUserCircle } from 'react-icons/hi'
 import { CiCircleMore } from 'react-icons/ci'
 import { useRouter } from 'next/router'
 import { Routes } from '@/constants/routes'
+import moment from 'moment'
 
 const Users = () => {
   const router = useRouter()
@@ -23,6 +24,11 @@ const Users = () => {
   }
 
   const columns: TableColumn<any>[] = [
+    {
+      name: 'Registration',
+      selector: (row: any) => moment(row?.createdAt).format('LLL'),
+      minWidth: '200px',
+    },
     {
       name: 'Name',
       selector: (row: any) => row,

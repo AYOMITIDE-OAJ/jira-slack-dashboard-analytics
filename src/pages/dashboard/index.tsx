@@ -67,6 +67,7 @@ const Dashboard = () => {
     {
       name: 'Date',
       selector: (row: any) => moment(row?.createdAt).format('LLL'),
+      minWidth: '200px',
     },
     {
       name: 'Name',
