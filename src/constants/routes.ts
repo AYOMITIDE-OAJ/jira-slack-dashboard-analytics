@@ -4,6 +4,7 @@ export enum Routes {
   Dashboard = '/dashboard',
   Users = '/users',
   User = '/users/user',
+  Analytics = '/analytics',
   // TRANSACTIONS
   Transactions = '/transactions',
   Deposit = '/transactions/deposit',

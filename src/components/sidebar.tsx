@@ -34,6 +34,7 @@ export default function Sidebar({ setOpen }: Props) {
 
   const routes: Routes[] = [
     { name: 'Dashboard', route: Routes.Dashboard },
+    { name: 'Analytics', route: Routes.Analytics },
     { name: 'Users', route: Routes.Users },
     {
       name: 'Transactions',
