@@ -3,7 +3,7 @@ import KeyValueComponent from './key-value-component'
 import Modal from './modal'
 import moment from 'moment'
 import StatusPill from './status-pill'
-import { formatCurrency } from '@/utils/helper'
+import { formatCurrency, wrapString } from '@/utils/helper'
 
 interface Props {
   isOpen: boolean
@@ -28,7 +28,7 @@ export default function TransactionDetailsModal({
           />
           <KeyValueComponent
             name="Ref"
-            value={transaction?.reference}
+            value={wrapString(transaction?.reference)}
             size="sm"
           />
           <KeyValueComponent
@@ -68,6 +68,13 @@ export default function TransactionDetailsModal({
             value={<StatusPill status={transaction?.status} size="sm" />}
             size="sm"
           />
+          {transaction?.failureReason && (
+            <KeyValueComponent
+              name="Failure Reason"
+              value={transaction.failureReason}
+              size="sm"
+            />
+          )}
         </div>
       </div>
     </Modal>

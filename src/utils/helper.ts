@@ -64,3 +64,21 @@ export const formatCurrency = (value: string | number) => {
 
   return '--'
 }
+
+// export const warpString = (value: string, length?: number) => {
+//   const maxLength = length || 20
+//   if (value.length > maxLength) {
+//     const newVal = value.substring(0, maxLength)
+//     const truncated = value.substring(maxLength, value.length)
+//     return `${newVal} \n ${truncated}`
+//   }
+//   return value
+// }
+
+export const wrapString = (value: string = '', length: number = 15): string => {
+  let result = ''
+  for (let i = 0; i < value.length; i += length) {
+    result += value.substring(i, i + length) + '\n'
+  }
+  return result.trim()
+}
