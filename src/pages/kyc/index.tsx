@@ -32,6 +32,7 @@ const KYC = () => {
           </p>
         </div>
       ),
+      minWidth: '250px',
     },
     {
       name: 'Email',

@@ -36,7 +36,7 @@ const Users = () => {
           </p>
         </div>
       ),
-      width: '250px',
+      minWidth: '300px',
     },
     {
       name: 'Email',
@@ -55,6 +55,7 @@ const Users = () => {
       cell: (row: any) => (
         <StatusPill status={row.isActive ? 'active' : 'inactive'} />
       ),
+      minWidth: '150px',
     },
     {
       name: 'Verification',
@@ -62,7 +63,7 @@ const Users = () => {
       cell: (row: any) => (
         <StatusPill status={row?.isVerified ? 'verified' : 'unverified'} />
       ),
-      width: '150px',
+      minWidth: '150px',
     },
     {
       name: '',

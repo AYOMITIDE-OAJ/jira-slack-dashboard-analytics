@@ -5,7 +5,7 @@ import Table from '@/components/table'
 import { cn } from '@/lib/utils'
 import DashboardApi from '@/utils/api/dashboard-api'
 import { formatCurrency } from '@/utils/helper'
-import { handleError } from '@/utils/notify'
+import { handleError, handleGenericSuccess } from '@/utils/notify'
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
 import moment from 'moment'
 import Image from 'next/image'
@@ -19,6 +19,7 @@ export default function User() {
   const { id: userId } = router.query
 
   const [loading, setLoading] = useState(false)
+  const [reqLoading, setReqLoading] = useState(false)
   const [user, setUser] = useState<any>()
   const [transactions, setTransactions] = useState([])
   const [balances, setBalances] = useState<any[]>([])
@@ -46,6 +47,7 @@ export default function User() {
       name: 'Type',
       selector: (row: any) => row?.type,
       cell: (row: any) => <p className="capitalize">{row?.type}</p>,
+      minWidth: '150px',
     },
     {
       name: 'Status',
@@ -67,6 +69,36 @@ export default function User() {
       width: '300px',
     },
   ]
+
+  const activateUser = async () => {
+    setReqLoading(true)
+    try {
+      const res = await DashboardApi.activateUser(String(userId))
+      if (res) {
+        handleGenericSuccess('User Activated')
+        router.reload()
+      }
+    } catch (e: any) {
+      handleError(e)
+    } finally {
+      setReqLoading(false)
+    }
+  }
+
+  const deactivateUser = async () => {
+    setReqLoading(true)
+    try {
+      const res = await DashboardApi.deactivateUser(String(userId))
+      if (res) {
+        handleGenericSuccess('User Deactivated')
+        router.reload()
+      }
+    } catch (e: any) {
+      handleError(e)
+    } finally {
+      setReqLoading(false)
+    }
+  }
 
   useEffect(() => {
     ;(async () => {
@@ -150,6 +182,12 @@ export default function User() {
                         Date of Birth
                       </p>
                     </div> */}
+                    <div className="space-y py-4">
+                      <p>{moment(user?.createdAt).format('LLL')}</p>
+                      <p className="text-xs font-medium text-neutral-400">
+                        Registration
+                      </p>
+                    </div>
                   </TabPanel>
                   <TabPanel className="divide-y divide-neutral-200">
                     <div className="space-y-2 py-4">
@@ -198,6 +236,8 @@ export default function User() {
                 size="md"
                 className="mt-4"
                 rounded={false}
+                onClick={deactivateUser}
+                loading={reqLoading}
               >
                 Disable User
               </Button>
@@ -207,6 +247,8 @@ export default function User() {
                 size="md"
                 className="mt-4"
                 rounded={false}
+                onClick={activateUser}
+                loading={reqLoading}
               >
                 Enable User
               </Button>

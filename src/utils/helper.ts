@@ -56,8 +56,10 @@ export const thousandSeparator = (value: string | number) => {
 }
 
 export const formatCurrency = (value: string | number) => {
+  const formattedValue = String(value).split(',').join('')
+
   if (value) {
-    return thousandSeparator(truncateDecimal(value))
+    return thousandSeparator(truncateDecimal(formattedValue))
   }
 
   return '--'

@@ -55,6 +55,22 @@ const DashboardApi = {
     return data
   },
 
+  async deactivateUser(userId: string): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.patch(`/users/${userId}/deactivate`)
+
+    return data
+  },
+
+  async activateUser(userId: string): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.patch(`/users/${userId}/activate`)
+
+    return data
+  },
+
   async getUsersKyc({ userId }: { userId?: string }): Promise<any> {
     const {
       data: { data },
