@@ -2,6 +2,7 @@ import CardLayout from '@/components/card-layout'
 import Layout from '@/components/layout'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
+import TransactionDetailsModal from '@/components/transaction-details-modal'
 import DashboardApi from '@/utils/api/dashboard-api'
 import { formatCurrency, thousandSeparator } from '@/utils/helper'
 import moment from 'moment'
@@ -19,6 +20,13 @@ const Dashboard = () => {
   const [overview, setOverview] = useState<Record<string, any>>()
   const [balances, setBalances] = useState<Record<string, any>>()
   const [transactions, setTransactions] = useState([])
+  const [selectedTransaction, setSelectedTransaction] = useState({})
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleRowClick = (row: any) => {
+    setSelectedTransaction(row)
+    setIsOpen(true)
+  }
 
   const CurrencyCard = ({
     currency,
@@ -347,8 +355,18 @@ const Dashboard = () => {
             Recent Transactions
           </h1>
         </div>
-        <Table columns={columns} data={transactions} />
+        <Table
+          columns={columns}
+          data={transactions}
+          onRowClicked={handleRowClick}
+        />
       </div>
+
+      <TransactionDetailsModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        transaction={selectedTransaction}
+      />
     </Layout>
   )
 }
