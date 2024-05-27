@@ -20,7 +20,7 @@ export default function TransactionDetailsModal({
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <div>
         <h1 className="text-lg">Transaction Details</h1>
-        <div className="max-h-[660px] divide-y divide-gray-200 overflow-y-scroll py-3 md:py-6">
+        <div className="max-h-[680px] divide-y divide-gray-200 overflow-y-scroll py-3 md:py-6">
           <KeyValueComponent
             name="Date"
             value={moment(transaction?.createdAt).format('LLL')}

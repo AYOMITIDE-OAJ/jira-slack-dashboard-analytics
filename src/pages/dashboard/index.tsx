@@ -361,7 +361,6 @@ const Dashboard = () => {
           onRowClicked={handleRowClick}
         />
       </div>
-
       <TransactionDetailsModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
