@@ -10,6 +10,7 @@ import { CiCircleMore } from 'react-icons/ci'
 import { useRouter } from 'next/router'
 import { Routes } from '@/constants/routes'
 import moment from 'moment'
+import User from '@/components/user'
 
 const Users = () => {
   const router = useRouter()
@@ -32,16 +33,7 @@ const Users = () => {
     {
       name: 'Name',
       selector: (row: any) => row,
-      cell: (row: any) => (
-        <div className="flex items-center space-x-2 text-sm">
-          <div className="border-200 h-8 w-8 overflow-hidden rounded-full">
-            <HiOutlineUserCircle className="text-neutral-400" size={32} />
-          </div>
-          <p className="">
-            {row?.firstName} {row?.lastName}
-          </p>
-        </div>
-      ),
+      cell: (row: any) => <User user={row} />,
       minWidth: '300px',
     },
     {

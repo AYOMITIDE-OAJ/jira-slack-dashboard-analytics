@@ -3,6 +3,7 @@ import Modal from '@/components/modal'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
 import TransactionDetailsModal from '@/components/transaction-details-modal'
+import User from '@/components/user'
 import DashboardApi from '@/utils/api/dashboard-api'
 import { formatCurrency } from '@/utils/helper'
 import moment from 'moment'
@@ -30,16 +31,7 @@ const Deposit = () => {
     {
       name: 'Name',
       selector: (row: any) => row?.owner,
-      cell: (row: any) => (
-        <div className="flex items-center space-x-2 text-sm">
-          <div className="border-200 h-8 w-8 overflow-hidden rounded-full">
-            <HiOutlineUserCircle className="text-neutral-400" size={32} />
-          </div>
-          <p className="">
-            {row?.owner?.firstName} {row?.owner?.lastName}
-          </p>
-        </div>
-      ),
+      cell: (row: any) => <User user={row.owner} disabled />,
       width: '250px',
     },
     {
@@ -87,7 +79,9 @@ const Deposit = () => {
     <Layout header="Transactions" loading={loading}>
       <div className="w-full xl:mt-5">
         <div className="rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6">
-          <h1 className="text-base font-medium text-gray-600">Deposit</h1>
+          <h1 className="text-base font-medium text-gray-600">
+            All Transactions
+          </h1>
         </div>
         <Table
           columns={columns}
