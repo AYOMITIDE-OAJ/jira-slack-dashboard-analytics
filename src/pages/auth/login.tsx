@@ -42,7 +42,7 @@ export default function Login() {
       }
 
       if (res?.ok) {
-        router.push(Routes.Dashboard)
+        router.push(Routes.Home)
       }
       setLoading(false)
     } finally {

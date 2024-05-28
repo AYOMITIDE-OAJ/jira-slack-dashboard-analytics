@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { Dispatch, SetStateAction, useState } from 'react'
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl'
+import {Roles} from '@/lib/roles'
+import {useSession} from "next-auth/react";
 
 interface Props {
   open?: boolean
@@ -12,6 +14,8 @@ interface Props {
 }
 
 export default function Sidebar({ setOpen }: Props) {
+  const { data: session } = useSession()
+  const userSession = (session?.user as any)?.user
   const router = useRouter()
   const [selectedAccordion, setSelectedAccordion] = useState<string | null>(
     null
@@ -30,37 +34,39 @@ export default function Sidebar({ setOpen }: Props) {
     name: string
     route?: string
     subRoutes?: Omit<Routes, 'subRoutes'>[]
+    allowedRoles: Roles[]
   }
 
   const routes: Routes[] = [
-    { name: 'Dashboard', route: Routes.Dashboard },
-    { name: 'Analytics', route: Routes.Analytics },
-    { name: 'Users', route: Routes.Users },
+    { name: 'Dashboard', route: Routes.Dashboard, allowedRoles: [Roles.SuperAdmin, Roles.Admin, Roles.Investor, Roles.Marketer] },
+    { name: 'Analytics', route: Routes.Analytics, allowedRoles: [Roles.SuperAdmin, Roles.Admin, Roles.Investor, Roles.Marketer] },
+    { name: 'Users', route: Routes.Users, allowedRoles: [Roles.SuperAdmin, Roles.Admin, Roles.CRM] },
     {
       name: 'Transactions',
       subRoutes: [
-        { name: 'All', route: Routes.AllTransactions },
-        { name: 'Deposit', route: Routes.Deposit },
-        { name: 'Send', route: Routes.Send },
-        { name: 'Swap', route: Routes.Swap },
-        { name: 'Withdrawal', route: Routes.Withdrawal },
-        { name: 'Approve Withdrawal', route: Routes.ApproveWithdrawal },
-      ],
+        { name: 'All', route: Routes.AllTransactions, allowedRoles: [Roles.SuperAdmin, Roles.Admin, Roles.CRM] },
+        { name: 'Deposit', route: Routes.Deposit, allowedRoles: [Roles.SuperAdmin, Roles.Admin, Roles.CRM] },
+        { name: 'Send', route: Routes.Send, allowedRoles: [Roles.SuperAdmin, Roles.Admin, Roles.CRM] },
+        { name: 'Swap', route: Routes.Swap, allowedRoles: [Roles.SuperAdmin, Roles.Admin, Roles.CRM] },
+        { name: 'Withdrawal', route: Routes.Withdrawal, allowedRoles: [Roles.SuperAdmin, Roles.Admin, Roles.CRM] },
+        { name: 'Approve Withdrawal', route: Routes.ApproveWithdrawal, allowedRoles: [Roles.SuperAdmin] },
+      ], allowedRoles: [Roles.SuperAdmin, Roles.Admin, Roles.CRM]
     },
     {
       name: 'Card',
       // route: Routes.Card,
-      subRoutes: [{ name: 'Issued Cards', route: Routes.Deposit }],
+      subRoutes: [{ name: 'Issued Cards', route: Routes.Deposit, allowedRoles: [Roles.SuperAdmin, Roles.Admin, Roles.CRM] }], allowedRoles: [Roles.SuperAdmin, Roles.Admin, Roles.CRM]
     },
-    { name: 'KYC', route: Routes.Kyc },
-    { name: 'Fee Management', route: Routes.FeeManagement },
-    { name: 'Settings', route: Routes.Settings },
+    { name: 'KYC', route: Routes.Kyc, allowedRoles: [Roles.SuperAdmin, Roles.Admin, Roles.CRM] },
+    { name: 'Fee Management', route: Routes.FeeManagement, allowedRoles: [Roles.SuperAdmin, Roles.Admin, Roles.CRM] },
+    { name: 'Settings', route: Routes.Settings, allowedRoles: [Roles.SuperAdmin, Roles.Admin, Roles.CRM, Roles.Investor, Roles.Marketer] },
   ]
 
   const joinString = (name: string) => name.split(' ').join('-').toLowerCase()
 
   return (
     <aside className="fixed z-10 h-screen w-[300px] border-r border-gray-200 bg-white py-6">
+      {/*PALREMIT LOGO*/}
       <div className="px-9">
         <svg
           width="163"
@@ -87,9 +93,10 @@ export default function Sidebar({ setOpen }: Props) {
           />
         </svg>
       </div>
+      {/*SIDE NAVS*/}
       <div className="mt-14">
         <div className="w-full">
-          {routes.map(({ name, route, subRoutes }, index) => {
+          {routes.map(({ name, route, subRoutes, allowedRoles }, index) => {
             const Wrapper = ({
               href,
               children,
@@ -114,7 +121,7 @@ export default function Sidebar({ setOpen }: Props) {
                   {children}
                 </div>
               )
-            return (
+            return allowedRoles.includes(userSession?.role) ? (
               <div className="w-full xl:mb-2" key={index}>
                 <Wrapper href={route} key={index}>
                   <div
@@ -146,27 +153,29 @@ export default function Sidebar({ setOpen }: Props) {
                   <div
                     style={{
                       height: isSelected(name)
-                        ? `${48 * subRoutes.length}px`
+                        ? `${48 * subRoutes.filter(r => r.allowedRoles.includes(userSession.role)).length}px`
                         : '0px',
                     }}
                     className="overflow-y-hidden transition-all duration-150"
                   >
-                    {subRoutes.map(({ name, route }, index) => (
-                      <Wrapper key={index} href={route}>
-                        <div
-                          className={cn(
-                            'group flex h-12 w-full items-center justify-between pl-[72px] pr-9 text-base font-medium text-neutral-500 transition-all duration-150 hover:bg-[#F8F3AF] hover:text-primary',
-                            router.pathname === route && 'bg-[#F8F3AF]'
-                          )}
-                        >
-                          <div>{name}</div>
-                        </div>
-                      </Wrapper>
-                    ))}
+                    {subRoutes.map(({ name, route, allowedRoles }, index) => {
+                      return allowedRoles.includes(userSession?.role) ? (
+                          <Wrapper key={index} href={route}>
+                            <div
+                                className={cn(
+                                    'group flex h-12 w-full items-center justify-between pl-[72px] pr-9 text-base font-medium text-neutral-500 transition-all duration-150 hover:bg-[#F8F3AF] hover:text-primary',
+                                    router.pathname === route && 'bg-[#F8F3AF]'
+                                )}
+                            >
+                              <div>{name}</div>
+                            </div>
+                          </Wrapper>
+                      ): null
+                    })}
                   </div>
                 )}
               </div>
-            )
+            ) : null
           })}
         </div>
       </div>

@@ -11,14 +11,15 @@ import moment from 'moment'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import {useSession} from "next-auth/react"
 import { TableColumn } from 'react-data-table-component'
 import { BsArrowRight } from 'react-icons/bs'
 import { HiOutlineUserCircle } from 'react-icons/hi'
 import { RiArrowUpSFill } from 'react-icons/ri'
 
 const Dashboard = () => {
-  // const { data: session } = useSession()
-  // console.log(session)
+  const { data: session } = useSession()
+  console.log(session)
   const [loading, setLoading] = useState(true)
   const [overview, setOverview] = useState<Record<string, any>>()
   const [balances, setBalances] = useState<Record<string, any>>()
@@ -181,8 +182,8 @@ const Dashboard = () => {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M20.3125 0C21.5557 0 22.748 0.402988 23.6271 1.12031C24.5061 1.83763 25 2.81053 25 3.82498V24.2249C24.9998 24.465 24.9165 24.7002 24.7597 24.9034C24.6029 25.1066 24.379 25.2696 24.1136 25.3735C23.8483 25.4774 23.5525 25.5181 23.2601 25.4908C22.9677 25.4635 22.6907 25.3694 22.4609 25.2194L19.5312 23.3069L16.6016 25.2194C16.3014 25.4156 15.9231 25.5146 15.5391 25.4974C15.1551 25.4802 14.7924 25.3481 14.5203 25.1263L12.5 23.4777L10.4797 25.1263C10.2078 25.3483 9.84517 25.4806 9.46116 25.498C9.07715 25.5154 8.69877 25.4167 8.39844 25.2206L5.46875 23.3069L2.53906 25.2194C2.30933 25.3694 2.03233 25.4635 1.73994 25.4908C1.44755 25.5181 1.15167 25.4774 0.886358 25.3735C0.621047 25.2696 0.397095 25.1066 0.240285 24.9034C0.0834753 24.7002 0.000183813 24.465 0 24.2249V3.82498C0 2.81053 0.49386 1.83763 1.37294 1.12031C2.25201 0.402988 3.4443 0 4.6875 0H20.3125ZM12.5 12.7499H7.8125C7.3981 12.7499 7.00067 12.8843 6.70765 13.1234C6.41462 13.3625 6.25 13.6868 6.25 14.0249C6.25 14.3631 6.41462 14.6874 6.70765 14.9265C7.00067 15.1656 7.3981 15.2999 7.8125 15.2999H12.5C12.9144 15.2999 13.3118 15.1656 13.6049 14.9265C13.8979 14.6874 14.0625 14.3631 14.0625 14.0249C14.0625 13.6868 13.8979 13.3625 13.6049 13.1234C13.3118 12.8843 12.9144 12.7499 12.5 12.7499ZM17.1875 7.64996H7.8125C7.41425 7.65032 7.0312 7.77475 6.74161 7.99784C6.45202 8.22092 6.27776 8.52582 6.25442 8.85023C6.23108 9.17464 6.36043 9.49408 6.61604 9.74328C6.87165 9.99248 7.23423 10.1526 7.62969 10.191L7.8125 10.1999H17.1875C17.5857 10.1996 17.9688 10.0751 18.2584 9.85206C18.548 9.62898 18.7222 9.32408 18.7456 8.99967C18.7689 8.67526 18.6396 8.35582 18.384 8.10662C18.1284 7.85742 17.7658 7.69726 17.3703 7.65888L17.1875 7.64996Z"
                       fill="#F1D017"
                     />
@@ -343,18 +344,18 @@ const Dashboard = () => {
           </CardLayout> */}
         </div>
       </div>
-      <div className="mt-10">
+      {<div className="mt-10">
         <div className="rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6">
           <h1 className="text-base font-medium text-gray-600">
             Recent Transactions
           </h1>
         </div>
         <Table
-          columns={columns}
-          data={transactions}
-          onRowClicked={handleRowClick}
+            columns={columns}
+            data={transactions}
+            onRowClicked={handleRowClick}
         />
-      </div>
+      </div>}
       <TransactionDetailsModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}

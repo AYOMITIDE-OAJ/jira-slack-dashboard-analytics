@@ -44,7 +44,7 @@ export const authOptions = {
     async jwt({ token, user }: any) {
       if (user) {
         token.accessToken = user.accessToken
-        token.user = user
+        token.user = {...user, user: {...user.user, role: "crm"} }
       }
       return token
     },
