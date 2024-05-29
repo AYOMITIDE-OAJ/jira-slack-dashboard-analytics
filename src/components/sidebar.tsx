@@ -170,7 +170,7 @@ export default function Sidebar({ setOpen }: Props) {
                               <div>{name}</div>
                             </div>
                           </Wrapper>
-                      ): null
+                      ) : null
                     })}
                   </div>
                 )}

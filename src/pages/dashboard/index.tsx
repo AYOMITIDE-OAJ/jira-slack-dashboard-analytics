@@ -1,24 +1,23 @@
 import CardLayout from '@/components/card-layout'
 import Layout from '@/components/layout'
 import StatusPill from '@/components/status-pill'
-import Table from '@/components/table'
 import TransactionDetailsModal from '@/components/transaction-details-modal'
 import User from '@/components/user'
-import { Routes } from '@/constants/routes'
 import DashboardApi from '@/utils/api/dashboard-api'
-import { formatCurrency, thousandSeparator } from '@/utils/helper'
+import {formatCurrency, thousandSeparator} from '@/utils/helper'
 import moment from 'moment'
 import Image from 'next/image'
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import {useEffect, useState} from 'react'
 import {useSession} from "next-auth/react"
-import { TableColumn } from 'react-data-table-component'
-import { BsArrowRight } from 'react-icons/bs'
-import { HiOutlineUserCircle } from 'react-icons/hi'
-import { RiArrowUpSFill } from 'react-icons/ri'
+import Table from "@/components/table"
+import {TableColumn} from 'react-data-table-component'
+import {BsArrowRight} from 'react-icons/bs'
+import {RiArrowUpSFill} from 'react-icons/ri'
+import {isCustomRole, Roles} from "@/lib/roles";
 
 const Dashboard = () => {
   const { data: session } = useSession()
+  const userSession = (session?.user as any)?.user
   console.log(session)
   const [loading, setLoading] = useState(true)
   const [overview, setOverview] = useState<Record<string, any>>()
@@ -344,7 +343,7 @@ const Dashboard = () => {
           </CardLayout> */}
         </div>
       </div>
-      {<div className="mt-10">
+      {isCustomRole(userSession.role, [Roles.SuperAdmin]) &&<div className="mt-10">
         <div className="rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6">
           <h1 className="text-base font-medium text-gray-600">
             Recent Transactions

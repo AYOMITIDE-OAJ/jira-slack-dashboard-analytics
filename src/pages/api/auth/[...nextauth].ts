@@ -6,7 +6,6 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 export interface LoginCredentials {
   email: string
   password: string
-  role: string[]
 }
 
 export const authOptions = {
@@ -21,13 +20,13 @@ export const authOptions = {
       async authorize(credentials, req) {
         const email = String(credentials?.email)
         const password = String(credentials?.password)
-        const role = credentials?.role || ['']
 
         const res: any = await AuthApi.login({
           email,
           password,
-          role,
         })
+
+        console.log(res)
 
         if (res) {
           return res
@@ -44,7 +43,8 @@ export const authOptions = {
     async jwt({ token, user }: any) {
       if (user) {
         token.accessToken = user.accessToken
-        token.user = {...user, user: {...user.user, role: "crm"} }
+        token.user = user
+        // token.user = {...user, user: {...user.user, role: "crm"} }
       }
       return token
     },
@@ -71,18 +71,3 @@ export const authOptions = {
 }
 
 export default NextAuth(authOptions)
-
-const authenticate = async ({ email, password, role }: LoginCredentials) => {
-  const validEmail = 'admin@palremit.com'
-  const validPassword = 'palremitadmin'
-
-  if (email.trim() === validEmail && password.trim() === validPassword) {
-    return {
-      email,
-      role,
-      lastLogin: new Date(),
-      accessToken: 'ejy.qdq31dqw09uwdawe129ejoaWJDaoijwj12e0odjaoiwdj12',
-    }
-  }
-  return null
-}

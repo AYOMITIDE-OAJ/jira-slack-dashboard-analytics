@@ -29,7 +29,6 @@ export default function Login() {
       const credentials = {
         email: String(data.email),
         password: String(data.password),
-        role: ['user-admin'],
       }
 
       const res = await signIn('credentials', {
