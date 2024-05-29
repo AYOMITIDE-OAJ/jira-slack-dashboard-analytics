@@ -15,7 +15,7 @@ const Settings = () => {
   ]
   const tabPanels = [
     { id: 1, component: <Profile /> },
-    { id: 2, component: <Admin isOpen={isOpen} setIsOpen={setIsOpen} /> },
+    // { id: 2, component: <Admin isOpen={isOpen} setIsOpen={setIsOpen} /> },
     // { id: 3, component: <Password /> },
   ]
   const [selectedTabIndex, setSelectedTabIndex] = useState(0)
