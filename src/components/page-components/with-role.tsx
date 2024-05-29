@@ -4,11 +4,16 @@ import { useSession } from 'next-auth/react'
 import Layout from '@/components/layout'
 import Link from 'next/link'
 import { Routes } from '@/constants/routes'
+import { PageLoader } from '@/components/loader'
 
 const withRole = (Component: ComponentType, allowedRoles: Roles[]) => {
   const WrappedComponent = (props: any) => {
     const { data: session } = useSession()
     const role = (session?.user as any)?.user?.role
+
+    if (!role) {
+      return <PageLoader />
+    }
 
     if (!allowedRoles.includes(role)) {
       return (
