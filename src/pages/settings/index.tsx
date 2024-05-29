@@ -10,7 +10,7 @@ const Settings = () => {
   const [isOpen, setIsOpen] = useState(false)
   const tabList = [
     'Profile',
-    'Admin',
+    // 'Admin',
     // 'Password'
   ]
   const tabPanels = [
