@@ -2,7 +2,9 @@ import Button from '@/components/button'
 import FormInput from '@/components/form-input'
 import FormSelect from '@/components/form-select'
 import Layout from '@/components/layout'
+import withRole from '@/components/page-components/with-role'
 import Table from '@/components/table'
+import { Roles } from '@/lib/roles'
 import { formatCurrency } from '@/utils/helper'
 import React, { ChangeEvent, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
@@ -141,6 +143,10 @@ const FeeManagement = () => {
   )
 }
 
-export default FeeManagement
+export default withRole(FeeManagement, [
+  Roles.SuperAdmin,
+  Roles.Admin,
+  Roles.CRM,
+])
 
 FeeManagement.auth = true

@@ -1,7 +1,9 @@
 import Layout from '@/components/layout'
+import withRole from '@/components/page-components/with-role'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
 import TableSearch from '@/components/table-search'
+import { Roles } from '@/lib/roles'
 import DashboardApi from '@/utils/api/dashboard-api'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
@@ -115,6 +117,6 @@ const KYC = () => {
   )
 }
 
-export default KYC
+export default withRole(KYC, [Roles.SuperAdmin, Roles.Admin, Roles.CRM])
 
 KYC.auth = true

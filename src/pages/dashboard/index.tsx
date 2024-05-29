@@ -4,16 +4,17 @@ import StatusPill from '@/components/status-pill'
 import TransactionDetailsModal from '@/components/transaction-details-modal'
 import User from '@/components/user'
 import DashboardApi from '@/utils/api/dashboard-api'
-import {formatCurrency, thousandSeparator} from '@/utils/helper'
+import { formatCurrency, thousandSeparator } from '@/utils/helper'
 import moment from 'moment'
 import Image from 'next/image'
-import {useEffect, useState} from 'react'
-import {useSession} from "next-auth/react"
-import Table from "@/components/table"
-import {TableColumn} from 'react-data-table-component'
-import {BsArrowRight} from 'react-icons/bs'
-import {RiArrowUpSFill} from 'react-icons/ri'
-import {isCustomRole, Roles} from "@/lib/roles";
+import { useEffect, useState } from 'react'
+import { useSession } from 'next-auth/react'
+import Table from '@/components/table'
+import { TableColumn } from 'react-data-table-component'
+import { BsArrowRight } from 'react-icons/bs'
+import { RiArrowUpSFill } from 'react-icons/ri'
+import { isCustomRole, Roles } from '@/lib/roles'
+import withRole from '@/components/page-components/with-role'
 
 const Dashboard = () => {
   const { data: session } = useSession()
@@ -343,18 +344,20 @@ const Dashboard = () => {
           </CardLayout> */}
         </div>
       </div>
-      {isCustomRole(userSession.role, [Roles.SuperAdmin]) &&<div className="mt-10">
-        <div className="rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6">
-          <h1 className="text-base font-medium text-gray-600">
-            Recent Transactions
-          </h1>
-        </div>
-        <Table
+      {isCustomRole(userSession.role, [Roles.SuperAdmin]) && (
+        <div className="mt-10">
+          <div className="rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6">
+            <h1 className="text-base font-medium text-gray-600">
+              Recent Transactions
+            </h1>
+          </div>
+          <Table
             columns={columns}
             data={transactions}
             onRowClicked={handleRowClick}
-        />
-      </div>}
+          />
+        </div>
+      )}
       <TransactionDetailsModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
@@ -364,6 +367,11 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default withRole(Dashboard, [
+  Roles.SuperAdmin,
+  Roles.Admin,
+  Roles.Investor,
+  Roles.Marketer,
+])
 
 Dashboard.auth = true

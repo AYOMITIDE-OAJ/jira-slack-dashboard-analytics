@@ -2,9 +2,11 @@ import Button from '@/components/button'
 import KeyValueComponent from '@/components/key-value-component'
 import Layout from '@/components/layout'
 import Modal from '@/components/modal'
+import withRole from '@/components/page-components/with-role'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
 import User from '@/components/user'
+import { Roles } from '@/lib/roles'
 import DashboardApi from '@/utils/api/dashboard-api'
 import { formatCurrency } from '@/utils/helper'
 import {
@@ -185,6 +187,6 @@ const ApproveWithdrawal = () => {
   )
 }
 
-export default ApproveWithdrawal
+export default withRole(ApproveWithdrawal, [Roles.SuperAdmin])
 
 ApproveWithdrawal.auth = true

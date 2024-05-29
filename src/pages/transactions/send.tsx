@@ -1,8 +1,10 @@
 import Layout from '@/components/layout'
+import withRole from '@/components/page-components/with-role'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
 import TransactionDetailsModal from '@/components/transaction-details-modal'
 import User from '@/components/user'
+import { Roles } from '@/lib/roles'
 import DashboardApi from '@/utils/api/dashboard-api'
 import { formatCurrency } from '@/utils/helper'
 import moment from 'moment'
@@ -95,6 +97,6 @@ const Send = () => {
   )
 }
 
-export default Send
+export default withRole(Send, [Roles.SuperAdmin, Roles.Admin, Roles.CRM])
 
 Send.auth = true

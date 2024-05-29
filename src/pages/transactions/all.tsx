@@ -1,9 +1,11 @@
 import Layout from '@/components/layout'
 import Modal from '@/components/modal'
+import withRole from '@/components/page-components/with-role'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
 import TransactionDetailsModal from '@/components/transaction-details-modal'
 import User from '@/components/user'
+import { Roles } from '@/lib/roles'
 import DashboardApi from '@/utils/api/dashboard-api'
 import { formatCurrency } from '@/utils/helper'
 import moment from 'moment'
@@ -11,7 +13,7 @@ import React, { useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
 import { HiOutlineUserCircle } from 'react-icons/hi'
 
-const Deposit = () => {
+const AllTransactions = () => {
   const [loading, setLoading] = useState(true)
   const [transactions, setTransactions] = useState([])
   const [isOpen, setIsOpen] = useState(false)
@@ -98,6 +100,10 @@ const Deposit = () => {
   )
 }
 
-export default Deposit
+export default withRole(AllTransactions, [
+  Roles.SuperAdmin,
+  Roles.Admin,
+  Roles.CRM,
+])
 
-Deposit.auth = true
+AllTransactions.auth = true

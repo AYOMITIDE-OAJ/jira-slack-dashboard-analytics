@@ -14,10 +14,12 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
 import { GoArrowLeft, GoArrowRight } from 'react-icons/go'
-import { useSession } from "next-auth/react";
-import {isAdmin, isSuperAdmin} from "@/lib/roles";
+import { useSession } from 'next-auth/react'
+import { isSuperAdmin } from '@/lib/roles'
+import { Roles } from '@/lib/roles'
+import withRole from '@/components/page-components/with-role'
 
-export default function User() {
+const User = () => {
   const { data: session } = useSession()
   const userSession = (session?.user as any)?.user
   const router = useRouter()
@@ -190,12 +192,18 @@ export default function User() {
                         Address
                       </p>
                     </div>
-                    {isSuperAdmin(userSession.role) && <div className="space-y py-4">
-                      <p>{user?.dob ? moment(user?.dob).format('DD/MM/yyyy') : "Not Provided"}</p>
-                      <p className="text-xs font-medium text-neutral-400">
-                        Date of Birth
-                      </p>
-                    </div>}
+                    {isSuperAdmin(userSession.role) && (
+                      <div className="space-y py-4">
+                        <p>
+                          {user?.dob
+                            ? moment(user?.dob).format('DD/MM/yyyy')
+                            : 'Not Provided'}
+                        </p>
+                        <p className="text-xs font-medium text-neutral-400">
+                          Date of Birth
+                        </p>
+                      </div>
+                    )}
                     <div className="space-y py-4">
                       <p>{moment(user?.createdAt).format('LLL')}</p>
                       <p className="text-xs font-medium text-neutral-400">
@@ -244,31 +252,33 @@ export default function User() {
                 </TabPanels>
               </TabGroup>
             </div>
-            {isSuperAdmin(userSession.role) && <>
-              {user?.isActive ? (
+            {isSuperAdmin(userSession.role) && (
+              <>
+                {user?.isActive ? (
                   <Button
-                      variant="danger"
-                      size="md"
-                      className="mt-4"
-                      rounded={false}
-                      onClick={deactivateUser}
-                      loading={reqLoading}
+                    variant="danger"
+                    size="md"
+                    className="mt-4"
+                    rounded={false}
+                    onClick={deactivateUser}
+                    loading={reqLoading}
                   >
                     Disable User
                   </Button>
-              ) : (
+                ) : (
                   <Button
-                      variant="success"
-                      size="md"
-                      className="mt-4"
-                      rounded={false}
-                      onClick={activateUser}
-                      loading={reqLoading}
+                    variant="success"
+                    size="md"
+                    className="mt-4"
+                    rounded={false}
+                    onClick={activateUser}
+                    loading={reqLoading}
                   >
                     Enable User
                   </Button>
-              )}
-            </>}
+                )}
+              </>
+            )}
           </div>
         )}
         <div className="col-span-3 divide-y divide-neutral-200 rounded-lg border border-neutral-200">
@@ -314,3 +324,7 @@ export default function User() {
     </Layout>
   )
 }
+
+export default withRole(User, [Roles.SuperAdmin])
+
+User.auth = true

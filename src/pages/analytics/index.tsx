@@ -1,5 +1,7 @@
 import CardLayout from '@/components/card-layout'
 import Layout from '@/components/layout'
+import withRole from '@/components/page-components/with-role'
+import { Roles } from '@/lib/roles'
 import React from 'react'
 
 const Analytics = () => {
@@ -16,4 +18,9 @@ const Analytics = () => {
   )
 }
 
-export default Analytics
+export default withRole(Analytics, [
+  Roles.SuperAdmin,
+  Roles.Admin,
+  Roles.Investor,
+  Roles.Marketer,
+])

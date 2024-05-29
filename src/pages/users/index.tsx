@@ -11,6 +11,8 @@ import { useRouter } from 'next/router'
 import { Routes } from '@/constants/routes'
 import moment from 'moment'
 import User from '@/components/user'
+import withRole from '@/components/page-components/with-role'
+import { Roles } from '@/lib/roles'
 
 const Users = () => {
   const router = useRouter()
@@ -141,6 +143,6 @@ const Users = () => {
   )
 }
 
-export default Users
+export default withRole(Users, [Roles.SuperAdmin, Roles.Admin, Roles.CRM])
 
 Users.auth = true
