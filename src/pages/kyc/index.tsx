@@ -67,7 +67,6 @@ const KYC = () => {
     ;(async () => {
       try {
         const usersRes = await DashboardApi.getUsersKyc({})
-        console.log(usersRes)
         setUsers(usersRes)
         setTotalUsers(usersRes.length)
       } catch (err) {

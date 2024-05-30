@@ -26,8 +26,6 @@ export const authOptions = {
           password,
         })
 
-        console.log(res)
-
         if (res) {
           return res
         }
