@@ -1,4 +1,3 @@
-import CardLayout from '@/components/card-layout'
 import Layout from '@/components/layout'
 import withRole from '@/components/page-components/with-role'
 import { Roles } from '@/lib/roles'
