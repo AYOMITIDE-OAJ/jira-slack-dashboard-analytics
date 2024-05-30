@@ -9,6 +9,7 @@ interface Props {
   type?: string
   onChange: (e: any) => void
   variant?: 'light' | 'dark'
+  disabled?: boolean
 }
 
 export default function Input({
@@ -19,6 +20,7 @@ export default function Input({
   type = 'text',
   onChange,
   variant = 'light',
+  disabled,
 }: Props) {
   const variants = {
     light: 'bg-white',
@@ -55,6 +57,7 @@ export default function Input({
         type={inputType}
         onChange={onChange}
         className="w-full border-0 bg-transparent text-sm font-light ring-0 focus:outline-none"
+        disabled={disabled}
       />
       {type === 'password' && (
         <div

@@ -49,6 +49,7 @@ export default function Profile() {
                 label="First Name"
                 onChange={handleChange}
                 variant="dark"
+                disabled
               />
               <Input
                 name="lastName"
@@ -57,6 +58,7 @@ export default function Profile() {
                 label="Last Name"
                 onChange={handleChange}
                 variant="dark"
+                disabled
               />
             </div>
             <Input
@@ -66,6 +68,7 @@ export default function Profile() {
               label="Email Address"
               onChange={handleChange}
               variant="dark"
+              disabled
             />
           </div>
           <Button className="mt-7 w-full md:w-max md:px-8" rounded={false}>
