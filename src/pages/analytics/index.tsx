@@ -5,7 +5,7 @@ import { Roles } from '@/lib/roles'
 import React, { useEffect, useState } from 'react'
 
 const Analytics = () => {
-  const [iframeSrc, setIframeSrc] = useState('')
+  const [iframeSrc, setIframeSrc] = useState<string>()
 
   useEffect(() => {
     setIframeSrc(
@@ -15,13 +15,15 @@ const Analytics = () => {
 
   return (
     <Layout header="Analytics" subhead="Metabase Analytics">
-      <iframe
-        src={iframeSrc}
-        frameBorder="0"
-        allowTransparency
-        style={{ minHeight: '700px', width: '100%' }}
-        // style={{ height: 'calc(100vh-200px)', width: '100%' }}
-      ></iframe>
+      {iframeSrc && (
+        <iframe
+          src={iframeSrc}
+          frameBorder="0"
+          allowTransparency
+          style={{ minHeight: '700px', width: '100%' }}
+          // style={{ height: 'calc(100vh-200px)', width: '100%' }}
+        />
+      )}
     </Layout>
   )
 }
