@@ -11,7 +11,7 @@ import Select, { SelectOption } from '@/components/select'
 import Button from '@/components/button'
 import TextArea from '@/components/text-area'
 import DashboardApi from '@/utils/api/dashboard-api'
-import { handleError } from '@/utils/notify'
+import { handleError, handleGenericSuccess } from '@/utils/notify'
 import { returnOptionValue } from '@/utils/helper'
 
 interface Props {
@@ -68,6 +68,8 @@ export default function DebitWalletModal({
         amount: Number(rest.amount),
         action: returnOptionValue(rest.action),
       })
+      handleGenericSuccess('Wallet Debited')
+      setIsOpen(false)
     } catch (e: any) {
       handleError(e)
     } finally {

@@ -1,12 +1,21 @@
 import { ReactNode, useState } from 'react'
 import { FcMenu } from 'react-icons/fc'
 import Sidebar from './sidebar'
-import Loader, { PageLoader } from './loader'
+import { PageLoader } from './loader'
 import { cn } from '@/lib/utils'
 import { TfiClose } from 'react-icons/tfi'
 import Image from 'next/image'
-import Link from 'next/link'
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  Transition,
+} from '@headlessui/react'
+import { ImCog } from 'react-icons/im'
+import { RiLogoutBoxRFill } from 'react-icons/ri'
 import { Routes } from '@/constants/routes'
+import { useRouter } from 'next/router'
 
 interface Props {
   header: string
@@ -16,11 +25,29 @@ interface Props {
 }
 
 export default function Layout({ header, subhead, children, loading }: Props) {
+  const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
 
   const toggleOpen = () => {
     setIsOpen(!isOpen)
   }
+
+  const menuItems = [
+    {
+      name: 'Settings',
+      icon: ImCog,
+      keyBind: '⌘S',
+      color: 'text-primary',
+      route: Routes.Settings,
+    },
+    {
+      name: 'Logout',
+      icon: RiLogoutBoxRFill,
+      keyBind: '⌘L',
+      color: 'text-red-600',
+      route: Routes.Logout,
+    },
+  ]
 
   return (
     <div className="h-screen w-screen">
@@ -52,11 +79,46 @@ export default function Layout({ header, subhead, children, loading }: Props) {
             </div>
           </div>
           <div className="flex">
-            <Link href={Routes.Settings}>
-              <div className="relative h-10 w-10 overflow-hidden rounded-full border border-gray-400">
-                <Image src="/assets/images/user-avatar.png" alt="User" fill />
-              </div>
-            </Link>
+            <Menu>
+              <MenuButton>
+                <div className="relative h-10 w-10 overflow-hidden rounded-full border border-gray-400">
+                  <Image src="/assets/images/user-avatar.png" alt="User" fill />
+                </div>
+              </MenuButton>
+              <Transition
+                enter="transition ease-out duration-75"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="transition ease-in duration-100"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <MenuItems
+                  anchor="bottom end"
+                  className="w-40 origin-top-right rounded-xl bg-white p-1 text-sm/6 shadow-md [--anchor-gap:var(--spacing-1)] focus:outline-none"
+                >
+                  {menuItems.map(
+                    ({ name, icon: Icon, keyBind, color, route }, index) => (
+                      <MenuItem key={index}>
+                        <button
+                          className={cn(
+                            'group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-[focus]:bg-gray-100',
+                            color
+                          )}
+                          onClick={() => router.push(route)}
+                        >
+                          <Icon className="size-4" />
+                          {name}
+                          <kbd className="ml-auto hidden font-sans text-xs text-white/50 group-data-[focus]:inline">
+                            {keyBind}
+                          </kbd>
+                        </button>
+                      </MenuItem>
+                    )
+                  )}
+                </MenuItems>
+              </Transition>
+            </Menu>
           </div>
         </div>
         <div className="px-5 py-5 md:pr-10 xl:pl-[340px]">

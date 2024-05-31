@@ -3,9 +3,8 @@ import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
 import TableSearch from '@/components/table-search'
 import DashboardApi from '@/utils/api/dashboard-api'
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
-import { HiOutlineUserCircle } from 'react-icons/hi'
 import { CiCircleMore } from 'react-icons/ci'
 import { useRouter } from 'next/router'
 import { Routes } from '@/constants/routes'
@@ -13,6 +12,7 @@ import moment from 'moment'
 import User from '@/components/user'
 import withRole from '@/components/page-components/with-role'
 import { Roles } from '@/lib/roles'
+import debounce from 'lodash.debounce'
 
 const Users = () => {
   const router = useRouter()
@@ -96,17 +96,22 @@ const Users = () => {
     })()
   }, [])
 
-  useEffect(() => {
-    ;(async () => {
+  const debounceSearch = useCallback(
+    debounce(async (query) => {
       setTableLoading(true)
       try {
-        const res = await DashboardApi.getAllUsers({ search: searchValue })
+        const res = await DashboardApi.getAllUsers({ search: query })
         setUsers(res.records)
       } catch (err) {
       } finally {
         setTableLoading(false)
       }
-    })()
+    }, 500),
+    []
+  )
+
+  useEffect(() => {
+    debounceSearch(searchValue)
   }, [searchValue])
 
   return (

@@ -7,6 +7,7 @@ import React, { Dispatch, SetStateAction, useState } from 'react'
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl'
 import { Roles } from '@/lib/roles'
 import { useSession } from 'next-auth/react'
+import { RiLogoutCircleRLine } from 'react-icons/ri'
 
 interface Props {
   open?: boolean
@@ -166,7 +167,7 @@ export default function Sidebar({ setOpen }: Props) {
         </svg>
       </div>
       {/*SIDE NAVS*/}
-      <div className="mt-14">
+      <div className="mt-8 md:mt-14">
         <div className="w-full">
           {routes.map(({ name, route, subRoutes, allowedRoles }, index) => {
             const Wrapper = ({
