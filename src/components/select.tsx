@@ -9,17 +9,17 @@ import {
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import React, { useEffect, useState } from 'react'
 
-type Option = {
+export type SelectOption = {
   name: string
   value: string | null
 }
 
 interface FormSelectProps {
   name: string
-  value: Option | string
-  options: Option[]
+  value: SelectOption | string
+  options: SelectOption[]
   label: string
-  onChange: (value: Option) => void
+  onChange: (value: SelectOption) => void
   variant?: 'light' | 'dark'
 }
 
@@ -36,7 +36,7 @@ export default function Select({
     dark: 'bg-gray-100',
   }[variant]
 
-  const [selectedValue, setSelectedValue] = useState<Option>({
+  const [selectedValue, setSelectedValue] = useState<SelectOption>({
     name: `Select ${name}`,
     value: null,
   })
@@ -48,7 +48,7 @@ export default function Select({
       'name' in value &&
       'value' in value
     ) {
-      setSelectedValue(value as Option)
+      setSelectedValue(value as SelectOption)
     } else if (typeof value === 'string') {
       const foundOption = options.find((option) => option.value === value)
       if (foundOption) {

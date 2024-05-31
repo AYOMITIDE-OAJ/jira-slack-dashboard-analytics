@@ -1,3 +1,5 @@
+import { SelectOption } from '@/components/select'
+
 export const truncateDecimal = (num: number | string) => {
   // Convert number to string
   const numStr = num.toString()
@@ -82,3 +84,6 @@ export const wrapString = (value: string = '', length: number = 15): string => {
   }
   return result.trim()
 }
+
+const returnOptionValue = (selectString: SelectOption | string) =>
+  typeof selectString === 'string' ? selectString : selectString.value

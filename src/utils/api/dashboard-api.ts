@@ -118,6 +118,17 @@ const DashboardApi = {
 
     return data
   },
+
+  async adjustWalletBalance(
+    walletId: string,
+    payload: { amount: number; action: string; reason: string }
+  ): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.post(`/${walletId}/adjust`, payload)
+
+    return data
+  },
 }
 
 export default DashboardApi

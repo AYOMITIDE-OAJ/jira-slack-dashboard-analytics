@@ -18,6 +18,8 @@ import { useSession } from 'next-auth/react'
 import { isSuperAdmin } from '@/lib/roles'
 import { Roles } from '@/lib/roles'
 import withRole from '@/components/page-components/with-role'
+import CreditWalletModal from '@/components/page-components/credit-wallet-modal'
+import DebitWalletModal from '@/components/page-components/debit-wallet-modal'
 
 const User = () => {
   const { data: session } = useSession()
@@ -34,6 +36,8 @@ const User = () => {
   const [selectedTransaction, setSelectedTransaction] = useState<
     Record<string, any>
   >({})
+  const [creditModalIsOpen, setCreditModalIsOpen] = useState(false)
+  const [debitModalIsOpen, setDebitModalIsOpen] = useState(false)
 
   const columns: TableColumn<any>[] = [
     {
@@ -282,6 +286,30 @@ const User = () => {
           </div>
         )}
         <div className="col-span-3 divide-y divide-neutral-200 rounded-lg border border-neutral-200">
+          {isSuperAdmin(userSession?.role) && (
+            <div className="px-4">
+              <div className="ml-auto grid w-full grid-cols-2 gap-4 lg:w-2/3">
+                <Button
+                  variant="success"
+                  size="md"
+                  rounded={false}
+                  onClick={() => setCreditModalIsOpen(true)}
+                  loading={reqLoading}
+                >
+                  Credit Wallet
+                </Button>
+                <Button
+                  variant="danger"
+                  size="md"
+                  rounded={false}
+                  onClick={() => setDebitModalIsOpen(true)}
+                  loading={reqLoading}
+                >
+                  Debit Wallet
+                </Button>
+              </div>
+            </div>
+          )}
           <div className="grid grid-cols-2 gap-2 px-3 py-3 md:grid-cols-3">
             {balances.map((balance, index) => (
               <div
@@ -320,6 +348,22 @@ const User = () => {
         isOpen={isTransactionModalOpen}
         setIsOpen={setIsTransactionModalOpen}
         transaction={selectedTransaction}
+      />
+      <CreditWalletModal
+        isOpen={creditModalIsOpen}
+        setIsOpen={setCreditModalIsOpen}
+        wallets={balances.map(({ _id, currency }) => ({
+          name: currency,
+          value: _id,
+        }))}
+      />
+      <DebitWalletModal
+        isOpen={debitModalIsOpen}
+        setIsOpen={setDebitModalIsOpen}
+        wallets={balances.map(({ _id, currency }) => ({
+          name: currency,
+          value: _id,
+        }))}
       />
     </Layout>
   )

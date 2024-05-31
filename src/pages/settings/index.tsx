@@ -2,8 +2,6 @@ import Layout from '@/components/layout'
 import React, { useState } from 'react'
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
 import Profile from '@/components/page-components/settings-tabs/profile'
-import Admin from '@/components/page-components/settings-tabs/admin'
-import Password from '@/components/page-components/settings-tabs/password'
 import Button from '@/components/button'
 
 const Settings = () => {
