@@ -12,6 +12,7 @@ import Button from '@/components/button'
 import TextArea from '@/components/text-area'
 import DashboardApi from '@/utils/api/dashboard-api'
 import { handleError } from '@/utils/notify'
+import { returnOptionValue } from '@/utils/helper'
 
 interface Props {
   isOpen: boolean
@@ -62,9 +63,10 @@ export default function CreditWalletModal({
     setLoading(true)
     const { wallet: walletId, ...rest } = formData
     try {
-      await DashboardApi.adjustWalletBalance(walletId, {
+      await DashboardApi.adjustWalletBalance(returnOptionValue(walletId), {
         ...rest,
         amount: Number(rest.amount),
+        action: returnOptionValue(rest.action),
       })
     } catch (e: any) {
       handleError(e)

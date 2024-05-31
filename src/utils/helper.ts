@@ -85,5 +85,11 @@ export const wrapString = (value: string = '', length: number = 15): string => {
   return result.trim()
 }
 
-const returnOptionValue = (selectString: SelectOption | string) =>
-  typeof selectString === 'string' ? selectString : selectString.value
+export const returnOptionValue = (
+  selectString: SelectOption | string
+): string =>
+  typeof selectString === 'string'
+    ? selectString
+    : selectString.value
+      ? selectString.value
+      : ''
