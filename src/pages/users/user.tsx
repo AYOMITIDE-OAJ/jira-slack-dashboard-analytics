@@ -318,7 +318,7 @@ const User = () => {
               >
                 <div className="h-6 w-6 overflow-hidden rounded-full">
                   <Image
-                    src={`/assets/svg/${balance.currency.toLowerCase()}.svg`}
+                    src={`/assets/svg/currencies/${balance.currency.toLowerCase()}.svg`}
                     alt="Flag"
                     height={40}
                     width={40}

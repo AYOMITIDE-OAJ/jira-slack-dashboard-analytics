@@ -5,6 +5,7 @@ import Layout from '@/components/layout'
 import Link from 'next/link'
 import { Routes } from '@/constants/routes'
 import { PageLoader } from '@/components/loader'
+import Image from 'next/image'
 
 const withRole = (Component: ComponentType, allowedRoles: Roles[]) => {
   const WrappedComponent = (props: any) => {
@@ -23,6 +24,14 @@ const withRole = (Component: ComponentType, allowedRoles: Roles[]) => {
             style={{ width: '100%', height: `calc(100vh - 200px)` }}
           >
             <div>
+              <div className="mb-7 flex justify-center">
+                <Image
+                  src="/assets/svg/permission-required.svg"
+                  alt="Permission Required"
+                  height={150}
+                  width={150}
+                />
+              </div>
               <div className="space-y-2">
                 <h1 className="text-xl font-bold text-primary">
                   Permission Required

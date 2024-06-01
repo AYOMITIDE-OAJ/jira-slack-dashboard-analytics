@@ -45,7 +45,7 @@ const Dashboard = () => {
           <div className="flex items-center space-x-2">
             <div className="h-8 w-8 overflow-hidden rounded-full">
               <Image
-                src={`/assets/svg/${currency.toLowerCase()}.svg`}
+                src={`/assets/svg/currencies/${currency.toLowerCase()}.svg`}
                 alt="Flag"
                 height={40}
                 width={40}
