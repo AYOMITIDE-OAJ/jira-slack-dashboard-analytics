@@ -1,27 +1,27 @@
 import { Config } from '@/lib/config'
 import axios from 'axios'
 
-// const BASE_API_URL = process.env.API_BASE_URL
+const BASE_API_URL = process.env.API_BASE_URL
 
 export default function createAxiosInstance(multipart = false) {
-  // const instance = axios.create({
-  //   headers: {
-  //     'Content-Type': `${
-  //       multipart ? 'multipart/form-data' : 'application/json'
-  //     }`,
-  //   },
-  //   baseURL: BASE_API_URL,
-  //   timeout: 60000,
-  // })
   const instance = axios.create({
     headers: {
       'Content-Type': `${
         multipart ? 'multipart/form-data' : 'application/json'
       }`,
     },
-    baseURL: `${Config.hostURL}/api/proxy`,
+    baseURL: BASE_API_URL,
     timeout: 60000,
   })
+  // const instance = axios.create({
+  //   headers: {
+  //     'Content-Type': `${
+  //       multipart ? 'multipart/form-data' : 'application/json'
+  //     }`,
+  //   },
+  //   baseURL: `${Config.hostURL}/api/proxy`,
+  //   timeout: 60000,
+  // })
 
   instance.interceptors.request.use(
     async function (config: any) {

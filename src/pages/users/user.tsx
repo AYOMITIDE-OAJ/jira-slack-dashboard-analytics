@@ -287,7 +287,7 @@ const User = () => {
         )}
         <div className="col-span-3 divide-y divide-neutral-200 rounded-lg border border-neutral-200">
           {isSuperAdmin(userSession?.role) && (
-            <div className="px-4 pt-4">
+            <div className="px-4 py-4">
               <div className="ml-auto grid w-full grid-cols-2 gap-4 lg:w-2/3">
                 <Button
                   variant="success"

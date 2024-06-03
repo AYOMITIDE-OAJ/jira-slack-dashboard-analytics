@@ -38,14 +38,14 @@ export default function CreditWalletModal({
       name: 'Credit Ledger And Available',
       value: 'credit-ledger-and-available',
     },
-    {
-      name: 'Credit Ledger',
-      value: 'credit-ledger',
-    },
-    {
-      name: 'Credit Available',
-      value: 'credit-available',
-    },
+    // {
+    //   name: 'Credit Ledger',
+    //   value: 'credit-ledger',
+    // },
+    // {
+    //   name: 'Credit Available',
+    //   value: 'credit-available',
+    // },
   ])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

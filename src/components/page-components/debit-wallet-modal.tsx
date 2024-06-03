@@ -38,14 +38,14 @@ export default function DebitWalletModal({
       name: 'Debit Ledger And Available',
       value: 'debit-ledger-and-available',
     },
-    {
-      name: 'Debit Ledger',
-      value: 'debit-ledger',
-    },
-    {
-      name: 'Debit Available',
-      value: 'debit-available',
-    },
+    // {
+    //   name: 'Debit Ledger',
+    //   value: 'debit-ledger',
+    // },
+    // {
+    //   name: 'Debit Available',
+    //   value: 'debit-available',
+    // },
   ])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
