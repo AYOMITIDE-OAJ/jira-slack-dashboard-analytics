@@ -3,6 +3,7 @@ import withRole from '@/components/page-components/with-role'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
 import TableSearch from '@/components/table-search'
+import User from '@/components/user'
 import { Roles } from '@/lib/roles'
 import DashboardApi from '@/utils/api/dashboard-api'
 import React, { ChangeEvent, useEffect, useState } from 'react'
@@ -24,16 +25,7 @@ const KYC = () => {
     {
       name: 'Name',
       selector: (row: any) => row?.owner,
-      cell: (row: any) => (
-        <div className="flex items-center space-x-2 text-sm">
-          <div className="border-200 h-8 w-8 overflow-hidden rounded-full">
-            <HiOutlineUserCircle className="text-neutral-400" size={32} />
-          </div>
-          <p className="">
-            {row?.owner?.firstName} {row?.owner?.lastName}
-          </p>
-        </div>
-      ),
+      cell: (row: any) => <User user={row?.owner} />,
       minWidth: '250px',
     },
     {

@@ -2,6 +2,7 @@
 const nextConfig = {
   env: {
     API_BASE_URL: process.env.API_BASE_URL,
+    HOST_URL: process.env.HOST_URL,
   },
   reactStrictMode: true,
 }
