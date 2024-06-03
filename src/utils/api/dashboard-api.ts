@@ -125,7 +125,7 @@ const DashboardApi = {
   ): Promise<any> {
     const {
       data: { data },
-    } = await axiosInstance.post(`/${walletId}/adjust`, payload)
+    } = await axiosInstance.post(`/wallets/${walletId}/adjust`, payload)
 
     return data
   },
