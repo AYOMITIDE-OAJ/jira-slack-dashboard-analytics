@@ -37,7 +37,8 @@ export default function Login() {
       })
 
       if (res?.error) {
-        if (res.error !== 'SessionRequired') handleError('Invalid credentials')
+        if (res.error !== 'SessionRequired')
+          handleError(res?.error || 'Invalid credentials')
       }
 
       if (res?.ok) {

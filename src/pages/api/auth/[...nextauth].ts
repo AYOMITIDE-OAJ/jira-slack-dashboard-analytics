@@ -1,5 +1,7 @@
 import { Routes } from '@/constants/routes'
+import { Config } from '@/lib/config'
 import AuthApi from '@/utils/api/auth-api'
+import axios from 'axios'
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
@@ -21,16 +23,21 @@ export const authOptions = {
         const email = String(credentials?.email)
         const password = String(credentials?.password)
 
-        const res: any = await AuthApi.login({
-          email,
-          password,
-        })
-
-        if (res) {
-          return res
+        try {
+          const res: any = await axios.post(`${Config.apiBaseUrl}/auth/login`, {
+            email,
+            password,
+          })
+          console.log(res.data.data)
+          return res.data.data
+        } catch (error: any) {
+          throw new Error(
+            error?.response?.data?.message ||
+              error?.response?.data?.error ||
+              error.message ||
+              error
+          )
         }
-
-        return null
       },
     }),
   ],

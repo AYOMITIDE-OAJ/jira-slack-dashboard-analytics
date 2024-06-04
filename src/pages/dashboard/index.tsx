@@ -19,7 +19,6 @@ import withRole from '@/components/page-components/with-role'
 const Dashboard = () => {
   const { data: session } = useSession()
   const userSession = (session?.user as any)?.user
-  console.log(session)
   const [loading, setLoading] = useState(true)
   const [overview, setOverview] = useState<Record<string, any>>()
   const [balances, setBalances] = useState<Record<string, any>>()
