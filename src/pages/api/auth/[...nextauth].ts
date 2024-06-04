@@ -28,7 +28,6 @@ export const authOptions = {
             email,
             password,
           })
-          console.log(res.data.data)
           return res.data.data
         } catch (error: any) {
           throw new Error(
