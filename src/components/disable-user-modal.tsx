@@ -21,9 +21,11 @@ export default function DisableUserModal({
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <main>
-        <h2 className="text-md text-lg text-black">Deactivate User</h2>
+        <h2 className="text-md text-lg text-black">
+          {user?.isActive ? 'Deactivate' : 'Activate'} User
+        </h2>
         <div>
-          <div className="relative m-auto my-8 h-[40px] w-[40px] ">
+          <div className="relative m-auto mt-8 my-4 h-[40px] w-[40px] ">
             <Image
               src="/assets/images/disable-warning.png"
               alt="Profile"
@@ -35,23 +37,26 @@ export default function DisableUserModal({
             {user?.isActive ? 'Deactivate' : 'Activate'} this user from using
             palremit
           </p>
-          <aside className="flex items-center space-x-4 px-3 py-3 md:px-6 md:py-6">
-            <div className="relative h-20 w-20 overflow-hidden rounded-full border border-neutral-200">
+          <aside className="flex items-center justify-center space-x-4 px-3 py-2 md:px-6 md:py-6">
+            <div className="relative h-12 w-12 overflow-hidden rounded-full border border-neutral-200">
               <Image src="/assets/images/avatar.png" alt="Profile" fill />
             </div>
             <article className="space-y">
-              <p className="text-xl font-semibold text-primary">
+              <p className="text-md font-semibold text-primary">
                 {user?.firstName} {user?.lastName}
               </p>
               <p className="text-sm font-light">{user?.email}</p>
             </article>
           </aside>
 
-          <section className="my-4 flex gap-5">
-            <Button className="border-2 bg-white text-primary">No</Button>
+          <section className="my-4 mx-4 md:mx-8 lg:mx-10 flex gap-5">
+            <Button rounded={false} className="border-2 hover:text-white bg-white text-primary">
+              No
+            </Button>
             <>
               {user?.isActive ? (
                 <Button
+                  rounded={false}
                   onClick={deactivateUser}
                   className="hover:bg-red-600  hover:text-white"
                 >
@@ -59,6 +64,7 @@ export default function DisableUserModal({
                 </Button>
               ) : (
                 <Button
+                  rounded={false}
                   onClick={activateUser}
                   className="hover:bg-red-600  hover:text-white"
                 >
