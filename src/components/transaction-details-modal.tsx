@@ -4,6 +4,7 @@ import Modal from './modal'
 import moment from 'moment'
 import StatusPill from './status-pill'
 import { formatCurrency, wrapString } from '@/utils/helper'
+import KeyDetailValueComponent from './key-detail-value-component'
 
 interface Props {
   isOpen: boolean
@@ -70,7 +71,7 @@ export default function TransactionDetailsModal({
             size="sm"
           />
           {transaction?.failureReason && (
-            <KeyValueComponent
+            <KeyDetailValueComponent
               name="Failure Reason"
               value={transaction?.failureReason}
               size="sm"
