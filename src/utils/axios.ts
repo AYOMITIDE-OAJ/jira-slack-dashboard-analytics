@@ -17,6 +17,7 @@ export default function createAxiosInstance(multipart = false) {
   //   baseURL: BASE_API_URL,
   //   timeout: 60000,
   // })
+
   const instance = axios.create({
     headers: {
       'Content-Type': `${

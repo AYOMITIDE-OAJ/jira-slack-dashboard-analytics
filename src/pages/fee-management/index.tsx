@@ -5,8 +5,9 @@ import Layout from '@/components/layout'
 import withRole from '@/components/page-components/with-role'
 import Table from '@/components/table'
 import { Roles } from '@/lib/roles'
+import FeeManagementApi from '@/utils/api/fee-management'
 import { formatCurrency } from '@/utils/helper'
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
 
 const FeeManagement = () => {
@@ -53,6 +54,21 @@ const FeeManagement = () => {
       cell: (row: any) => <p className="capitalize">{row?.direction}</p>,
     },
   ]
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const [ratesRes] = await Promise.all([
+          FeeManagementApi.getRates({ page: 1 }),
+        ])
+        console.log('[ratesRes]', ratesRes)
+        setRates(ratesRes)
+      } catch (err) {
+      } finally {
+        setLoading(false)
+      }
+    })()
+  }, [])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
