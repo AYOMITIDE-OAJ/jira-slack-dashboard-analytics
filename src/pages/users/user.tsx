@@ -20,6 +20,7 @@ import { Roles } from '@/lib/roles'
 import withRole from '@/components/page-components/with-role'
 import CreditWalletModal from '@/components/page-components/credit-wallet-modal'
 import DebitWalletModal from '@/components/page-components/debit-wallet-modal'
+import DisableUserModal from '@/components/disable-user-modal'
 
 const User = () => {
   const { data: session } = useSession()
@@ -38,6 +39,7 @@ const User = () => {
   >({})
   const [creditModalIsOpen, setCreditModalIsOpen] = useState(false)
   const [debitModalIsOpen, setDebitModalIsOpen] = useState(false)
+  const [disableModalIsOpen, setDisableModalIsOpen] = useState(false)
 
   const columns: TableColumn<any>[] = [
     {
@@ -264,7 +266,7 @@ const User = () => {
                     size="md"
                     className="mt-4"
                     rounded={false}
-                    onClick={deactivateUser}
+                    onClick={() => setDisableModalIsOpen(true)}
                     loading={reqLoading}
                   >
                     Disable User
@@ -275,7 +277,7 @@ const User = () => {
                     size="md"
                     className="mt-4"
                     rounded={false}
-                    onClick={activateUser}
+                    onClick={() => setDisableModalIsOpen(true)}
                     loading={reqLoading}
                   >
                     Enable User
@@ -364,6 +366,13 @@ const User = () => {
           name: currency,
           value: _id,
         }))}
+      />
+      <DisableUserModal
+        isOpen={disableModalIsOpen}
+        setIsOpen={setDisableModalIsOpen}
+        user={user}
+        activateUser={activateUser}
+        deactivateUser={deactivateUser}
       />
     </Layout>
   )
