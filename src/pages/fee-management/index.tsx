@@ -61,7 +61,6 @@ const FeeManagement = () => {
         const [ratesRes] = await Promise.all([
           FeeManagementApi.getRates({ page: 1 }),
         ])
-        console.log('[ratesRes]', ratesRes)
         setRates(ratesRes)
       } catch (err) {
       } finally {

@@ -8,7 +8,6 @@ interface Props {
   setIsOpen: Dispatch<SetStateAction<boolean>>
   user: any
   deactivateUser: any
-  activateUser: any
 }
 
 export default function DisableUserModal({
@@ -16,16 +15,13 @@ export default function DisableUserModal({
   setIsOpen,
   user,
   deactivateUser,
-  activateUser,
 }: Props) {
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <main>
-        <h2 className="text-md text-lg text-black">
-          {user?.isActive ? 'Deactivate' : 'Activate'} User
-        </h2>
+        <h2 className="text-md text-lg text-black">Deactivate User</h2>
         <div>
-          <div className="relative m-auto mt-8 my-4 h-[40px] w-[40px] ">
+          <div className="relative m-auto my-4 mt-8 h-[40px] w-[40px] ">
             <Image
               src="/assets/images/disable-warning.png"
               alt="Profile"
@@ -33,8 +29,7 @@ export default function DisableUserModal({
             />
           </div>
           <p className="text-md px-8 text-center text-black">
-            Are you sure you sure you want to{' '}
-            {user?.isActive ? 'Deactivate' : 'Activate'} this user from using
+            Are you sure you sure you want to Deactivate this user from using
             palremit
           </p>
           <aside className="flex items-center justify-center space-x-4 px-3 py-2 md:px-6 md:py-6">
@@ -49,28 +44,12 @@ export default function DisableUserModal({
             </article>
           </aside>
 
-          <section className="my-4 mx-4 md:mx-8 lg:mx-10 flex gap-5">
-            <Button rounded={false} className="border-2 hover:text-white bg-white text-primary">
-              No
-            </Button>
+          <section className="mx-4 my-4 flex gap-5 md:mx-8 lg:mx-10">
+            <Button rounded={false}>No</Button>
             <>
-              {user?.isActive ? (
-                <Button
-                  rounded={false}
-                  onClick={deactivateUser}
-                  className="hover:bg-red-600  hover:text-white"
-                >
-                  Yes
-                </Button>
-              ) : (
-                <Button
-                  rounded={false}
-                  onClick={activateUser}
-                  className="hover:bg-red-600  hover:text-white"
-                >
-                  Yes
-                </Button>
-              )}
+              <Button variant="danger" rounded={false} onClick={deactivateUser}>
+                Yes
+              </Button>
             </>
           </section>
         </div>

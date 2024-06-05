@@ -111,6 +111,7 @@ const User = () => {
     setReqLoading(true)
     try {
       const res = await DashboardApi.deactivateUser(String(userId))
+
       if (res) {
         handleGenericSuccess('User Deactivated')
         router.reload()
@@ -277,7 +278,7 @@ const User = () => {
                     size="md"
                     className="mt-4"
                     rounded={false}
-                    onClick={() => setDisableModalIsOpen(true)}
+                    onClick={activateUser}
                     loading={reqLoading}
                   >
                     Enable User
@@ -371,7 +372,6 @@ const User = () => {
         isOpen={disableModalIsOpen}
         setIsOpen={setDisableModalIsOpen}
         user={user}
-        activateUser={activateUser}
         deactivateUser={deactivateUser}
       />
     </Layout>
