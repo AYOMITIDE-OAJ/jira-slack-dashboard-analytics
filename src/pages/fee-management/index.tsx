@@ -5,7 +5,8 @@ import Layout from '@/components/layout'
 import withRole from '@/components/page-components/with-role'
 import Table from '@/components/table'
 import { Roles } from '@/lib/roles'
-import FeeManagementApi from '@/utils/api/fee-management'
+import DashboardApi from '@/utils/api/dashboard-api'
+import DashboardMiscApi from '@/utils/api/dashboard-misc-api'
 import { formatCurrency } from '@/utils/helper'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
@@ -31,36 +32,35 @@ const FeeManagement = () => {
   const columns: TableColumn<any>[] = [
     {
       name: 'Pairs',
-      selector: (row: any) => row?.reference,
+      selector: (row: any) => row?.pair,
     },
     {
       name: 'Buy Markup',
-      selector: (row: any) => row?.sourceCurrency,
-      cell: (row: any) => <p>{row?.sourceCurrency}</p>,
+      selector: (row: any) => row?.buy_markup,
+      cell: (row: any) => <p>{row?.buy_markup}</p>,
     },
     {
       name: 'Buy',
-      selector: (row: any) => row?.sourceAmount,
-      cell: (row: any) => formatCurrency(row?.sourceAmount),
+      selector: (row: any) => row?.buy,
+      cell: (row: any) => formatCurrency(row?.buy),
     },
     {
       name: 'Sell Markup',
-      selector: (row: any) => row?.direction,
-      cell: (row: any) => <p className="capitalize">{row?.direction}</p>,
+      selector: (row: any) => row?.sell_markup,
+      cell: (row: any) => <p className="capitalize">{row?.sell_markup}</p>,
     },
     {
       name: 'Sell',
-      selector: (row: any) => row?.direction,
-      cell: (row: any) => <p className="capitalize">{row?.direction}</p>,
+      selector: (row: any) => row?.sell,
+      cell: (row: any) => <p className="capitalize">{row?.sell}</p>,
     },
   ]
 
   useEffect(() => {
     ;(async () => {
       try {
-        const [ratesRes] = await Promise.all([
-          FeeManagementApi.getRates({ page: 1 }),
-        ])
+        const [ratesRes] = await Promise.all([DashboardMiscApi.getRates()])
+        console.log('[ratesRes]', ratesRes)
         setRates(ratesRes)
       } catch (err) {
       } finally {

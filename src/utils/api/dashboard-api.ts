@@ -149,6 +149,26 @@ const DashboardApi = {
 
     return data
   },
+
+  async getRates() {
+    const {
+      data: { data },
+    } = await axiosInstance.get(`/pairs`)
+
+    return data
+  },
+
+  async updateRate({
+    payload,
+  }: {
+    payload: { currencyPrice: number; controlConfig: string }
+  }) {
+    const {
+      data: { data },
+    } = await axiosInstance.post('/rates/usd', { payload })
+
+    return data
+  },
 }
 
 export default DashboardApi
