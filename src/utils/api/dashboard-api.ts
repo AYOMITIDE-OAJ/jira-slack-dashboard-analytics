@@ -130,42 +130,26 @@ const DashboardApi = {
     return data
   },
 
-  async changePassword({
-    payload,
-  }: {
-    payload: { firstName: string; lastName: string; password: string }
-  }) {
+  async changePassword(payload: {
+    currentPassword: string
+    newPassword: string
+  }): Promise<any> {
     const {
       data: { data },
-    } = await axiosInstance.post('', { payload })
+    } = await axiosInstance.post('/auth/change-password', payload)
 
     return data
   },
 
-  async addAdmin({ payload }: { payload: { email: string; role: string } }) {
+  async addAdmin(payload: {
+    firstName: string
+    lastName: string
+    email: string
+    role: string
+  }): Promise<any> {
     const {
       data: { data },
-    } = await axiosInstance.post('', { payload })
-
-    return data
-  },
-
-  async getRates() {
-    const {
-      data: { data },
-    } = await axiosInstance.get(`/pairs`)
-
-    return data
-  },
-
-  async updateRate({
-    payload,
-  }: {
-    payload: { currencyPrice: number; controlConfig: string }
-  }) {
-    const {
-      data: { data },
-    } = await axiosInstance.post('/rates/usd', { payload })
+    } = await axiosInstance.post('/admin-user', payload)
 
     return data
   },

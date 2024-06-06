@@ -4,6 +4,8 @@ import Modal from '@/components/modal'
 import Select from '@/components/select'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
+import DashboardApi from '@/utils/api/dashboard-api'
+import { handleGenericSuccess, handleError } from '@/utils/notify'
 import React, {
   ChangeEvent,
   Dispatch,
@@ -22,6 +24,8 @@ interface Props {
 
 export default function Admin({ isOpen, setIsOpen }: Props) {
   const [tableLoading, setTableLoading] = useState(false)
+  const [reqLoading, setReqLoading] = useState(false)
+
   const [admins, setAdmins] = useState([
     {
       firstName: 'John',
@@ -53,6 +57,8 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
     },
   ])
   const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
     email: '',
     role: '',
   })
@@ -121,6 +127,20 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setReqLoading(true)
+    try {
+      await DashboardApi.addAdmin({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        role: formData.role,
+      })
+      handleGenericSuccess('Admin Created Successfully')
+    } catch (e) {
+      handleError(e)
+    } finally {
+      setReqLoading(false)
+    }
   }
 
   return (
@@ -135,6 +155,22 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
             </p>
           </div>
           <div className="mt-6 space-y-4 md:space-y-6">
+            <Input
+              name="firstName"
+              value={formData.firstName}
+              placeholder="John"
+              label="First Name"
+              onChange={handleChange}
+              variant="dark"
+            />
+            <Input
+              name="lastName"
+              value={formData.lastName}
+              placeholder="Smith"
+              label="Last Name"
+              onChange={handleChange}
+              variant="dark"
+            />
             <Input
               name="email"
               value={formData.email}
@@ -153,7 +189,11 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
             />
           </div>
           <div className="mt-5">
-            <Button rounded={false} className="w-full md:w-1/2">
+            <Button
+              loading={reqLoading}
+              rounded={false}
+              className="w-full md:w-1/2"
+            >
               Add Admin
             </Button>
           </div>
