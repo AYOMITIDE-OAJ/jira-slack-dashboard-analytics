@@ -52,6 +52,7 @@ const FeeManagement = () => {
 
   useEffect(() => {
     ;(async () => {
+      setLoading(true)
       try {
         const [ratesRes] = await Promise.all([DashboardMiscApi.getRates()])
         setRates(ratesRes)
