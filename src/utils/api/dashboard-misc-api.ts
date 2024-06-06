@@ -10,14 +10,13 @@ const DashboardMiscApi = {
     return data
   },
 
-  async updateRate({
-    payload,
-  }: {
-    payload: { currencyPrice: number; controlConfig: string }
-  }) {
+  async updateRate(
+    rateId: string,
+    payload: { buy_markup: string; sell_markup: string }
+  ): Promise<any> {
     const {
       data: { data },
-    } = await axios.post('/rates/usd', { payload })
+    } = await axios.post(`/pairs/${rateId}`, payload)
 
     return data
   },

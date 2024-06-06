@@ -7,18 +7,19 @@ import Table from '@/components/table'
 import { Roles } from '@/lib/roles'
 import DashboardApi from '@/utils/api/dashboard-api'
 import DashboardMiscApi from '@/utils/api/dashboard-misc-api'
-import { formatCurrency } from '@/utils/helper'
+import { formatCurrency, returnOptionValue } from '@/utils/helper'
+import { handleError, handleGenericSuccess } from '@/utils/notify'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
 
 const FeeManagement = () => {
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
-    pairs: '',
-    buyMarket: '',
-    buyRate: '',
-    sellMarket: '',
-    sellRate: '',
+    pair: '',
+    buy_markup: '',
+    buy: '',
+    sell_markup: '',
+    sell: '',
   })
   const [pairs, setPairs] = useState([
     { name: 'BTC / USD', value: 'btcusd' },
@@ -60,7 +61,6 @@ const FeeManagement = () => {
     ;(async () => {
       try {
         const [ratesRes] = await Promise.all([DashboardMiscApi.getRates()])
-        console.log('[ratesRes]', ratesRes)
         setRates(ratesRes)
       } catch (err) {
       } finally {
@@ -77,13 +77,23 @@ const FeeManagement = () => {
     setFormData({ ...formData, [name]: value })
   }
 
-  const handleSelect = (option: any) => {
-    const { value } = option
-    setFormData({ ...formData, pairs: value })
-  }
-
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setLoading(true)
+    const { pair: rateId, ...rest } = formData
+
+    try {
+      await DashboardMiscApi.updateRate(returnOptionValue(rateId), {
+        ...rest,
+        buy_markup: rest.buy_markup,
+        sell_markup: rest.sell_markup,
+      })
+      handleGenericSuccess('Rate Updated Successfully')
+    } catch (e) {
+      handleError(e)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -94,17 +104,19 @@ const FeeManagement = () => {
             <h1 className="text-lg font-medium text-gray-600">Update Rates</h1>
           </div>
           <form className="space-y-4 py-4" onSubmit={handleSubmit}>
-            <FormSelect
+            <FormInput
               name="pairs"
               label="Pairs"
-              value={formData.pairs}
-              options={pairs}
-              onChange={handleSelect}
+              value={formData.pair}
+              placeholder="BTCNGN"
+              type="tel"
+              onChange={handleChange}
+              disabled={true}
             />
             <FormInput
               name="buyMarket"
               label="Buy Market in %"
-              value={formData.buyMarket}
+              value={formData.buy_markup}
               placeholder="2.0"
               type="tel"
               onChange={handleChange}
@@ -112,15 +124,16 @@ const FeeManagement = () => {
             <FormInput
               name="buyRate"
               label="Buy Rate"
-              value={formData.buyRate}
+              value={formData.buy}
               placeholder="26035.89"
               type="tel"
               onChange={handleChange}
+              disabled={true}
             />
             <FormInput
               name="sellMarket"
               label="Sell Market in %"
-              value={formData.sellMarket}
+              value={formData.sell_markup}
               placeholder="2.0"
               type="tel"
               onChange={handleChange}
@@ -128,10 +141,11 @@ const FeeManagement = () => {
             <FormInput
               name="sellRate"
               label="Sell Rate"
-              value={formData.sellRate}
+              value={formData.sell}
               placeholder="26035.89"
               type="tel"
               onChange={handleChange}
+              disabled={true}
             />
             <div className="w-full pt-4">
               <Button
@@ -151,7 +165,11 @@ const FeeManagement = () => {
               updated
             </h1>
           </div>
-          <Table columns={columns} data={rates} />
+          <Table
+            columns={columns}
+            data={rates}
+            onRowClicked={(row: any) => setFormData(row)}
+          />
         </div>
       </div>
     </Layout>
