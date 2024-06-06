@@ -16,7 +16,7 @@ const DashboardMiscApi = {
   ): Promise<any> {
     const {
       data: { data },
-    } = await axios.post(`/pairs/${rateId}`, payload)
+    } = await axios.patch(`${Config.apiMiscUrl}/pairs/${rateId}`, payload)
 
     return data
   },

@@ -1,11 +1,9 @@
 import Button from '@/components/button'
 import FormInput from '@/components/form-input'
-import FormSelect from '@/components/form-select'
 import Layout from '@/components/layout'
 import withRole from '@/components/page-components/with-role'
 import Table from '@/components/table'
 import { Roles } from '@/lib/roles'
-import DashboardApi from '@/utils/api/dashboard-api'
 import DashboardMiscApi from '@/utils/api/dashboard-misc-api'
 import { formatCurrency, returnOptionValue } from '@/utils/helper'
 import { handleError, handleGenericSuccess } from '@/utils/notify'
@@ -21,12 +19,7 @@ const FeeManagement = () => {
     sell_markup: '',
     sell: '',
   })
-  const [pairs, setPairs] = useState([
-    { name: 'BTC / USD', value: 'btcusd' },
-    { name: 'USDT / USD', value: 'usdtusd' },
-    { name: 'NGN / USD', value: 'ngnusd' },
-    { name: 'KSH / USD', value: 'kshusd' },
-  ])
+
   const [rates, setRates] = useState([])
   const [setReqLoading, setSetReqLoading] = useState(false)
 
@@ -79,7 +72,7 @@ const FeeManagement = () => {
 
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setLoading(true)
+    setSetReqLoading(true)
     const { pair: rateId, ...rest } = formData
 
     try {
@@ -92,7 +85,7 @@ const FeeManagement = () => {
     } catch (e) {
       handleError(e)
     } finally {
-      setLoading(false)
+      setSetReqLoading(false)
     }
   }
 
@@ -105,7 +98,7 @@ const FeeManagement = () => {
           </div>
           <form className="space-y-4 py-4" onSubmit={handleSubmit}>
             <FormInput
-              name="pairs"
+              name="pair"
               label="Pairs"
               value={formData.pair}
               placeholder="BTCNGN"
@@ -114,7 +107,7 @@ const FeeManagement = () => {
               disabled={true}
             />
             <FormInput
-              name="buyMarket"
+              name="buy_markup"
               label="Buy Market in %"
               value={formData.buy_markup}
               placeholder="2.0"
@@ -122,7 +115,7 @@ const FeeManagement = () => {
               onChange={handleChange}
             />
             <FormInput
-              name="buyRate"
+              name="buy"
               label="Buy Rate"
               value={formData.buy}
               placeholder="26035.89"
@@ -131,7 +124,7 @@ const FeeManagement = () => {
               disabled={true}
             />
             <FormInput
-              name="sellMarket"
+              name="sell_markup"
               label="Sell Market in %"
               value={formData.sell_markup}
               placeholder="2.0"
@@ -139,7 +132,7 @@ const FeeManagement = () => {
               onChange={handleChange}
             />
             <FormInput
-              name="sellRate"
+              name="sell"
               label="Sell Rate"
               value={formData.sell}
               placeholder="26035.89"
