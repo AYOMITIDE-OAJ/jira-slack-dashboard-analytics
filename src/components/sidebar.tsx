@@ -120,7 +120,7 @@ export default function Sidebar({ setOpen }: Props) {
     {
       name: 'Fee Management',
       route: Routes.FeeManagement,
-      allowedRoles: [Roles.SuperAdmin, Roles.Admin, Roles.CRM],
+      allowedRoles: [Roles.SuperAdmin, Roles.Admin],
     },
     {
       name: 'Settings',
