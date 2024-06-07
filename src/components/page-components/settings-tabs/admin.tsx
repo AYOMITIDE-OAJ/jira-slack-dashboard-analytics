@@ -12,6 +12,7 @@ import React, {
   Dispatch,
   FormEvent,
   SetStateAction,
+  useEffect,
   useState,
 } from 'react'
 import { TableColumn } from 'react-data-table-component'
@@ -27,43 +28,28 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
   const router = useRouter()
   const [tableLoading, setTableLoading] = useState(false)
   const [reqLoading, setReqLoading] = useState(false)
+  const [admins, setAdmins] = useState([])
 
-  const [admins, setAdmins] = useState([
-    {
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'john@email.com',
-      role: 'admin',
-      status: 'active',
-    },
-    {
-      firstName: 'Mary',
-      lastName: 'Doe',
-      email: 'mary@email.com',
-      role: 'admin',
-      status: 'active',
-    },
-    {
-      firstName: 'Harry',
-      lastName: 'Doe',
-      email: 'harry@email.com',
-      role: 'admin',
-      status: 'inactive',
-    },
-    {
-      firstName: 'Frank',
-      lastName: 'Doe',
-      email: 'john@email.com',
-      role: 'admin',
-      status: 'active',
-    },
-  ])
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     role: '',
   })
+
+  useEffect(() => {
+    ;(async () => {
+      setTableLoading(true)
+
+      try {
+        const [adminsRes] = await Promise.all([DashboardApi.getAdminUsers()])
+        setAdmins(adminsRes)
+      } catch (err) {
+      } finally {
+        setTableLoading(false)
+      }
+    })()
+  }, [])
 
   const roles = [
     { name: 'Investor', value: 'investor' },
@@ -91,9 +77,7 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
           <div className="border-200 h-8 w-8 overflow-hidden rounded-full">
             <HiOutlineUserCircle className="text-neutral-400" size={32} />
           </div>
-          <p className="">
-            {row?.firstName} {row?.lastName}
-          </p>
+          <p className="">{row?.name}</p>
         </div>
       ),
       minWidth: '250px',
@@ -111,8 +95,10 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
     },
     {
       name: 'Status',
-      selector: (row: any) => row.status,
-      cell: (row: any) => <StatusPill status={row.status} />,
+      selector: (row: any) => row?.isDisabled,
+      cell: (row: any) => (
+        <StatusPill status={row?.isDisabled == false ? 'success' : 'failed'} />
+      ),
     },
     {
       name: '',

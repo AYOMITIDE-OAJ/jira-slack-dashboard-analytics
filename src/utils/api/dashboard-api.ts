@@ -153,6 +153,30 @@ const DashboardApi = {
 
     return data
   },
+
+  async getAdminUsers(): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.get('/admin-users')
+
+    return data
+  },
+
+  async activateAdminUser(userId: string): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.patch(`/admin-users/${userId}/activate`)
+
+    return data
+  },
+
+  async deactivateAdminUser(userId: string): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.patch(`/admin-users/${userId}/deactivate`)
+
+    return data
+  },
 }
 
 export default DashboardApi
