@@ -149,7 +149,7 @@ const DashboardApi = {
   }): Promise<any> {
     const {
       data: { data },
-    } = await axiosInstance.post('/admin-user', payload)
+    } = await axiosInstance.post('/admin-users', payload)
 
     return data
   },

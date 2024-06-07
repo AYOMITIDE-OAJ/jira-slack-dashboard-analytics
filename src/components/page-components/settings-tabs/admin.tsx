@@ -6,6 +6,7 @@ import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
 import DashboardApi from '@/utils/api/dashboard-api'
 import { handleGenericSuccess, handleError } from '@/utils/notify'
+import { useRouter } from 'next/router'
 import React, {
   ChangeEvent,
   Dispatch,
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export default function Admin({ isOpen, setIsOpen }: Props) {
+  const router = useRouter()
   const [tableLoading, setTableLoading] = useState(false)
   const [reqLoading, setReqLoading] = useState(false)
 
@@ -64,9 +66,10 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
   })
 
   const roles = [
-    { name: 'admin', value: 'admin' },
-    { name: 'super-admin', value: 'super-admin' },
-    { name: 'admin-user', value: 'admin-user' },
+    { name: 'Investor', value: 'investor' },
+    { name: 'Super-admin', value: 'super-admin' },
+    { name: 'CRM', value: 'crm' },
+    { name: 'Marketer', value: 'marketer' },
   ]
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -135,7 +138,9 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
         email: formData.email,
         role: formData.role,
       })
+
       handleGenericSuccess('Admin Created Successfully')
+      router.reload()
     } catch (e) {
       handleError(e)
     } finally {
