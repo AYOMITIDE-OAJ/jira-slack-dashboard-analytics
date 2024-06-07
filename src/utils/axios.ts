@@ -1,43 +1,67 @@
-import { Config } from '@/lib/config'
 import axios from 'axios'
+import { getSession } from 'next-auth/react'
+import { handleError } from './notify'
+import { Config } from '@/lib/config'
 
-// const BASE_API_URL = process.env.API_BASE_URL
+const BASE_API_URL = Config.apiBaseUrl;
 
 export default function createAxiosInstance(multipart = false) {
   let origin = ''
   if (typeof window !== 'undefined') {
     origin = window?.location?.origin
   }
-  // const instance = axios.create({
-  //   headers: {
-  //     'Content-Type': `${
-  //       multipart ? 'multipart/form-data' : 'application/json'
-  //     }`,
-  //   },
-  //   baseURL: BASE_API_URL,
-  //   timeout: 60000,
-  // })
-
   const instance = axios.create({
     headers: {
       'Content-Type': `${
         multipart ? 'multipart/form-data' : 'application/json'
       }`,
     },
-    baseURL: `${origin}/api/proxy`,
+    baseURL: BASE_API_URL,
     timeout: 60000,
   })
 
-  instance.interceptors.request.use(
-    async function (config: any) {
-      // Do something before request is sent
-      // config.headers!.authorization = `Bearer ${TOKEN}`
+  // const instance = axios.create({
+  //   headers: {
+  //     'Content-Type': `${
+  //       multipart ? 'multipart/form-data' : 'application/json'
+  //     }`,
+  //   },
+  //   baseURL: `${origin}/api/proxy`,
+  //   timeout: 60000,
+  // })
 
-      return { ...config }
+  // instance.interceptors.request.use(
+  //   async function (config: any) {
+  //     const session: any = await getSession()
+  //     // Do something before request is sent
+  //     // config.headers!.authorization = `Bearer ${TOKEN}`
+  //     console.log('SESSION', session.user.token)
+  //     if (session?.user?.token) {
+  //       config.headers.Authorization = `Bearer ${session?.user?.token}`
+  //     }
+
+  //     return { ...config }
+  //   },
+  //   async function (error: any) {
+  //     // Do something with request error
+  //     return await Promise.reject(error)
+  //   }
+  // )
+
+  instance.interceptors.request.use(
+    async (request) => {
+      const session: any = await getSession()
+
+      console.log('SESSION', session.user.token)
+
+      if (session?.user?.token) {
+        request.headers.Authorization = `Bearer ${session?.user?.token}`
+      }
+      return request
     },
-    async function (error: any) {
-      // Do something with request error
-      return await Promise.reject(error)
+    (error) => {
+      handleError(error)
+      Promise.reject(error)
     }
   )
 

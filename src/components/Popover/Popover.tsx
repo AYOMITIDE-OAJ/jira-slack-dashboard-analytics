@@ -1,32 +1,37 @@
-import { Popover as HPopover, Transition } from '@headlessui/react';
-import clsx from 'clsx';
-import { Fragment, useState } from 'react';
-import { usePopper, PopperProps } from 'react-popper';
+import { Popover as HPopover, Transition } from '@headlessui/react'
+import clsx from 'clsx'
+import { Fragment, useState, useRef } from 'react'
+import { usePopper, PopperProps } from 'react-popper'
 
-import { PopoverItem, PopoverItemProps } from './PopoverItem';
+import { PopoverItem, PopoverItemProps } from './PopoverItem'
 
 type PopoverProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
   Omit<PopoverItemProps, 'name' | 'src'> &
   Pick<PopperProps<any>, 'placement'> & {
-    children: React.ReactNode[];
-    trigger: (state?: boolean) => React.ReactNode;
-    disabled?: boolean;
-  };
+    children: React.ReactNode[]
+    trigger: (state?: boolean) => React.ReactNode
+    disabled?: boolean
+  }
 
 export const Popover = (props: PopoverProps) => {
-  const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(null);
-  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
-  const { styles, attributes } = usePopper(referenceElement, popperElement, {
-    placement: props.placement || 'auto',
-    modifiers: [
-      {
-        name: 'computeStyles',
-        options: { adaptive: false },
-      },
-    ],
-  });
+  const [referenceElement, setReferenceElement] =
+    useState<HTMLButtonElement | null>(null)
+  const popperElement = useRef<HTMLDivElement | null>(null) // Changed to useRef
+  const { styles, attributes } = usePopper(
+    referenceElement,
+    popperElement.current,
+    {
+      placement: props.placement || 'auto',
+      modifiers: [
+        {
+          name: 'computeStyles',
+          options: { adaptive: false },
+        },
+      ],
+    }
+  )
 
-  const { children, trigger, className, disabled } = props;
+  const { children, trigger, className, disabled } = props
   return (
     <HPopover as="div" className="relative z-30">
       {({ open }) => (
@@ -34,7 +39,7 @@ export const Popover = (props: PopoverProps) => {
           <HPopover.Button
             ref={setReferenceElement}
             disabled={disabled}
-            className="p-0.5 hover:opacity-80 transition-opacity focus:outline-none disabled:opacity-40"
+            className="p-0.5 transition-opacity hover:opacity-80 focus:outline-none disabled:opacity-40"
           >
             {trigger(open)}
           </HPopover.Button>
@@ -49,11 +54,15 @@ export const Popover = (props: PopoverProps) => {
             leaveTo="transform opacity-0 scale-95"
           >
             <HPopover.Panel
-              ref={setPopperElement}
-              style={styles.popper}
+              ref={popperElement} // Changed to use ref
+              style={{
+                ...styles.popper,
+                right: '0', // Aligns the Popover to the right end
+                top: '0', // Aligns the Popover to the top of the reference element
+              }}
               as="ul"
               {...attributes.popper}
-              className={clsx('shadow-sm shadow-initial/5 z-50', className)}
+              className={clsx('shadow-initial/5 z-50 shadow-sm', className)}
             >
               {children}
             </HPopover.Panel>
@@ -61,7 +70,7 @@ export const Popover = (props: PopoverProps) => {
         </>
       )}
     </HPopover>
-  );
-};
+  )
+}
 
-Popover.Item = PopoverItem;
+Popover.Item = PopoverItem
