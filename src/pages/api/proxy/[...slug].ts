@@ -22,9 +22,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const response = await axios({
       method: req.method,
       url: apiUrl,
-      // headers: {
-      //   Authorization: `Bearer ${API_KEY}`, // Add your authorization logic here
-      // },
+      headers: {
+        Authorization: req?.headers?.authorization,
+      },
       data: req.body,
     })
 

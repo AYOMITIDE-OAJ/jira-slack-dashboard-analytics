@@ -261,8 +261,6 @@ import Select from '@/components/select'
 import StatusPill from '@/components/status-pill'
 import { handleGenericSuccess, handleError } from '@/utils/notify'
 import { useRouter } from 'next/router'
-import { PopoverItem } from '@/components/Popover/PopoverItem'
-import { Popover } from '@/components/Popover'
 
 interface Props {
   isOpen: boolean
@@ -392,47 +390,7 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
         data={admins}
         progressPending={tableLoading}
       />
-      {/* {popoverOpen && selectedRow && ( */}
-        <Popover
-          trigger={() => (
-            <svg
-              className="mx-1"
-              width={3}
-              height={13}
-              viewBox="0 0 3 13"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="1.5"
-                cy="1.5"
-                r="1.5"
-                fill="currentColor"
-                fillOpacity="0.5"
-              />
-              <circle
-                cx="1.5"
-                cy="6.5"
-                r="1.5"
-                fill="currentColor"
-                fillOpacity="0.5"
-              />
-              <circle
-                cx="1.5"
-                cy="11.5"
-                r="1.5"
-                fill="currentColor"
-                fillOpacity="0.5"
-              />
-            </svg>
-          )}
-          className="w-max space-y-3 rounded-md bg-white px-1 py-2"
-        >
-          <Popover.Item>Change Role</Popover.Item>
-          <Popover.Item>Activate</Popover.Item>
-          <Popover.Item>Delete</Popover.Item>
-        </Popover>
-      {/* )} */}
+
       <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
         <form onSubmit={handleSubmit}>
           <div className="space-y-1">

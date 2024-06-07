@@ -1,6 +1,5 @@
 import { Routes } from '@/constants/routes'
 import { Config } from '@/lib/config'
-import AuthApi from '@/utils/api/auth-api'
 import axios from 'axios'
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
