@@ -92,14 +92,18 @@ const Dashboard = () => {
       width: '300px',
     },
     {
-      name: 'Currency',
-      selector: (row: any) => row?.sourceCurrency,
-      cell: (row: any) => <p>{row?.sourceCurrency}</p>,
-    },
-    {
       name: 'Amount',
       selector: (row: any) => row?.sourceAmount,
-      cell: (row: any) => formatCurrency(row?.sourceAmount),
+      cell: (row: any) => (
+        <p className="capitalize">
+          {row?.sourceCurrency} {formatCurrency(row?.sourceAmount)}
+        </p>
+      ),
+    },
+    {
+      name: 'Type',
+      selector: (row: any) => row?.type,
+      cell: (row: any) => <p>{row?.type}</p>,
     },
     {
       name: 'Direction',
