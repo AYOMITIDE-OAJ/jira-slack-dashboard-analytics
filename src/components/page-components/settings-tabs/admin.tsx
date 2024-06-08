@@ -11,6 +11,14 @@ import Select from '@/components/select'
 import StatusPill from '@/components/status-pill'
 import { handleGenericSuccess, handleError } from '@/utils/notify'
 import { useRouter } from 'next/router'
+import {
+  Menu,
+  MenuButton,
+  Transition,
+  MenuItems,
+  MenuItem,
+} from '@headlessui/react'
+import { FcAreaChart } from 'react-icons/fc'
 
 interface Props {
   isOpen: boolean
@@ -98,18 +106,11 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
       ),
     },
     {
-      name: '',
-      selector: (row: any) => row,
-      cell: (row: any) => (
-        <CiCircleMore
-          className="text-gray-300"
-          size={35}
-          onClick={() => {
-            setSelectedRow(row)
-          }}
-        />
-      ),
-      width: '100px',
+      name: 'Actions',
+      cell: (row: any) => renderMenu(row._id, row.role),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
     },
   ]
 
@@ -127,12 +128,75 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
     }
   }
 
+  const handleActivate = async (id: string) => {
+    console.log('Activate account with id:', id)
+
+    setReqLoading(true)
+    try {
+      await DashboardApi.deactivateAdminUser(id)
+      handleGenericSuccess('Account Activated Successfully')
+    } catch (e) {
+      handleError(e)
+    } finally {
+      setReqLoading(false)
+    }
+  }
+
+  const handleRoleChange = async (id: string, newRole: string) => {
+    console.log('Delete account with id:', id)
+
+    setReqLoading(true)
+    try {
+      await DashboardApi.changeAdminUserRole(id, newRole)
+    } catch (e) {
+      handleError(e)
+    } finally {
+      setReqLoading(false)
+    }
+  }
+
+  const renderMenu = (id: string, role: string) => (
+    <Menu>
+      <MenuButton>
+        <CiCircleMore className="text-gray-300" size={35} />
+      </MenuButton>
+      <Transition
+        enter="transition ease-out duration-75"
+        enterFrom="opacity-0 scale-95"
+        enterTo="opacity-100 scale-100"
+        leave="transition ease-in duration-100"
+        leaveFrom="opacity-100 scale-100"
+        leaveTo="opacity-0 scale-95"
+      >
+        <MenuItems
+          anchor="bottom end"
+          className="w-40 origin-top-right rounded-xl bg-white p-1 text-sm/6 shadow-md focus:outline-none"
+        >
+          <MenuItem>
+            <button
+              className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 text-blue-500 data-[focus]:bg-gray-100"
+              onClick={() => handleRoleChange(id, role)}
+            >
+              Change Role
+            </button>
+          </MenuItem>
+          <MenuItem>
+            <button
+              className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 text-red-500 data-[focus]:bg-gray-100"
+              onClick={() => handleActivate(id)}
+            >
+              Deactivate Account
+            </button>
+          </MenuItem>
+        </MenuItems>
+      </Transition>
+    </Menu>
+  )
+
   return (
     <div>
       <Table
-        onRowClicked={(row) => {
-          setSelectedRow(row)
-        }}
+        onRowClicked={(row) => setSelectedRow(row)}
         columns={columns}
         data={admins}
         progressPending={tableLoading}

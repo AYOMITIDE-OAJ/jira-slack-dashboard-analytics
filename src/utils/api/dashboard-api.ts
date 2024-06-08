@@ -177,6 +177,14 @@ const DashboardApi = {
 
     return data
   },
+
+  async changeAdminUserRole(userId: string, role: string): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.patch(`/admin-users/${userId}/deactivate`, role)
+
+    return data
+  },
 }
 
 export default DashboardApi
