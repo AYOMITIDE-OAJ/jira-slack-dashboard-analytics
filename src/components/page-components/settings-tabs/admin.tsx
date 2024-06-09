@@ -18,7 +18,7 @@ import {
   MenuItems,
   MenuItem,
 } from '@headlessui/react'
-import { FcAreaChart } from 'react-icons/fc'
+import ChangeRoleModal from '@/components/change-role'
 
 interface Props {
   isOpen: boolean
@@ -29,8 +29,10 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
   const router = useRouter()
   const [tableLoading, setTableLoading] = useState(false)
   const [reqLoading, setReqLoading] = useState(false)
-  const [admins, setAdmins] = useState([])
+  const [admins, setAdmins] = useState<any>()
   const [selectedRow, setSelectedRow] = useState<any>(null)
+  const [myUser, setMyUser] = useState<any>()
+  const [roleModalIsOpen, setRoleModalIsOpen] = useState(false)
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -44,9 +46,10 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
       setTableLoading(true)
       try {
         const adminsRes = await DashboardApi.getAdminUsers()
+
         setAdmins(adminsRes)
       } catch (err) {
-        console.error(err)
+        handleError(err)
       } finally {
         setTableLoading(false)
       }
@@ -107,7 +110,7 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
     },
     {
       name: 'Actions',
-      cell: (row: any) => renderMenu(row._id, row.role),
+      cell: (row: any) => renderMenu(row._id, row),
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
@@ -128,13 +131,20 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
     }
   }
 
-  const handleActivate = async (id: string) => {
-    console.log('Activate account with id:', id)
+  const handleActivate = async (id: string, isDisabled: boolean) => {
+    const action = isDisabled ? 'activate' : 'deactivate'
 
     setReqLoading(true)
+
     try {
-      await DashboardApi.deactivateAdminUser(id)
-      handleGenericSuccess('Account Activated Successfully')
+      if (isDisabled) {
+        await DashboardApi.activateAdminUser(id)
+      } else {
+        await DashboardApi.deactivateAdminUser(id)
+      }
+      handleGenericSuccess(
+        `Account ${action.charAt(0).toUpperCase() + action.slice(1)}d Successfully`
+      )
     } catch (e) {
       handleError(e)
     } finally {
@@ -142,12 +152,11 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
     }
   }
 
-  const handleRoleChange = async (id: string, newRole: string) => {
-    console.log('Delete account with id:', id)
-
+  const triggerRoleChange = async (id: string, newRole: string) => {
     setReqLoading(true)
     try {
       await DashboardApi.changeAdminUserRole(id, newRole)
+      handleGenericSuccess('User Role Changed Successfully')
     } catch (e) {
       handleError(e)
     } finally {
@@ -155,9 +164,15 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
     }
   }
 
-  const renderMenu = (id: string, role: string) => (
+  const renderMenu = (id: string, user: any) => (
     <Menu>
-      <MenuButton>
+      <MenuButton
+        onClick={() => {
+          setMyUser((prevUser: any) => {
+            return user
+          })
+        }}
+      >
         <CiCircleMore className="text-gray-300" size={35} />
       </MenuButton>
       <Transition
@@ -175,17 +190,17 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
           <MenuItem>
             <button
               className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 text-blue-500 data-[focus]:bg-gray-100"
-              onClick={() => handleRoleChange(id, role)}
+              onClick={() => setRoleModalIsOpen(true)}
             >
               Change Role
             </button>
           </MenuItem>
           <MenuItem>
             <button
-              className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 text-red-500 data-[focus]:bg-gray-100"
-              onClick={() => handleActivate(id)}
+              className={`group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 ${myUser?.isDisabled ? 'text-green-500' : 'text-red-500'}  data-[focus]:bg-gray-100`}
+              onClick={() => handleActivate(id, myUser?.isDisabled)}
             >
-              Deactivate Account
+              {myUser?.isDisabled ? 'Activate ' : 'Deactivate '} Account
             </button>
           </MenuItem>
         </MenuItems>
@@ -254,6 +269,13 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
           </div>
         </form>
       </Modal>
+      <ChangeRoleModal
+        isOpen={roleModalIsOpen}
+        setIsOpen={setRoleModalIsOpen}
+        user={myUser}
+        setMyUser={setMyUser}
+        triggerRoleChange={triggerRoleChange}
+      />
     </div>
   )
 }

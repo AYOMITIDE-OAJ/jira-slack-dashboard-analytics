@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { Dispatch, SetStateAction, useState, useEffect } from 'react'
 import Modal from './modal'
 import Image from 'next/image'
 import Button from './button'
@@ -8,7 +8,8 @@ interface Props {
   isOpen: boolean
   setIsOpen: Dispatch<SetStateAction<boolean>>
   user: any
-  deactivateUser: (user: any) => void
+  setMyUser: any
+  triggerRoleChange: any
 }
 
 interface SelectOption {
@@ -27,12 +28,23 @@ export default function ChangeRoleModal({
   isOpen,
   setIsOpen,
   user,
-  deactivateUser,
+  setMyUser,
+  triggerRoleChange,
 }: Props) {
-  const [myUser, setMyUser] = useState(user)
+  const [selectedRole, setSelectedRole] = useState(user?.role || '')
 
-  const handleSelect = (option: SelectOption) => {
-    setMyUser({ ...myUser, role: option.value })
+  useEffect(() => {
+    setSelectedRole(user?.role || '')
+  }, [user])
+
+  const handleSelect = (option: any) => {
+    const { value } = option
+    setMyUser({ ...user, role: value })
+  }
+
+  const handleSaveChanges = () => {
+    setIsOpen(false)
+    triggerRoleChange(user._id, selectedRole)
   }
 
   return (
@@ -54,15 +66,15 @@ export default function ChangeRoleModal({
             <Select
               name="role"
               label="Role"
-              value={myUser?.role}
+              value={selectedRole}
               options={roles}
-              onChange={() => null}
+              onChange={handleSelect}
               variant="dark"
             />
           </aside>
 
           <section className="mx-4 my-4 flex gap-5 md:mx-8 lg:mx-10">
-            <Button rounded={false} onClick={() => setIsOpen(false)}>
+            <Button rounded={false} onClick={handleSaveChanges}>
               Save Changes
             </Button>
           </section>

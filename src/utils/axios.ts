@@ -34,8 +34,6 @@ export default function createAxiosInstance(multipart = false) {
     async (request) => {
       const session: any = await getSession()
 
-      console.log('SESSION', session.user.token)
-
       if (session?.user?.token) {
         request.headers.Authorization = `Bearer ${session?.user?.token}`
       }
