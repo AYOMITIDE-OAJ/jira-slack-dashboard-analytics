@@ -7,9 +7,9 @@ import Select from './select'
 interface Props {
   isOpen: boolean
   setIsOpen: Dispatch<SetStateAction<boolean>>
-  user: any
-  setMyUser: any
-  triggerRoleChange: any
+  user: User
+  setMyUser: (user: User) => void
+  triggerRoleChange: (id: string, newRole: string) => Promise<void>
 }
 
 interface SelectOption {

@@ -189,7 +189,7 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
         >
           <MenuItem>
             <button
-              className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 text-blue-500 data-[focus]:bg-gray-100"
+              className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 text-black data-[focus]:bg-gray-100"
               onClick={() => setRoleModalIsOpen(true)}
             >
               Change Role
