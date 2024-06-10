@@ -5,13 +5,18 @@ import Profile from '@/components/page-components/settings-tabs/profile'
 import Button from '@/components/button'
 import Admin from '@/components/page-components/settings-tabs/admin'
 import Password from '@/components/page-components/settings-tabs/password'
+import { isSuperAdmin } from '@/lib/roles'
+import { useSession } from 'next-auth/react'
 
 const Settings = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const { data: session } = useSession()
+  const userSession = (session?.user as any)?.user
+
   const tabList = [
     'Profile',
-    'Admin',
-    'Password'
+    isSuperAdmin(userSession?.role) && 'Admin',
+    'Password',
   ]
   const tabPanels = [
     { id: 1, component: <Profile /> },
