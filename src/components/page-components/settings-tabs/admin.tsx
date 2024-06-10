@@ -145,6 +145,7 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
       handleGenericSuccess(
         `Account ${action.charAt(0).toUpperCase() + action.slice(1)}d Successfully`
       )
+      router.reload()
     } catch (e) {
       handleError(e)
     } finally {
