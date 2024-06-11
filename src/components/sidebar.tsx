@@ -105,8 +105,13 @@ export default function Sidebar({ setOpen }: Props) {
       // route: Routes.Card,
       subRoutes: [
         {
-          name: 'Issued Cards',
-          route: Routes.Deposit,
+          name: 'Issued',
+          route: Routes.Issued,
+          allowedRoles: [Roles.SuperAdmin, Roles.Admin],
+        },
+        {
+          name: 'Pending',
+          route: Routes.Pending,
           allowedRoles: [Roles.SuperAdmin, Roles.Admin],
         },
       ],
