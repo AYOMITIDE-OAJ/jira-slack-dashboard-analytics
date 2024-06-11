@@ -11,10 +11,13 @@ import { Routes } from '@/constants/routes'
 import moment from 'moment'
 import User from '@/components/user'
 import withRole from '@/components/page-components/with-role'
-import { Roles } from '@/lib/roles'
+import { Roles, isSuperAdmin } from '@/lib/roles'
 import debounce from 'lodash.debounce'
+import { useSession } from 'next-auth/react'
 
 const Users = () => {
+  const { data: session } = useSession()
+  const userSession = (session?.user as any)?.user
   const router = useRouter()
   const [users, setUsers] = useState([])
   const [totalUsers, setTotalUsers] = useState<number>()
@@ -119,7 +122,7 @@ const Users = () => {
       <div className="w-full xl:mt-5">
         <div className="flex flex-col items-start justify-between gap-4 rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6 md:flex-row md:items-center">
           <div>
-            {totalUsers && (
+            {isSuperAdmin(userSession?.role) && totalUsers && (
               <>
                 <h1 className="text-2xl font-medium text-gray-600">
                   {totalUsers}
