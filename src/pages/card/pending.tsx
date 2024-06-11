@@ -76,10 +76,10 @@ const Pending = () => {
   }, [])
 
   return (
-    <Layout header="Transactions" loading={loading}>
+    <Layout header="Pending Cards" loading={loading}>
       <div className="w-full xl:mt-5">
         <div className="rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6">
-          <h1 className="text-base font-medium text-gray-600">Pending Cards</h1>
+          <h1 className="text-base font-medium text-gray-600">Total Pending Cards</h1>
         </div>
         <Table
           columns={columns}

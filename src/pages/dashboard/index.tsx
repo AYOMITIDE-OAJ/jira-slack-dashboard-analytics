@@ -120,24 +120,33 @@ const Dashboard = () => {
   useEffect(() => {
     ;(async () => {
       try {
-        const [overviewRes, transactionsRes] = await Promise.all([
+        const [overviewRes, transactionsRes] = await Promise.allSettled([
           DashboardApi.getDashBoardOverview(),
           DashboardApi.getAllTransactions({ page: 1, limit: 20 }),
         ])
 
-        setOverview(overviewRes.counts)
-        const transformedBalances = overviewRes.balances.reduce(
-          (acc: any, balance: any) => {
-            acc[balance.currency] = {
-              currency: balance.currency,
-              balance: balance.totalAmount['$numberDecimal'],
-            }
-            return acc
-          },
-          {}
-        )
-        setBalances(transformedBalances)
-        setTransactions(transactionsRes.records)
+        if (overviewRes.status === 'fulfilled') {
+          setOverview(overviewRes.value.counts)
+
+          const transformedBalances = overviewRes.value.balances.reduce(
+            (acc: any, balance: any) => {
+              acc[balance.currency] = {
+                currency: balance.currency,
+                balance: balance.totalAmount['$numberDecimal'],
+              }
+              return acc
+            },
+            {}
+          )
+
+          setBalances(transformedBalances)
+        } else {
+        }
+
+        if (transactionsRes.status === 'fulfilled') {
+          setTransactions(transactionsRes.value.records)
+        } else {
+        }
       } catch (err) {
       } finally {
         setLoading(false)
@@ -517,6 +526,7 @@ const Dashboard = () => {
                 <p className="text-xl font-semibold text-primary md:text-3xl">
                   {thousandSeparator(overview?.transactions)}
                 </p>
+
                 <p className="text-xs text-gray-500 md:text-base">
                   Total Transactions
                 </p>

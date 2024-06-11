@@ -16,8 +16,8 @@ export enum Routes {
   ApproveWithdrawal = '/transactions/approve-withdrawal',
   // CARD
   Card = '/card',
-  Issued = 'card/issued',
-  Pending = 'card/pending',
+  Issued = '/card/issued',
+  Pending = '/card/pending',
 
   Kyc = '/kyc',
   FeeManagement = '/fee-management',
