@@ -92,9 +92,7 @@ const Issued = () => {
   useEffect(() => {
     ;(async () => {
       try {
-        const [issuedRes] = await Promise.all([
-          DashboardApi.getCardsByStatus({ page: 1, status: 'issued' }),
-        ])
+        const issuedRes = await  DashboardApi.getCardsByStatus({ page: 1, status: 'issued' });
         setIssuedCard(issuedRes.records)
         setTotalUsers(issuedRes.total)
       } catch (err) {

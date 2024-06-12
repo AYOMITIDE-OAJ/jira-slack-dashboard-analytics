@@ -69,9 +69,10 @@ const Pending = () => {
   useEffect(() => {
     ;(async () => {
       try {
-        const [pendingRes] = await Promise.all([
-          DashboardApi.getCardsByStatus({ page: 1, status: 'requests' }),
-        ])
+        const pendingRes = await DashboardApi.getCardsByStatus({
+          page: 1,
+          status: 'requests',
+        })
         setPendingCard(pendingRes.records)
         setTotalUsers(pendingRes.total)
       } catch (err) {
