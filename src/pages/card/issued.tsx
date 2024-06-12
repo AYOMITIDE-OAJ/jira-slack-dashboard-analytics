@@ -1,13 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Layout from '@/components/layout'
 import withRole from '@/components/page-components/with-role'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
+import TableSearch from '@/components/table-search'
 import TransactionDetailsModal from '@/components/transaction-details-modal'
 import User from '@/components/user'
 import { Roles } from '@/lib/roles'
 import DashboardApi from '@/utils/api/dashboard-api'
+import debounce from 'lodash.debounce'
 import moment from 'moment'
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
 
 const Issued = () => {
@@ -16,11 +19,33 @@ const Issued = () => {
   const [totalUsers, setTotalUsers] = useState<number>()
   const [isOpen, setIsOpen] = useState(false)
   const [selected, setSelected] = useState<Record<string, any>>({})
+  const [searchValue, setSearchValue] = useState('')
+  const [tableLoading, setTableLoading] = useState(false)
 
-  const handleRowClick = (row: any) => {
-    setSelected(row)
-    setIsOpen(true)
+  const handleValueChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value)
   }
+
+  const debounceSearch = useCallback(
+    debounce(async (query) => {
+      setTableLoading(true)
+      try {
+        const res = await DashboardApi.getCardsByStatus({
+          status: 'issued',
+          searchValue: query,
+        })
+        setIssuedCard(res.records)
+      } catch (err) {
+      } finally {
+        setTableLoading(false)
+      }
+    }, 500),
+    []
+  )
+
+  useEffect(() => {
+    debounceSearch(searchValue)
+  }, [searchValue])
 
   const columns: TableColumn<any>[] = [
     {
@@ -31,7 +56,7 @@ const Issued = () => {
     {
       name: 'Name',
       selector: (row: any) => row.nameOnCard,
-      cell: (row: any) => <User user={row}  />,
+      cell: (row: any) => <User user={row} />,
       width: '250px',
     },
     {
@@ -82,16 +107,26 @@ const Issued = () => {
   return (
     <Layout header="Issued Cards" loading={loading}>
       <div className="w-full xl:mt-5">
-        <div className="rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6">
-          <>
-            <h1 className="text-2xl font-medium text-gray-600">{totalUsers}</h1>
-            <p className="text-xs"> Total Issued Cards</p>
-          </>
+        <div className="flex flex-col items-start justify-between gap-4 rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6 md:flex-row md:items-center">
+          <div>
+            <>
+              <h1 className="text-2xl font-medium text-gray-600">
+                {totalUsers}
+              </h1>
+              <p className="text-xs"> Total Issued Cards</p>
+            </>
+          </div>
+          <TableSearch
+            name="searchValue"
+            value={searchValue}
+            placeholder="Search for cards..."
+            onChange={handleValueChange}
+          />
         </div>
         <Table
           columns={columns}
           data={issuedCards}
-          onRowClicked={handleRowClick}
+          progressPending={tableLoading}
         />
       </div>
       <TransactionDetailsModal

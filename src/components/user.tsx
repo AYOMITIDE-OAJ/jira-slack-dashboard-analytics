@@ -33,7 +33,7 @@ export default function User({ user, disabled = false }: Props) {
         <Image src="/assets/images/avatar.png" alt="Profile" fill />
       </div>
       <p className="">
-        {user?.firstName} {user?.lastName} {user.nameOnCard}
+        {user?.firstName} {user?.lastName} {user?.nameOnCard}
       </p>
     </div>
   )

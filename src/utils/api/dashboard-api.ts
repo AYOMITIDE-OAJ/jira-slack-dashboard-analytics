@@ -206,17 +206,17 @@ const DashboardApi = {
     status,
     page = 1,
     limit = 200,
-    type,
+    searchValue,
   }: {
     status: string
     page?: number
     limit?: number
-    type?: string
+    searchValue?: string
   }): Promise<any> {
     const {
       data: { data },
     } = await axiosInstance.get(
-      `/cards/${status}?page=${page}&limit=${limit}${type && `&filters[type]=${type}`}`
+      `/cards/${status}?page=${page}&limit=${limit}${searchValue && `&search=${searchValue}`}`
     )
 
     return data
