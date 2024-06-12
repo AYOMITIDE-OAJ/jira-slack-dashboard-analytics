@@ -17,7 +17,7 @@ export enum Routes {
   // CARD
   Card = '/card',
   Issued = '/card/issued',
-  Pending = '/card/pending',
+  Request = '/card/request',
 
   Kyc = '/kyc',
   FeeManagement = '/fee-management',

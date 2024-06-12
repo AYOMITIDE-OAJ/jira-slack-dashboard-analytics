@@ -185,6 +185,42 @@ const DashboardApi = {
 
     return data
   },
+
+  async getCards({
+    cardType,
+    type,
+  }: {
+    cardType: string
+    type?: string
+  }): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.get(
+      `/cards/${cardType}${type && `&filters[type]=${type}`}`
+    )
+
+    return data
+  },
+
+  async getCardsByStatus({
+    status,
+    page = 1,
+    limit = 200,
+    type,
+  }: {
+    status: string
+    page?: number
+    limit?: number
+    type?: string
+  }): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.get(
+      `/cards/${status}?page=${page}&limit=${limit}${type && `&filters[type]=${type}`}`
+    )
+
+    return data
+  },
 }
 
 export default DashboardApi

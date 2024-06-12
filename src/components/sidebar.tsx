@@ -110,8 +110,8 @@ export default function Sidebar({ setOpen }: Props) {
           allowedRoles: [Roles.SuperAdmin, Roles.Admin],
         },
         {
-          name: 'Pending',
-          route: Routes.Pending,
+          name: 'Request',
+          route: Routes.Request,
           allowedRoles: [Roles.SuperAdmin, Roles.Admin],
         },
       ],

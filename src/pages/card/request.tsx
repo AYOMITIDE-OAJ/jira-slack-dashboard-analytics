@@ -13,7 +13,8 @@ import { TableColumn } from 'react-data-table-component'
 
 const Pending = () => {
   const [loading, setLoading] = useState(true)
-  const [transactions, setTransactions] = useState([])
+  const [pendingCards, setPendingCard] = useState([])
+  const [totalUsers, setTotalUsers] = useState<number>()
   const [isOpen, setIsOpen] = useState(false)
   const [selected, setSelected] = useState<Record<string, any>>({})
 
@@ -30,44 +31,46 @@ const Pending = () => {
     },
     {
       name: 'Name',
-      selector: (row: any) => row?.owner,
-      cell: (row: any) => <User user={row.owner} disabled />,
+      selector: (row: any) => row,
+      cell: (row: any) => <User user={row} />,
       width: '250px',
     },
     {
-      name: 'Reference',
-      selector: (row: any) => row?.reference,
-      width: '300px',
-    },
-    {
-      name: 'Currency',
-      selector: (row: any) => row?.sourceCurrency,
-      cell: (row: any) => <p>{row?.sourceCurrency}</p>,
-    },
-    {
-      name: 'Amount',
-      selector: (row: any) => row?.sourceAmount,
-      cell: (row: any) => formatCurrency(row?.sourceAmount),
+      name: 'Email',
+      selector: (row: any) => row?.email,
+      width: '200px',
     },
     {
       name: 'Type',
-      selector: (row: any) => row?.direction,
-      cell: (row: any) => <StatusPill status={row?.direction} />,
+      selector: (row: any) => row?.type,
+      cell: (row: any) => <p className="capitalize">{row?.type}</p>,
+    },
+    {
+      name: 'Brand',
+      selector: (row: any) => row?.brand,
+      cell: (row: any) => <p className="capitalize">{row?.brand}</p>,
+    },
+    {
+      name: 'Country',
+      selector: (row: any) => row?.address.country,
+      cell: (row: any) => <StatusPill status={row?.address.country} />,
     },
     {
       name: 'Status',
       selector: (row: any) => row.status,
       cell: (row: any) => <StatusPill status={row.status} />,
+      width: '150px',
     },
   ]
 
   useEffect(() => {
     ;(async () => {
       try {
-        const [transactionsRes] = await Promise.all([
-          DashboardApi.getAllTransactions({ page: 1, type: 'deposit' }),
+        const [pendingRes] = await Promise.all([
+          DashboardApi.getCardsByStatus({ page: 1, status: 'requests' }),
         ])
-        setTransactions(transactionsRes.records)
+        setPendingCard(pendingRes.records)
+        setTotalUsers(pendingRes.total)
       } catch (err) {
       } finally {
         setLoading(false)
@@ -76,14 +79,17 @@ const Pending = () => {
   }, [])
 
   return (
-    <Layout header="Pending Cards" loading={loading}>
+    <Layout header="Card Requests" loading={loading}>
       <div className="w-full xl:mt-5">
         <div className="rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6">
-          <h1 className="text-base font-medium text-gray-600">Total Pending Cards</h1>
+          <>
+            <h1 className="text-2xl font-medium text-gray-600">{totalUsers}</h1>
+            <p className="text-xs">Total Card Requests</p>
+          </>
         </div>
         <Table
           columns={columns}
-          data={transactions}
+          data={pendingCards}
           onRowClicked={handleRowClick}
         />
       </div>
