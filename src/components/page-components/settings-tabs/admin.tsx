@@ -19,6 +19,7 @@ import {
   MenuItem,
 } from '@headlessui/react'
 import ChangeRoleModal from '@/components/change-role'
+import ResetAdminModal from '@/components/reset-admin-account'
 
 interface Props {
   isOpen: boolean
@@ -33,6 +34,7 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
   const [selectedRow, setSelectedRow] = useState<any>(null)
   const [myUser, setMyUser] = useState<any>()
   const [roleModalIsOpen, setRoleModalIsOpen] = useState(false)
+  const [resetModalIsOpen, setResetModalIsOpen] = useState(false)
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -165,6 +167,18 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
     }
   }
 
+  const resetUserCredential = async (id: string) => {
+    setReqLoading(true)
+    try {
+      await DashboardApi.resetUserCredential(id)
+      handleGenericSuccess('User Reset Successfully')
+    } catch (e) {
+      handleError(e)
+    } finally {
+      setReqLoading(false)
+    }
+  }
+
   const renderMenu = (id: string, user: any) => (
     <Menu>
       <MenuButton
@@ -202,6 +216,15 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
               onClick={() => handleActivate(id, myUser?.isDisabled)}
             >
               {myUser?.isDisabled ? 'Activate ' : 'Deactivate '} Account
+            </button>
+          </MenuItem>
+
+          <MenuItem>
+            <button
+              className={`group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 text-primary  data-[focus]:bg-gray-100`}
+              onClick={() => setResetModalIsOpen(true)}
+            >
+              Reset User
             </button>
           </MenuItem>
         </MenuItems>
@@ -276,6 +299,12 @@ export default function Admin({ isOpen, setIsOpen }: Props) {
         user={myUser}
         setMyUser={setMyUser}
         triggerRoleChange={triggerRoleChange}
+      />
+      <ResetAdminModal
+        isOpen={resetModalIsOpen}
+        setIsOpen={setResetModalIsOpen}
+        user={myUser}
+        resetUserCredential={resetUserCredential}
       />
     </div>
   )

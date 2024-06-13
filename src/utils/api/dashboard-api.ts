@@ -221,6 +221,14 @@ const DashboardApi = {
 
     return data
   },
-}
+
+  async resetUserCredential(userId: string): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.post(`${userId}/reset-password`)
+
+    return data
+  },
+} 
 
 export default DashboardApi
