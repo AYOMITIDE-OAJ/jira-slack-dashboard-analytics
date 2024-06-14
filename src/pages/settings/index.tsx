@@ -6,7 +6,6 @@ import Button from '@/components/button'
 import Admin from '@/components/page-components/settings-tabs/admin'
 import Password from '@/components/page-components/settings-tabs/password'
 import { Roles } from '@/lib/roles'
-import { useSession } from 'next-auth/react'
 
 const Settings = () => {
   const [isOpen, setIsOpen] = useState(false)

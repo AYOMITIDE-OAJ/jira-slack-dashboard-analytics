@@ -18,7 +18,7 @@ import {
   MenuItems,
   MenuItem,
 } from '@headlessui/react'
-import ChangeRoleModal from '@/components/change-role'
+import ChangeRoleModal from '@/components/change-role-modal'
 import ResetAdminModal from '@/components/reset-admin-account'
 
 interface Props {

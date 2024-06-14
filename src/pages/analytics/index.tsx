@@ -5,12 +5,17 @@ import React, { useEffect, useState } from 'react'
 
 const Analytics = () => {
   const [iframeSrc, setIframeSrc] = useState<string>()
+  const [iframeUserSrc, setIframeUserSrc] = useState<string>()
 
-  const url =
+  const userAnalyticsUrl =
     'https://metabase.palremit.com/public/dashboard/602f36fc-92e6-4bb1-9461-099606b5e892'
 
+  const transactionAnalyticsUrl =
+    'https://metabase.palremit.com/public/dashboard/6eec00ec-6e5e-4718-afc1-24716d29eba5'
+
   useEffect(() => {
-    setIframeSrc(url)
+    setIframeSrc(userAnalyticsUrl)
+    setIframeUserSrc(transactionAnalyticsUrl)
   }, [])
 
   return (
@@ -21,6 +26,14 @@ const Analytics = () => {
           allowTransparency
           style={{ minHeight: '600px', width: '100%' }}
           // style={{ width: '100%', height: `calc(100vh - 200px)` }}
+        />
+      )}{' '}
+      <br />
+      {iframeUserSrc && (
+        <iframe
+          src={iframeUserSrc}
+          allowTransparency
+          style={{ minHeight: '600px', width: '100%' }}
         />
       )}
     </Layout>

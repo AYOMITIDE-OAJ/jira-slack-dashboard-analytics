@@ -15,7 +15,7 @@ import React, { useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
 import { GoArrowLeft, GoArrowRight } from 'react-icons/go'
 import { useSession } from 'next-auth/react'
-import { isCRM, isSuperAdmin } from '@/lib/roles'
+import { isCRM, isCustomRole, isSuperAdmin } from '@/lib/roles'
 import { Roles } from '@/lib/roles'
 import withRole from '@/components/page-components/with-role'
 import CreditWalletModal from '@/components/page-components/credit-wallet-modal'
@@ -259,34 +259,33 @@ const User = () => {
                 </TabPanels>
               </TabGroup>
             </div>
-            {isSuperAdmin(userSession.role) ||
-              (isCRM(userSession.role) && (
-                <>
-                  {user?.isActive ? (
-                    <Button
-                      variant="danger"
-                      size="md"
-                      className="mt-4"
-                      rounded={false}
-                      onClick={() => setDisableModalIsOpen(true)}
-                      loading={reqLoading}
-                    >
-                      Disable User
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="success"
-                      size="md"
-                      className="mt-4"
-                      rounded={false}
-                      onClick={activateUser}
-                      loading={reqLoading}
-                    >
-                      Enable User
-                    </Button>
-                  )}
-                </>
-              ))}
+            {isCustomRole(userSession.role, [Roles.SuperAdmin, Roles.CRM]) && (
+              <>
+                {user?.isActive ? (
+                  <Button
+                    variant="danger"
+                    size="md"
+                    className="mt-4"
+                    rounded={false}
+                    onClick={() => setDisableModalIsOpen(true)}
+                    loading={reqLoading}
+                  >
+                    Disable User
+                  </Button>
+                ) : (
+                  <Button
+                    variant="success"
+                    size="md"
+                    className="mt-4"
+                    rounded={false}
+                    onClick={activateUser}
+                    loading={reqLoading}
+                  >
+                    Enable User
+                  </Button>
+                )}
+              </>
+            )}
           </div>
         )}
         <div className="col-span-3 divide-y divide-neutral-200 rounded-lg border border-neutral-200">
