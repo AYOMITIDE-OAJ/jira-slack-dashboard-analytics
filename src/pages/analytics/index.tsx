@@ -24,7 +24,7 @@ const Analytics = () => {
         <iframe
           src={iframeSrc}
           allowTransparency
-          style={{ minHeight: '600px', width: '100%' }}
+          style={{ minHeight: '600px', width: '100%', overflow: 'auto' }}
           // style={{ width: '100%', height: `calc(100vh - 200px)` }}
         />
       )}{' '}
