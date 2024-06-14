@@ -41,7 +41,7 @@ const Pending = () => {
     {
       name: 'Email',
       selector: (row: any) => row?.email,
-      width: '200px',
+      minWidth: '300px',
     },
     {
       name: 'Type',
@@ -52,6 +52,7 @@ const Pending = () => {
       name: 'Brand',
       selector: (row: any) => row?.brand,
       cell: (row: any) => <p className="capitalize">{row?.brand}</p>,
+      minWidth: '150px',
     },
     {
       name: 'Country',
@@ -59,10 +60,15 @@ const Pending = () => {
       cell: (row: any) => <StatusPill status={row?.address.country} />,
     },
     {
-      name: 'Status',
+      name: 'Reason',
       selector: (row: any) => row?.status,
-      cell: (row: any) => <StatusPill status={row?.status} />,
-      width: '150px',
+      cell: (row: any) => <p className="capitalize">{row?.status}</p>,
+      minWidth: '180px',
+      // cell: (row: any) => (
+      //   <StatusPill
+      //     status={row?.status == 'cardholder-failed' ? 'inactive' : 'active'}
+      //   />
+      // ),
     },
   ]
 
@@ -74,6 +80,7 @@ const Pending = () => {
           status: 'requests',
         })
         setPendingCard(pendingRes.records)
+        console.log(pendingRes.records)
         setTotalUsers(pendingRes.total)
       } catch (err) {
       } finally {
