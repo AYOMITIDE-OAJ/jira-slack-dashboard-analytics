@@ -5,34 +5,18 @@ import Profile from '@/components/page-components/settings-tabs/profile'
 import Button from '@/components/button'
 import Admin from '@/components/page-components/settings-tabs/admin'
 import Password from '@/components/page-components/settings-tabs/password'
-import { Roles } from '@/lib/roles'
+import { Roles, isSuperAdmin } from '@/lib/roles'
+import { useSession } from 'next-auth/react'
 
 const Settings = () => {
+  const { data: session } = useSession()
+  const userSession = (session?.user as any)?.user
   const [isOpen, setIsOpen] = useState(false)
 
   const tabList = [
-    {
-      name: 'Profile',
-      allowedRoles: [
-        Roles.SuperAdmin,
-        Roles.Admin,
-        Roles.Investor,
-        Roles.Marketer,
-      ],
-    },
-    {
-      name: 'Admin',
-      allowedRoles: [Roles.SuperAdmin],
-    },
-    {
-      name: 'Password',
-      allowedRoles: [
-        Roles.SuperAdmin,
-        Roles.Admin,
-        Roles.Investor,
-        Roles.Marketer,
-      ],
-    },
+    'Profile',
+    isSuperAdmin(userSession.role) && 'Admin',
+    'Password',
   ]
 
   const tabPanels = [
@@ -53,7 +37,7 @@ const Settings = () => {
                   key={index}
                   className="border-b-2 border-transparent py-2 text-base font-medium text-primary transition-all duration-150 focus:outline-none data-[hover]:border-primary data-[selected]:border-primary"
                 >
-                  {tab.name}
+                  {tab}
                 </Tab>
               ))}
             </TabList>
