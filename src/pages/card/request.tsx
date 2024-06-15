@@ -60,15 +60,14 @@ const Pending = () => {
       cell: (row: any) => <StatusPill status={row?.address.country} />,
     },
     {
-      name: 'Reason',
+      name: 'Status',
       selector: (row: any) => row?.status,
-      cell: (row: any) => <p className="capitalize">{row?.status}</p>,
-      minWidth: '180px',
-      // cell: (row: any) => (
-      //   <StatusPill
-      //     status={row?.status == 'cardholder-failed' ? 'inactive' : 'active'}
-      //   />
-      // ),
+      cell: (row: any) => (
+        <StatusPill
+          status={row?.status == 'cardholder-failed' ? 'inactive' : 'active'}
+        />
+      ),
+      minWidth: '150px',
     },
   ]
 
