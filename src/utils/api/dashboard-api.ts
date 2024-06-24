@@ -233,7 +233,7 @@ const DashboardApi = {
   async blockUserWithdrawal(userId: string): Promise<any> {
     const {
       data: { data },
-    } = await axiosInstance.patch(`/users/${userId}/block`)
+    } = await axiosInstance.post(`/users/${userId}/withdrawal/block`)
 
     return data
   },
@@ -241,7 +241,7 @@ const DashboardApi = {
   async unblockUserWithdrawal(userId: string): Promise<any> {
     const {
       data: { data },
-    } = await axiosInstance.patch(`/users/${userId}/unblock`)
+    } = await axiosInstance.post(`/users/${userId}/withdrawal/unblock`)
 
     return data
   },
