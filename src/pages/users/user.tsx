@@ -320,37 +320,39 @@ const User = () => {
                 )}
               </>
             )}
+
+            <section>
+              {isCustomRole(userSession.role, [Roles.SuperAdmin]) && (
+                <>
+                  {user?.isBlocked ? (
+                    <Button
+                      variant="success"
+                      size="md"
+                      className="mt-4"
+                      rounded={false}
+                      onClick={unblockWithdrawal}
+                      loading={reqLoading}
+                    >
+                      Unblock Withdrawals
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="danger"
+                      size="md"
+                      className="mt-4"
+                      rounded={false}
+                      onClick={() => setWithdrawalModalIsOpen(true)}
+                      loading={reqLoading}
+                    >
+                      Block Withdrawals
+                    </Button>
+                  )}
+                </>
+              )}
+            </section>
           </div>
         )}
-        <section>
-          {isCustomRole(userSession.role, [Roles.SuperAdmin]) && (
-            <>
-              {user?.isBlocked ? (
-                <Button
-                  variant="danger"
-                  size="md"
-                  className="mt-4"
-                  rounded={false}
-                  onClick={unblockWithdrawal}
-                  loading={reqLoading}
-                >
-                  Unblock Withdrawals
-                </Button>
-              ) : (
-                <Button
-                  variant="success"
-                  size="md"
-                  className="mt-4"
-                  rounded={false}
-                  onClick={() => setWithdrawalModalIsOpen(true)}
-                  loading={reqLoading}
-                >
-                  Block Withdrawals
-                </Button>
-              )}
-            </>
-          )}
-        </section>
+
         <div className="col-span-3 divide-y divide-neutral-200 rounded-lg border border-neutral-200">
           {isSuperAdmin(userSession?.role) && (
             <div className="px-4 py-4">
