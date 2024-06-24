@@ -102,20 +102,19 @@ export default function Sidebar({ setOpen }: Props) {
     },
     {
       name: 'Card',
-      // route: Routes.Card,
       subRoutes: [
         {
           name: 'Issued',
           route: Routes.Issued,
-          allowedRoles: [Roles.SuperAdmin, Roles.Admin],
+          allowedRoles: [Roles.SuperAdmin, Roles.Admin, Roles.CRM],
         },
         {
           name: 'Request',
           route: Routes.Request,
-          allowedRoles: [Roles.SuperAdmin, Roles.Admin],
+          allowedRoles: [Roles.SuperAdmin, Roles.Admin, Roles.CRM],
         },
       ],
-      allowedRoles: [Roles.SuperAdmin, Roles.Admin],
+      allowedRoles: [Roles.SuperAdmin, Roles.Admin, Roles.CRM],
     },
     {
       name: 'KYC',

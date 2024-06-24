@@ -145,6 +145,6 @@ const Pending = () => {
   )
 }
 
-export default withRole(Pending, [Roles.SuperAdmin, Roles.Admin])
+export default withRole(Pending, [Roles.SuperAdmin, Roles.Admin, Roles.CRM])
 
 Pending.auth = true

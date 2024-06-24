@@ -92,7 +92,10 @@ const Issued = () => {
   useEffect(() => {
     ;(async () => {
       try {
-        const issuedRes = await  DashboardApi.getCardsByStatus({ page: 1, status: 'issued' });
+        const issuedRes = await DashboardApi.getCardsByStatus({
+          page: 1,
+          status: 'issued',
+        })
         setIssuedCard(issuedRes.records)
         setTotalUsers(issuedRes.total)
       } catch (err) {
@@ -136,6 +139,6 @@ const Issued = () => {
   )
 }
 
-export default withRole(Issued, [Roles.SuperAdmin, Roles.Admin])
+export default withRole(Issued, [Roles.SuperAdmin, Roles.Admin, Roles.CRM])
 
 Issued.auth = true
