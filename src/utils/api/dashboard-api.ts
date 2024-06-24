@@ -229,6 +229,22 @@ const DashboardApi = {
 
     return data
   },
-} 
+
+  async blockUserWithdrawal(userId: string): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.patch(`/users/${userId}/block`)
+
+    return data
+  },
+
+  async unblockUserWithdrawal(userId: string): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.patch(`/users/${userId}/unblock`)
+
+    return data
+  },
+}
 
 export default DashboardApi

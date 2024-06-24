@@ -21,6 +21,7 @@ import withRole from '@/components/page-components/with-role'
 import CreditWalletModal from '@/components/page-components/credit-wallet-modal'
 import DebitWalletModal from '@/components/page-components/debit-wallet-modal'
 import DisableUserModal from '@/components/disable-user-modal'
+import BlockWithdrawalModal from '@/components/block-withdrawal-modal'
 
 const User = () => {
   const { data: session } = useSession()
@@ -40,6 +41,7 @@ const User = () => {
   const [creditModalIsOpen, setCreditModalIsOpen] = useState(false)
   const [debitModalIsOpen, setDebitModalIsOpen] = useState(false)
   const [disableModalIsOpen, setDisableModalIsOpen] = useState(false)
+  const [withdrawalModalIsOpen, setWithdrawalModalIsOpen] = useState(false)
 
   const columns: TableColumn<any>[] = [
     {
@@ -114,6 +116,38 @@ const User = () => {
 
       if (res) {
         handleGenericSuccess('User Deactivated')
+        router.reload()
+      }
+    } catch (e: any) {
+      handleError(e)
+    } finally {
+      setReqLoading(false)
+    }
+  }
+
+  const blockWithdrawal = async () => {
+    setReqLoading(true)
+    try {
+      const res = await DashboardApi.blockUserWithdrawal(String(userId))
+
+      if (res) {
+        handleGenericSuccess('User Withdrawals Blocked Successfully')
+        router.reload()
+      }
+    } catch (e: any) {
+      handleError(e)
+    } finally {
+      setReqLoading(false)
+    }
+  }
+
+  const unblockWithdrawal = async () => {
+    setReqLoading(true)
+    try {
+      const res = await DashboardApi.unblockUserWithdrawal(String(userId))
+
+      if (res) {
+        handleGenericSuccess('User Withdrawals Unblocked Successfully')
         router.reload()
       }
     } catch (e: any) {
@@ -288,6 +322,35 @@ const User = () => {
             )}
           </div>
         )}
+        <section>
+          {isCustomRole(userSession.role, [Roles.SuperAdmin]) && (
+            <>
+              {user?.isBlocked ? (
+                <Button
+                  variant="danger"
+                  size="md"
+                  className="mt-4"
+                  rounded={false}
+                  onClick={unblockWithdrawal}
+                  loading={reqLoading}
+                >
+                  Unblock Withdrawals
+                </Button>
+              ) : (
+                <Button
+                  variant="success"
+                  size="md"
+                  className="mt-4"
+                  rounded={false}
+                  onClick={() => setWithdrawalModalIsOpen(true)}
+                  loading={reqLoading}
+                >
+                  Block Withdrawals
+                </Button>
+              )}
+            </>
+          )}
+        </section>
         <div className="col-span-3 divide-y divide-neutral-200 rounded-lg border border-neutral-200">
           {isSuperAdmin(userSession?.role) && (
             <div className="px-4 py-4">
@@ -373,6 +436,12 @@ const User = () => {
         setIsOpen={setDisableModalIsOpen}
         user={user}
         deactivateUser={deactivateUser}
+      />
+      <BlockWithdrawalModal
+        isOpen={withdrawalModalIsOpen}
+        setIsOpen={setWithdrawalModalIsOpen}
+        user={user}
+        blockWithdrawal={blockWithdrawal}
       />
     </Layout>
   )
