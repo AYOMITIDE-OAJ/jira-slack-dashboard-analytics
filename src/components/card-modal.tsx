@@ -11,9 +11,15 @@ interface Props {
   isOpen: boolean
   setIsOpen: Dispatch<SetStateAction<boolean>>
   card: Record<string, any>
+  retryKycSubmission: any
 }
 
-export default function CardDetailsModal({ isOpen, setIsOpen, card }: Props) {
+export default function CardDetailsModal({
+  isOpen,
+  setIsOpen,
+  card,
+  retryKycSubmission,
+}: Props) {
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <div>
@@ -63,7 +69,9 @@ export default function CardDetailsModal({ isOpen, setIsOpen, card }: Props) {
               </div>
             </div>
           )}
-          <Button>Retry KYC</Button>
+          <Button onClick={() => retryKycSubmission(card._id)}>
+            Retry KYC
+          </Button>
         </div>
       </div>
     </Modal>

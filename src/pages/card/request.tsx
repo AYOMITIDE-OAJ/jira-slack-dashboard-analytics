@@ -8,8 +8,10 @@ import TableSearch from '@/components/table-search'
 import User from '@/components/user'
 import { Roles } from '@/lib/roles'
 import DashboardApi from '@/utils/api/dashboard-api'
+import { handleError, handleGenericSuccess } from '@/utils/notify'
 import debounce from 'lodash.debounce'
 import moment from 'moment'
+import { useRouter } from 'next/router'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
 import { CiCircleMore } from 'react-icons/ci'
@@ -22,10 +24,23 @@ const Pending = () => {
   const [selected, setSelected] = useState<Record<string, any>>({})
   const [searchValue, setSearchValue] = useState('')
   const [tableLoading, setTableLoading] = useState(false)
+  const router = useRouter()
 
   const handleRowClick = (row: any) => {
     setSelected(row)
     setIsOpen(true)
+  }
+
+  const retryKycSubmission = async (cardId: string) => {
+    try {
+      await DashboardApi.retryKycSubmission(cardId)
+      handleGenericSuccess(
+        'KYC retried Successfully... Please check back in a few minutes'
+      )
+      router.reload()
+    } catch (error) {
+      handleError(error)
+    }
   }
 
   const handleValueChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -153,7 +168,12 @@ const Pending = () => {
           progressPending={tableLoading}
         />
       </div>
-      <CardDetailsModal isOpen={isOpen} setIsOpen={setIsOpen} card={selected} />
+      <CardDetailsModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        card={selected}
+        retryKycSubmission={retryKycSubmission}
+      />
     </Layout>
   )
 }

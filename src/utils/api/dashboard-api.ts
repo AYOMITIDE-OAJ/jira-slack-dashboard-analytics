@@ -245,6 +245,14 @@ const DashboardApi = {
 
     return data
   },
+
+  async retryKycSubmission(cardId: string): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.post(`/cards/requests/${cardId}/retry`)
+
+    return data
+  },
 }
 
 export default DashboardApi
