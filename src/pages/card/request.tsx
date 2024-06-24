@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import CardDetailsModal from '@/components/card-modal'
 import Layout from '@/components/layout'
 import withRole from '@/components/page-components/with-role'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
 import TableSearch from '@/components/table-search'
-import TransactionDetailsModal from '@/components/transaction-details-modal'
 import User from '@/components/user'
 import { Roles } from '@/lib/roles'
 import DashboardApi from '@/utils/api/dashboard-api'
@@ -12,6 +12,7 @@ import debounce from 'lodash.debounce'
 import moment from 'moment'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
+import { CiCircleMore } from 'react-icons/ci'
 
 const Pending = () => {
   const [loading, setLoading] = useState(true)
@@ -21,6 +22,11 @@ const Pending = () => {
   const [selected, setSelected] = useState<Record<string, any>>({})
   const [searchValue, setSearchValue] = useState('')
   const [tableLoading, setTableLoading] = useState(false)
+
+  const handleRowClick = (row: any) => {
+    setSelected(row)
+    setIsOpen(true)
+  }
 
   const handleValueChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value)
@@ -35,7 +41,7 @@ const Pending = () => {
     {
       name: 'Name',
       selector: (row: any) => row,
-      cell: (row: any) => <User user={row} />,
+      cell: (row: any) => <User user={row} disabled />,
       width: '250px',
     },
     {
@@ -68,6 +74,18 @@ const Pending = () => {
         />
       ),
       minWidth: '150px',
+    },
+    {
+      name: '',
+      selector: (row: any) => row,
+      cell: (row: any) => (
+        <CiCircleMore
+          className="text-gray-300"
+          size={35}
+          onClick={() => handleRowClick(row)}
+        />
+      ),
+      width: '100px',
     },
   ]
 
@@ -135,12 +153,7 @@ const Pending = () => {
           progressPending={tableLoading}
         />
       </div>
-
-      <TransactionDetailsModal
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        transaction={selected}
-      />
+      <CardDetailsModal isOpen={isOpen} setIsOpen={setIsOpen} card={selected} />
     </Layout>
   )
 }

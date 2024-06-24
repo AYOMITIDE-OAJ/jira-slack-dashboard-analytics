@@ -5,6 +5,9 @@ const nextConfig = {
     API_MISC_URL: process.env.API_MISC_URL,
     HOST_URL: process.env.HOST_URL,
   },
+  images: {
+    domains: ['nyc3.digitaloceanspaces.com'],
+  },
   reactStrictMode: true,
 }
 

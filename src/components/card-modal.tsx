@@ -1,0 +1,71 @@
+import React, { Dispatch, SetStateAction } from 'react'
+import KeyValueComponent from './key-value-component'
+import Modal from './modal'
+import moment from 'moment'
+import StatusPill from './status-pill'
+import KeyDetailValueComponent from './key-detail-value-component'
+import Image from 'next/image'
+import Button from './button'
+
+interface Props {
+  isOpen: boolean
+  setIsOpen: Dispatch<SetStateAction<boolean>>
+  card: Record<string, any>
+}
+
+export default function CardDetailsModal({ isOpen, setIsOpen, card }: Props) {
+  return (
+    <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+      <div>
+        <h1 className="text-lg">Card Details</h1>
+        <div className="max-h-[680px] divide-y divide-gray-200 overflow-y-scroll py-3 md:py-6">
+          <KeyValueComponent
+            name="Date"
+            value={moment(card?.createdAt).format('LLL')}
+            size="sm"
+          />
+          <KeyValueComponent
+            name="Name"
+            value={`${card?.firstName || ''} ${card?.lastName || ''}`}
+            size="sm"
+          />
+          <KeyValueComponent name="Email" value={card?.email} size="sm" />
+          <KeyValueComponent name="Mobile" value={card?.phone} size="sm" />
+          <KeyValueComponent name="Channel" value={card?.channel} size="sm" />
+          <KeyValueComponent
+            name="Status"
+            value={<StatusPill status={card?.status} size="sm" />}
+            size="sm"
+          />
+          {card?.failureReason && (
+            <KeyDetailValueComponent
+              name="Failure Reason"
+              value={card?.failureReason}
+              size="sm"
+            />
+          )}
+          {card?.identityNumber && (
+            <div className="w-full pt-4">
+              <p className="text-center text-xs">IDENTITY</p>
+              <div className="divide-y divide-gray-200">
+                <KeyValueComponent
+                  name="Number"
+                  value={`${card?.identityNumber}`}
+                  size="sm"
+                />
+                <Image
+                  src={card?.identitySelfie}
+                  alt="User Image"
+                  className="mx-auto my-3 block rounded-xl"
+                  height={100}
+                  width={100}
+                />
+              </div>
+            </div>
+          )}
+          <Button>Retry KYC</Button>
+        </div>
+      </div>
+    </Modal>
+  )
+}
