@@ -21,6 +21,7 @@ const Issued = () => {
   const [selected, setSelected] = useState<Record<string, any>>({})
   const [searchValue, setSearchValue] = useState('')
   const [tableLoading, setTableLoading] = useState(false)
+  const indexPage = 1;
 
   const handleValueChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value)
@@ -93,7 +94,7 @@ const Issued = () => {
     ;(async () => {
       try {
         const issuedRes = await DashboardApi.getCardsByStatus({
-          page: 1,
+          page: indexPage,
           status: 'issued',
         })
         setIssuedCard(issuedRes.records)
