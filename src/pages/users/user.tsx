@@ -339,7 +339,7 @@ const User = () => {
               </>
             )}
 
-            <section>
+            <section className='flex justify-between gap-4'>
               {isCustomRole(userSession.role, [
                 Roles.SuperAdmin,
                 Roles.CRM,
@@ -358,7 +358,7 @@ const User = () => {
                     </Button>
                   ) : (
                     <Button
-                      variant="danger"
+                      variant="success"
                       size="md"
                       className="mt-4"
                       rounded={false}
@@ -370,9 +370,7 @@ const User = () => {
                   )}
                 </>
               )}
-            </section>
 
-            <section>
               {isCustomRole(userSession.role, [
                 Roles.SuperAdmin,
                 Roles.CRM,
@@ -385,7 +383,7 @@ const User = () => {
                     rounded={false}
                     onClick={() => setResetModalIsOpen(true)}
                     loading={reqLoading}
-                    disabled={user?.transactionPin ? true : false}
+                    disabled={!user?.transactionPin}
                   >
                     Reset Transaction Pin
                   </Button>

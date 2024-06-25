@@ -45,13 +45,11 @@ export default function ResetPinModal({
           </aside>
 
           <section className="mx-4 my-4 flex gap-5 md:mx-8 lg:mx-10">
-            <Button rounded={false}>No</Button>
+            <Button onClick={() => setIsOpen(false)} rounded={false}>
+              No
+            </Button>
             <>
-              <Button
-                variant="danger"
-                rounded={false}
-                onClick={resetTranxPin}
-              >
+              <Button variant="danger" rounded={false} onClick={resetTranxPin}>
                 Yes
               </Button>
             </>
