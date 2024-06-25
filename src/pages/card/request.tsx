@@ -64,10 +64,15 @@ const Pending = () => {
       minWidth: '300px',
     },
     {
+      name: 'Cardholder ID',
+      selector: (row: any) => row?.cardholderId,
+      minWidth: '300px',
+    },
+    {
       name: 'Brand',
       selector: (row: any) => row?.brand,
       cell: (row: any) => <p className="capitalize">{row?.brand}</p>,
-      minWidth: '150px',
+      minWidth: '180px',
     },
     {
       name: 'Status',

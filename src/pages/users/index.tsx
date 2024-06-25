@@ -76,7 +76,7 @@ const Users = () => {
           className="text-gray-300"
           size={35}
           onClick={() =>
-            router.push({ pathname: Routes.User, query: { id: row._id } })
+            router.push({ pathname: Routes.User, query: { id: row?._id } })
           }
         />
       ),

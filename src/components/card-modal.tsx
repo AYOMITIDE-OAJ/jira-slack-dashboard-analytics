@@ -37,6 +37,7 @@ export default function CardDetailsModal({
             size="sm"
           />
           <KeyValueSenComponent name="Email" value={card?.email} size="sm" />
+          <KeyValueSenComponent name="Cardholder Id" value={card?.cardholderId} size="sm" />
           <KeyValueComponent name="Mobile" value={card?.phone} size="sm" />
           <KeyValueComponent
             name="Status"
