@@ -253,6 +253,14 @@ const DashboardApi = {
 
     return data
   },
+
+  async resetUserTranxPin(userId: string): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.post(`/users/${userId}/pin/reset`)
+
+    return data
+  },
 }
 
 export default DashboardApi

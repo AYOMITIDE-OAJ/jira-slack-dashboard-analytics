@@ -22,6 +22,7 @@ import CreditWalletModal from '@/components/page-components/credit-wallet-modal'
 import DebitWalletModal from '@/components/page-components/debit-wallet-modal'
 import DisableUserModal from '@/components/disable-user-modal'
 import BlockWithdrawalModal from '@/components/block-withdrawal-modal'
+import ResetPinModal from '@/components/reset-pin-modal'
 
 const User = () => {
   const { data: session } = useSession()
@@ -42,6 +43,7 @@ const User = () => {
   const [debitModalIsOpen, setDebitModalIsOpen] = useState(false)
   const [disableModalIsOpen, setDisableModalIsOpen] = useState(false)
   const [withdrawalModalIsOpen, setWithdrawalModalIsOpen] = useState(false)
+  const [resetModalIsOpen, setResetModalIsOpen] = useState(false)
 
   const columns: TableColumn<any>[] = [
     {
@@ -132,6 +134,22 @@ const User = () => {
 
       if (res) {
         handleGenericSuccess('User Withdrawals Blocked Successfully')
+        router.reload()
+      }
+    } catch (e: any) {
+      handleError(e)
+    } finally {
+      setReqLoading(false)
+    }
+  }
+
+  const resetTranxPin = async () => {
+    setReqLoading(true)
+    try {
+      const res = await DashboardApi.resetUserTranxPin(String(userId))
+
+      if (res) {
+        handleGenericSuccess('User Transaction Pin Reset Successfully')
         router.reload()
       }
     } catch (e: any) {
@@ -322,7 +340,10 @@ const User = () => {
             )}
 
             <section>
-              {isCustomRole(userSession.role, [Roles.SuperAdmin]) && (
+              {isCustomRole(userSession.role, [
+                Roles.SuperAdmin,
+                Roles.CRM,
+              ]) && (
                 <>
                   {user?.isBlocked ? (
                     <Button
@@ -347,6 +368,27 @@ const User = () => {
                       Block Withdrawals
                     </Button>
                   )}
+                </>
+              )}
+            </section>
+
+            <section>
+              {isCustomRole(userSession.role, [
+                Roles.SuperAdmin,
+                Roles.CRM,
+              ]) && (
+                <>
+                  <Button
+                    variant="success"
+                    size="md"
+                    className="mt-4"
+                    rounded={false}
+                    onClick={() => setResetModalIsOpen(true)}
+                    loading={reqLoading}
+                    disabled={user?.transactionPin ? true : false}
+                  >
+                    Reset Transaction Pin
+                  </Button>
                 </>
               )}
             </section>
@@ -444,6 +486,12 @@ const User = () => {
         setIsOpen={setWithdrawalModalIsOpen}
         user={user}
         blockWithdrawal={blockWithdrawal}
+      />
+      <ResetPinModal
+        isOpen={resetModalIsOpen}
+        setIsOpen={setResetModalIsOpen}
+        user={user}
+        resetTranxPin={resetTranxPin}
       />
     </Layout>
   )
