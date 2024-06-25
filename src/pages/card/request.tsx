@@ -2,7 +2,6 @@
 import CardDetailsModal from '@/components/card-modal'
 import Layout from '@/components/layout'
 import withRole from '@/components/page-components/with-role'
-import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
 import TableSearch from '@/components/table-search'
 import User from '@/components/user'
@@ -65,29 +64,15 @@ const Pending = () => {
       minWidth: '300px',
     },
     {
-      name: 'Type',
-      selector: (row: any) => row?.type,
-      cell: (row: any) => <p className="capitalize">{row?.type}</p>,
-    },
-    {
       name: 'Brand',
       selector: (row: any) => row?.brand,
       cell: (row: any) => <p className="capitalize">{row?.brand}</p>,
       minWidth: '150px',
     },
     {
-      name: 'Country',
-      selector: (row: any) => row?.address.country,
-      cell: (row: any) => <StatusPill status={row?.address.country} />,
-    },
-    {
       name: 'Status',
       selector: (row: any) => row?.status,
-      cell: (row: any) => (
-        <StatusPill
-          status={row?.status == 'cardholder-failed' ? 'inactive' : 'active'}
-        />
-      ),
+      cell: (row: any) => <p className="capitalize">{row?.status}</p>,
       minWidth: '150px',
     },
     {
@@ -166,6 +151,7 @@ const Pending = () => {
           columns={columns}
           data={pendingCards}
           progressPending={tableLoading}
+          onRowClicked={(row) => handleRowClick(row)}
         />
       </div>
       <CardDetailsModal

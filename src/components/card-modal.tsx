@@ -6,6 +6,7 @@ import StatusPill from './status-pill'
 import KeyDetailValueComponent from './key-detail-value-component'
 import Image from 'next/image'
 import Button from './button'
+import KeyValueSenComponent from './key-value-sensitive.component'
 
 interface Props {
   isOpen: boolean
@@ -35,9 +36,8 @@ export default function CardDetailsModal({
             value={`${card?.firstName || ''} ${card?.lastName || ''}`}
             size="sm"
           />
-          <KeyValueComponent name="Email" value={card?.email} size="sm" />
+          <KeyValueSenComponent name="Email" value={card?.email} size="sm" />
           <KeyValueComponent name="Mobile" value={card?.phone} size="sm" />
-          <KeyValueComponent name="Channel" value={card?.channel} size="sm" />
           <KeyValueComponent
             name="Status"
             value={<StatusPill status={card?.status} size="sm" />}
@@ -52,7 +52,7 @@ export default function CardDetailsModal({
           )}
           {card?.identityNumber && (
             <div className="w-full pt-4">
-              <p className="text-center text-xs">IDENTITY</p>
+              <p className="text-center text-xs font-bold">IDENTITY</p>
               <div className="divide-y divide-gray-200">
                 <KeyValueComponent
                   name="Number"
@@ -62,9 +62,9 @@ export default function CardDetailsModal({
                 <Image
                   src={card?.identitySelfie}
                   alt="User Image"
-                  className="mx-auto my-3 block rounded-xl"
-                  height={100}
-                  width={100}
+                  className="mx-auto my-3 block rounded-xl object-contain"
+                  height={150}
+                  width={150}
                 />
               </div>
             </div>
