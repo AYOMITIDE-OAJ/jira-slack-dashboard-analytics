@@ -54,7 +54,7 @@ const Pending = () => {
         return
       }
 
-      await DashboardApi.uploadUserKycSelfie(cardId, selectedFile)
+      await DashboardApi.updateCardRequestSelfie(cardId, selectedFile)
       handleGenericSuccess('KYC Selfie Uploaded Successfully')
       router.reload()
     } catch (error) {
