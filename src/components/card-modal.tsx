@@ -79,12 +79,12 @@ export default function CardDetailsModal({
             </div>
           )}
           <Button onClick={() => retryKycSubmission(card._id)}>
-            Retry KYC
+            Retry Request
           </Button>
           <div className='flex justify-between gap-4 items-center mt-6'>
             <input type="file" accept="image/*" onChange={handleFileChange} />
-            <Button className="my-4" onClick={() => uploadUserKyc(card._id)}>
-              Upload Selfie
+            <Button variant='black_white' className="my-4" onClick={() => uploadUserKyc(card._id)}>
+              Upload new selfie
             </Button>
           </div>{' '}
         </div>

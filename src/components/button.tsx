@@ -7,6 +7,7 @@ type ButtonVariants =
   | 'primary_outline'
   | 'danger'
   | 'success'
+  | 'black_white'
 type ButtonSizes = 'sm' | 'md' | 'lg'
 
 interface Props {
@@ -42,6 +43,8 @@ export default function Button({
       'bg-red-600 hover:bg-red-600/90 text-white border border-red-600 disabled:bg-red-600/60 disabled:border-red-600/60',
     success:
       'bg-green-600 hover:bg-green-600/90 text-white border border-green-600 disabled:bg-green-600/60 disabled:border-green-600/60',
+    black_white:
+      'bg-black hover:bg-neutral-900 text-white/80 border border-white/80 disabled:bg-secondary',
   }[variant]
 
   const sizes = {

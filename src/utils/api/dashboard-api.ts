@@ -268,11 +268,15 @@ const DashboardApi = {
 
     const {
       data: { data },
-    } = await axiosInstance.patch(`/cards/requests/${requestId}/selfie`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
+    } = await axiosInstance.patch(
+      `/cards/requests/${requestId}/selfie`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    )
 
     return data
   },
