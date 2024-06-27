@@ -23,6 +23,7 @@ const Pending = () => {
   const [selected, setSelected] = useState<Record<string, any>>({})
   const [searchValue, setSearchValue] = useState('')
   const [tableLoading, setTableLoading] = useState(false)
+  const [selectedFile, setSelectedFile] = useState(null)
   const router = useRouter()
 
   const handleRowClick = (row: any) => {
@@ -36,6 +37,25 @@ const Pending = () => {
       handleGenericSuccess(
         'KYC retried Successfully... Please check back in a few minutes'
       )
+      router.reload()
+    } catch (error) {
+      handleError(error)
+    }
+  }
+
+  const handleFileChange = (event: any) => {
+    setSelectedFile(event.target.files[0])
+  }
+
+  const uploadUserKyc = async (cardId: string) => {
+    try {
+      if (!selectedFile) {
+        handleError('Please select a file to upload')
+        return
+      }
+
+      await DashboardApi.uploadUserKycSelfie(cardId, selectedFile)
+      handleGenericSuccess('KYC Selfie Uploaded Successfully')
       router.reload()
     } catch (error) {
       handleError(error)
@@ -164,6 +184,8 @@ const Pending = () => {
         setIsOpen={setIsOpen}
         card={selected}
         retryKycSubmission={retryKycSubmission}
+        uploadUserKyc={uploadUserKyc}
+        handleFileChange={handleFileChange}
       />
     </Layout>
   )

@@ -13,6 +13,8 @@ interface Props {
   setIsOpen: Dispatch<SetStateAction<boolean>>
   card: Record<string, any>
   retryKycSubmission: any
+  uploadUserKyc: any
+  handleFileChange: any
 }
 
 export default function CardDetailsModal({
@@ -20,6 +22,8 @@ export default function CardDetailsModal({
   setIsOpen,
   card,
   retryKycSubmission,
+  uploadUserKyc,
+  handleFileChange,
 }: Props) {
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
@@ -37,7 +41,11 @@ export default function CardDetailsModal({
             size="sm"
           />
           <KeyValueSenComponent name="Email" value={card?.email} size="sm" />
-          <KeyValueSenComponent name="Cardholder Id" value={card?.cardholderId} size="sm" />
+          <KeyValueSenComponent
+            name="Cardholder Id"
+            value={card?.cardholderId}
+            size="sm"
+          />
           <KeyValueComponent name="Mobile" value={card?.phone} size="sm" />
           <KeyValueComponent
             name="Status"
@@ -73,6 +81,12 @@ export default function CardDetailsModal({
           <Button onClick={() => retryKycSubmission(card._id)}>
             Retry KYC
           </Button>
+          <div className='flex justify-between gap-4 items-center mt-6'>
+            <input type="file" accept="image/*" onChange={handleFileChange} />
+            <Button className="my-4" onClick={() => uploadUserKyc(card._id)}>
+              Upload Selfie
+            </Button>
+          </div>{' '}
         </div>
       </div>
     </Modal>

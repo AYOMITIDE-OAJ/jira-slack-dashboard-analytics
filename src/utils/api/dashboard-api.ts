@@ -261,6 +261,21 @@ const DashboardApi = {
 
     return data
   },
+
+  async uploadUserKycSelfie(userId: string, file: File): Promise<any> {
+    const formData = new FormData()
+    formData.append('selfie', file)
+
+    const {
+      data: { data },
+    } = await axiosInstance.patch(`/requests/${userId}/selfie`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+
+    return data
+  },
 }
 
 export default DashboardApi
