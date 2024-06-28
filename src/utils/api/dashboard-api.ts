@@ -262,15 +262,14 @@ const DashboardApi = {
     return data
   },
 
-  async updateCardRequestSelfie(requestId: string, file: File): Promise<any> {
-    const formData = new FormData()
-    formData.append('file', file)
+  async updateCardRequestSelfie(requestId: string, file: any): Promise<any> {
+   
 
     const {
       data: { data },
     } = await axiosInstance.patch(
       `/cards/requests/${requestId}/selfie`,
-      formData,
+      file,
       {
         headers: {
           'Content-Type': 'multipart/form-data',
