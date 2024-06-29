@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React, { ChangeEvent, Dispatch, SetStateAction } from 'react'
 import KeyValueComponent from './key-value-component'
 import Modal from './modal'
 import moment from 'moment'
@@ -12,9 +12,9 @@ interface Props {
   isOpen: boolean
   setIsOpen: Dispatch<SetStateAction<boolean>>
   card: Record<string, any>
-  retryKycSubmission: any
-  uploadUserKyc: any
-  handleFileChange: any
+  retryKycSubmission: (id: string) => void;
+  uploadUserKyc: (cardId: string) => void;
+  handleFileChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function CardDetailsModal({

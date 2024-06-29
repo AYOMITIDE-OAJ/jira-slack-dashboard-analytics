@@ -1,6 +1,8 @@
 import createAxiosInstance from '../axios'
+import createVanillaAxiosInstance from '../axios-vanilla'
 
 export const axiosInstance = createAxiosInstance()
+export const axiosVanillaInstance = createVanillaAxiosInstance()
 
 const DashboardApi = {
   async getDashBoardOverview() {
@@ -262,20 +264,14 @@ const DashboardApi = {
     return data
   },
 
-  async updateCardRequestSelfie(requestId: string, file: any): Promise<any> {
-   
-
+  async updateCardRequestSelfie(requestId: string, file: FormData): Promise<any> {
     const {
       data: { data },
-    } = await axiosInstance.patch(
-      `/cards/requests/${requestId}/selfie`,
-      file,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }
-    )
+    } = await axiosVanillaInstance.patch(`/cards/requests/${requestId}/selfie`, file, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
 
     return data
   },

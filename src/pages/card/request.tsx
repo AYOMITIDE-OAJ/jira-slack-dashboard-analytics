@@ -46,7 +46,6 @@ const Pending = () => {
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setSelectedFile(event.target.files[0])
-      console.log('File selected:', event.target.files[0])
     }
   }
 
@@ -57,11 +56,8 @@ const Pending = () => {
         return
       }
 
-      console.log("Uploading file:", selectedFile);
-
       const formData = new FormData()
       formData.append('file', selectedFile)
-
 
       await DashboardApi.updateCardRequestSelfie(cardId, formData)
       handleGenericSuccess('KYC Selfie Uploaded Successfully')
@@ -131,7 +127,6 @@ const Pending = () => {
           status: 'requests',
         })
         setPendingCard(pendingRes.records)
-        console.log(pendingRes.records)
         setTotalUsers(pendingRes.total)
       } catch (err) {
       } finally {
