@@ -5,8 +5,16 @@ const nextConfig = {
     API_MISC_URL: process.env.API_MISC_URL,
     HOST_URL: process.env.HOST_URL,
   },
+  // images: {
+  //   domains: ['nyc3.digitaloceanspaces.com'],
+  // },
   images: {
-    domains: ['nyc3.digitaloceanspaces.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.digitaloceanspaces.com',
+      },
+    ],
   },
   reactStrictMode: true,
 }

@@ -264,14 +264,21 @@ const DashboardApi = {
     return data
   },
 
-  async updateCardRequestSelfie(requestId: string, file: FormData): Promise<any> {
+  async updateCardRequestSelfie(
+    requestId: string,
+    file: FormData
+  ): Promise<any> {
     const {
       data: { data },
-    } = await axiosVanillaInstance.patch(`/cards/requests/${requestId}/selfie`, file, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
+    } = await axiosVanillaInstance.patch(
+      `/cards/requests/${requestId}/selfie`,
+      file,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    )
 
     return data
   },

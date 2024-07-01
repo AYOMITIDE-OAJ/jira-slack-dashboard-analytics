@@ -22,4 +22,6 @@ export enum Routes {
   Kyc = '/kyc',
   FeeManagement = '/fee-management',
   Settings = '/settings',
+  Notifications = '/notifications',
+
 }

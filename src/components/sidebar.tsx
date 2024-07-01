@@ -137,6 +137,11 @@ export default function Sidebar({ setOpen }: Props) {
         Roles.Marketer,
       ],
     },
+    {
+      name: 'Notifications',
+      route: Routes.Notifications,
+      allowedRoles: [Roles.SuperAdmin, Roles.Admin, Roles.CRM],
+    },
   ]
 
   const joinString = (name: string) => name.split(' ').join('-').toLowerCase()
