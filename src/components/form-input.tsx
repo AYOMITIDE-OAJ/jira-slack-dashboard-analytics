@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { ChangeEvent } from 'react'
+import { ChangeEventHandler } from 'react'
 
 interface FormInputProps {
   name: string
@@ -7,7 +7,9 @@ interface FormInputProps {
   value: string
   label: string
   type?: string
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void
+  model?: string
+  // onChange: (e: ChangeEvent<HTMLInputElement>) => void
+  onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
   disabled?: boolean
   className?: string
 }
@@ -18,6 +20,7 @@ export default function FormInput({
   value,
   label,
   type = 'text',
+  model = 'text',
   onChange,
   disabled = false,
   className,
@@ -27,18 +30,32 @@ export default function FormInput({
       <label htmlFor={name} className="text-sm font-medium text-gray-600">
         {label}
       </label>
-      <input
-        name={name}
-        placeholder={placeholder}
-        value={value}
-        type={type}
-        onChange={onChange}
-        disabled={disabled}
-        className={cn(
-          'w-full rounded-lg border border-gray-200 bg-gray-100 px-3 py-3 text-sm ring-0 focus:outline-none',
-          className
-        )}
-      />
+      {model === 'textarea' ? (
+        <textarea
+          name={name}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          disabled={disabled}
+          className={cn(
+            'w-full rounded-lg border border-gray-200 bg-gray-100 px-3 py-3 text-sm ring-0 focus:outline-none',
+            className
+          )}
+        />
+      ) : (
+        <input
+          name={name}
+          placeholder={placeholder}
+          value={value}
+          type={type}
+          onChange={onChange}
+          disabled={disabled}
+          className={cn(
+            'w-full rounded-lg border border-gray-200 bg-gray-100 px-3 py-3 text-sm ring-0 focus:outline-none',
+            className
+          )}
+        />
+      )}
     </div>
   )
 }

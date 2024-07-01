@@ -1,13 +1,12 @@
 import Layout from '@/components/layout'
 import React, { ChangeEvent, useState } from 'react'
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
 import Button from '@/components/button'
-import { Roles, isSuperAdmin } from '@/lib/roles'
 import { useSession } from 'next-auth/react'
 import FormInput from '@/components/form-input'
 import { handleError, handleGenericSuccess } from '@/utils/notify'
 import Select from '@/components/select'
 import NotificationCardLayout from '@/components/notification-card-layout'
+import NotificationSuccessModal from '@/components/notification-success-modal'
 
 const Notifications = () => {
   const { data: session } = useSession()
@@ -15,10 +14,12 @@ const Notifications = () => {
 
   const [loading, setLoading] = useState(false)
   const [reqLoading, setReqLoading] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const [selectedUser, setSelectedUser] = useState('')
 
   const [formData, setFormData] = useState({
     type: '',
+    userId: '',
     title: '',
     content: '',
   })
@@ -93,7 +94,8 @@ const Notifications = () => {
       //     title: rest.title,
       //     sell_markup: rest.sell_markup,
       //   })
-      handleGenericSuccess('Notification Sent Successfully')
+      setIsOpen(true)
+      //   handleGenericSuccess('Notification Sent Successfully')
     } catch (e) {
       handleError(e)
     } finally {
@@ -109,13 +111,6 @@ const Notifications = () => {
             <h1 className="text-lg font-medium text-gray-600">Notify User</h1>
           </div>
           <form className="space-y-4 py-4" onSubmit={handleSubmit}>
-            {/* <FormSelect
-              name="type"
-              label="User Type"
-              value={formData.type}
-              placeholder="Select User Type"
-              onChange={handleChange}
-            /> */}
             <Select
               name="type"
               label="User Type"
@@ -124,6 +119,22 @@ const Notifications = () => {
               onChange={handleSelect}
               variant="dark"
             />
+            {selectedUser === 'specific' && (
+              <FormInput
+                name="userId"
+                label="User ID"
+                value={formData.userId}
+                placeholder="Enter UserId"
+                onChange={handleChange}
+              />
+            )}
+            {/* <FormInput
+              name="user"
+              label="User ID"
+              value={formData.userId}
+              placeholder="Enter UserId"
+              onChange={handleChange}
+            /> */}
             <FormInput
               name="title"
               label="Message Title"
@@ -134,6 +145,7 @@ const Notifications = () => {
             <FormInput
               name="content"
               label="Message Body"
+              model="textarea"
               value={formData.content}
               placeholder="Type Message Here"
               onChange={handleChange}
@@ -165,6 +177,7 @@ const Notifications = () => {
           ))}
         </div>
       </div>
+      <NotificationSuccessModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </Layout>
   )
 }
