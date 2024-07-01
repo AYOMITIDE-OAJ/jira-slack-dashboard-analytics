@@ -6,7 +6,7 @@ import { Roles, isSuperAdmin } from '@/lib/roles'
 import { useSession } from 'next-auth/react'
 import FormInput from '@/components/form-input'
 import { handleError, handleGenericSuccess } from '@/utils/notify'
-import { title } from 'process'
+import Select from '@/components/select'
 
 const Notifications = () => {
   const { data: session } = useSession()
@@ -14,11 +14,55 @@ const Notifications = () => {
 
   const [loading, setLoading] = useState(false)
   const [reqLoading, setReqLoading] = useState(false)
+  const [selectedUser, setSelectedUser] = useState('')
+
   const [formData, setFormData] = useState({
     type: '',
     title: '',
     content: '',
   })
+
+  const pastNotifications = [
+    {
+      title: 'BVN error and App Update',
+      userType: 'All Users',
+      message:
+        'Over the last few hours, we received some complaints from some of our newly onboarded users about the error messages experienced at the BVN point of verification, and immediately, we swung into action. We are pleased to announce that the issues have been rectified with updates pushed to Play Store.',
+      time: '16:23 AM, 12 Dec 2022',
+    },
+    {
+      title: 'Rate update on USDT/USD',
+      userType: 'Premium Users',
+      message:
+        'Over the last few hours, we received some complaints from some of our newly onboarded users about the error messages experienced at the BVN point of verification, and immediately, we swung into action. We are pleased to announce that the issues have been rectified with updates pushed to Play Store.',
+      time: '16:23 AM, 12 Dec 2022',
+    },
+    {
+      title: 'BVN error and App Update',
+      userType: 'All Users',
+      message:
+        'Over the last few hours, we received some complaints from some of our newly onboarded users about the error messages experienced at the BVN point of verification, and immediately, we swung into action. We are pleased to announce that the issues have been rectified with updates pushed to Play Store.',
+      time: '16:23 AM, 12 Dec 2022',
+    },
+    {
+      title: 'Rate update on USDT/USD',
+      userType: 'Premium Users',
+      message:
+        'Over the last few hours, we received some complaints from some of our newly onboarded users about the error messages experienced at the BVN point of verification, and immediately, we swung into action. We are pleased to announce that the issues have been rectified with updates pushed to Play Store.',
+      time: '16:23 AM, 12 Dec 2022',
+    },
+  ]
+
+  interface SelectOption {
+    name: string
+    value: string
+  }
+
+  const users: SelectOption[] = [
+    { name: 'All Users', value: 'all' },
+    { name: 'Specific User', value: 'specific' },
+    { name: 'Premium User', value: 'premium' },
+  ]
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -26,6 +70,11 @@ const Notifications = () => {
       return
     }
     setFormData({ ...formData, [name]: value })
+  }
+
+  const handleSelect = (option: any) => {
+    const { value } = option
+    setSelectedUser(value)
   }
 
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
@@ -55,12 +104,20 @@ const Notifications = () => {
             <h1 className="text-lg font-medium text-gray-600">Notify User</h1>
           </div>
           <form className="space-y-4 py-4" onSubmit={handleSubmit}>
-            <FormInput
+            {/* <FormSelect
               name="type"
               label="User Type"
               value={formData.type}
               placeholder="Select User Type"
               onChange={handleChange}
+            /> */}
+            <Select
+              name="type"
+              label="User Type"
+              value={selectedUser}
+              options={users}
+              onChange={handleSelect}
+              variant="dark"
             />
             <FormInput
               name="title"
