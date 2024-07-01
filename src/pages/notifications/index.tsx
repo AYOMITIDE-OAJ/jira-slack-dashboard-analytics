@@ -7,6 +7,7 @@ import { handleError, handleGenericSuccess } from '@/utils/notify'
 import Select from '@/components/select'
 import NotificationCardLayout from '@/components/notification-card-layout'
 import NotificationSuccessModal from '@/components/notification-success-modal'
+import DashboardApi from '@/utils/api/dashboard-api'
 
 const Notifications = () => {
   const { data: session } = useSession()
@@ -72,9 +73,6 @@ const Notifications = () => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    if (value !== '' && isNaN(Number(value))) {
-      return
-    }
     setFormData({ ...formData, [name]: value })
   }
 
@@ -86,16 +84,15 @@ const Notifications = () => {
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
     setReqLoading(true)
-    const { type: rateId, ...rest } = formData
 
     try {
-      //   await DashboardMiscApi.updateRate(returnOptionValue(rateId), {
-      //     ...rest,
-      //     title: rest.title,
-      //     sell_markup: rest.sell_markup,
-      //   })
+      // 6631ecab4caf2cc49f7fe534
+      await DashboardApi.sendPushNotification({
+        userId: formData.userId,
+        title: formData.title,
+        message: formData.content,
+      })
       setIsOpen(true)
-      //   handleGenericSuccess('Notification Sent Successfully')
     } catch (e) {
       handleError(e)
     } finally {
@@ -126,6 +123,7 @@ const Notifications = () => {
                 value={formData.userId}
                 placeholder="Enter UserId"
                 onChange={handleChange}
+                type="text"
               />
             )}
             {/* <FormInput
@@ -141,6 +139,7 @@ const Notifications = () => {
               value={formData.title}
               placeholder="Enter Message Title"
               onChange={handleChange}
+              type="text"
             />
             <FormInput
               name="content"
@@ -149,6 +148,7 @@ const Notifications = () => {
               value={formData.content}
               placeholder="Type Message Here"
               onChange={handleChange}
+              type="text"
             />
 
             <div className="w-full pt-4">

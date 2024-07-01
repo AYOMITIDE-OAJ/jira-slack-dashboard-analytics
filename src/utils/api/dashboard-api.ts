@@ -282,6 +282,26 @@ const DashboardApi = {
 
     return data
   },
+
+  async sendPushNotification({
+    title,
+    message,
+    userId,
+  }: {
+    title: string
+    message: string
+    userId?: string
+  }): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.post(`/users/send-push-notifiction`, {
+      title,
+      message,
+      userId,
+    })
+
+    return data
+  },
 }
 
 export default DashboardApi
