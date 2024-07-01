@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react'
 import FormInput from '@/components/form-input'
 import { handleError, handleGenericSuccess } from '@/utils/notify'
 import Select from '@/components/select'
+import NotificationCardLayout from '@/components/notification-card-layout'
 
 const Notifications = () => {
   const { data: session } = useSession()
@@ -24,6 +25,7 @@ const Notifications = () => {
 
   const pastNotifications = [
     {
+      id: 1,
       title: 'BVN error and App Update',
       userType: 'All Users',
       message:
@@ -31,6 +33,7 @@ const Notifications = () => {
       time: '16:23 AM, 12 Dec 2022',
     },
     {
+      id: 2,
       title: 'Rate update on USDT/USD',
       userType: 'Premium Users',
       message:
@@ -38,6 +41,7 @@ const Notifications = () => {
       time: '16:23 AM, 12 Dec 2022',
     },
     {
+      id: 3,
       title: 'BVN error and App Update',
       userType: 'All Users',
       message:
@@ -45,6 +49,7 @@ const Notifications = () => {
       time: '16:23 AM, 12 Dec 2022',
     },
     {
+      id: 4,
       title: 'Rate update on USDT/USD',
       userType: 'Premium Users',
       message:
@@ -151,13 +156,15 @@ const Notifications = () => {
               Past Notifications
             </h1>
           </div>
-          {/* <Table
-            columns={columns}
-            data={rates}
-            onRowClicked={(row: any) => setFormData(row)}
-          /> */}
+          {pastNotifications.map((data) => (
+            <NotificationCardLayout
+              key={data.id}
+              data={data}
+              className={'className'}
+            />
+          ))}
         </div>
-      </div>{' '}
+      </div>
     </Layout>
   )
 }
