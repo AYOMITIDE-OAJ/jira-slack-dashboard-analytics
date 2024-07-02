@@ -3,7 +3,11 @@ import React, { ChangeEvent, useState } from 'react'
 import Button from '@/components/button'
 import { useSession } from 'next-auth/react'
 import FormInput from '@/components/form-input'
-import { handleError, handleGenericSuccess } from '@/utils/notify'
+import {
+  handleError,
+  handleGenericError,
+  handleGenericSuccess,
+} from '@/utils/notify'
 import Select from '@/components/select'
 import NotificationCardLayout from '@/components/notification-card-layout'
 import NotificationSuccessModal from '@/components/notification-success-modal'
@@ -86,7 +90,10 @@ const Notifications = () => {
     setReqLoading(true)
 
     try {
-      // 6631ecab4caf2cc49f7fe534
+      if (!formData.title || !formData.content) {
+        handleGenericError('Title and Message fields are required')
+      }
+
       await DashboardApi.sendPushNotification({
         userId: formData.userId,
         title: formData.title,
@@ -177,7 +184,11 @@ const Notifications = () => {
           ))}
         </div>
       </div>
-      <NotificationSuccessModal isOpen={isOpen} setIsOpen={setIsOpen} />
+      <NotificationSuccessModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        content={formData.content}
+      />
     </Layout>
   )
 }

@@ -6,9 +6,14 @@ import Button from './button'
 interface Props {
   isOpen: boolean
   setIsOpen: Dispatch<SetStateAction<boolean>>
+  content: string
 }
 
-export default function NotificationSuccessModal({ isOpen, setIsOpen }: Props) {
+export default function NotificationSuccessModal({
+  isOpen,
+  setIsOpen,
+  content,
+}: Props) {
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <main>
@@ -20,13 +25,10 @@ export default function NotificationSuccessModal({ isOpen, setIsOpen }: Props) {
               fill
             />
           </div>
-          <h1 className="px-8 text-center text-xl my-2 font-semibold text-black">
+          <h1 className="my-2 px-8 text-center text-xl font-semibold text-black">
             Sent Successfully
           </h1>
-          <p className="text-md px-8 text-center text-black">
-            Lorem ipsum dolor sit amet consectetur. Suspendisse pellentesque
-            diam venenatis ipsum vitae.{' '}
-          </p>
+          <p className="text-md px-8 text-center text-black">{content}</p>
 
           <section className="my-4 text-center">
             <Button
