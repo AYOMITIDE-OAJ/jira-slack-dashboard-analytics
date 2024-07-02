@@ -3,15 +3,12 @@ import React, { ChangeEvent, useState } from 'react'
 import Button from '@/components/button'
 import { useSession } from 'next-auth/react'
 import FormInput from '@/components/form-input'
-import {
-  handleError,
-  handleGenericError,
-  handleGenericSuccess,
-} from '@/utils/notify'
+import { handleError, handleGenericError } from '@/utils/notify'
 import Select from '@/components/select'
 import NotificationCardLayout from '@/components/notification-card-layout'
 import NotificationSuccessModal from '@/components/notification-success-modal'
 import DashboardApi from '@/utils/api/dashboard-api'
+import AsyncSelect from 'react-select/async'
 
 const Notifications = () => {
   const { data: session } = useSession()
@@ -83,6 +80,12 @@ const Notifications = () => {
   const handleSelect = (option: any) => {
     const { value } = option
     setSelectedUser(value)
+
+    if (value === 'all') {
+      setFormData({ ...formData, userId: '' });
+    } else {
+      setFormData({ ...formData, userId: value });
+    }
   }
 
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
@@ -107,6 +110,22 @@ const Notifications = () => {
     }
   }
 
+  const loadOptions = async (inputValue: string) => {
+    try {
+      const response = await DashboardApi.getAllUsers({ search: inputValue })
+      console.log('RESPONSE', response.records)
+      return response.records?.map((user: any) => ({
+        label: (
+          <p className="capitalize">{user.firstName + ' ' + user.lastName}</p>
+        ),
+        value: user._id,
+      }))
+    } catch (error) {
+      handleError(error)
+      return []
+    }
+  }
+
   return (
     <Layout header="Notifications">
       <div className="grid grid-cols-1 gap-y-4 md:grid-cols-3 md:gap-x-4">
@@ -124,22 +143,28 @@ const Notifications = () => {
               variant="dark"
             />
             {selectedUser === 'specific' && (
-              <FormInput
-                name="userId"
-                label="User ID"
-                value={formData.userId}
-                placeholder="Enter UserId"
-                onChange={handleChange}
-                type="text"
+              // <FormInput
+              //   name="userId"
+              //   label="User ID"
+              //   value={formData.userId}
+              //   placeholder="Enter UserId"
+              //   onChange={handleChange}
+              //   type="text"
+              // />
+
+              <AsyncSelect
+                cacheOptions
+                loadOptions={loadOptions}
+                defaultOptions
+                className="rounded-sm bg-primary p-1"
+                onChange={(selectedOption) => {
+                  setFormData({
+                    ...formData,
+                    userId: (selectedOption as any).value,
+                  })
+                }}
               />
             )}
-            {/* <FormInput
-              name="user"
-              label="User ID"
-              value={formData.userId}
-              placeholder="Enter UserId"
-              onChange={handleChange}
-            /> */}
             <FormInput
               name="title"
               label="Message Title"
