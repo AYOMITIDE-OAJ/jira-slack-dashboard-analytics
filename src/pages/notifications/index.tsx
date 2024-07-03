@@ -82,9 +82,9 @@ const Notifications = () => {
     setSelectedUser(value)
 
     if (value === 'all') {
-      setFormData({ ...formData, userId: '' });
+      setFormData({ ...formData, userId: '' })
     } else {
-      setFormData({ ...formData, userId: value });
+      setFormData({ ...formData, userId: value })
     }
   }
 
@@ -115,7 +115,9 @@ const Notifications = () => {
       const response = await DashboardApi.getAllUsers({ search: inputValue })
       return response.records?.map((user: any) => ({
         label: (
-          <p className="capitalize">{user.firstName + ' ' + user.lastName + `(${user.email})`}</p>
+          <p className="capitalize text-sm text-primary">
+            {user.firstName + ' ' + user.lastName + `(${user.email})`}
+          </p>
         ),
         value: user._id,
       }))
@@ -142,15 +144,6 @@ const Notifications = () => {
               variant="dark"
             />
             {selectedUser === 'specific' && (
-              // <FormInput
-              //   name="userId"
-              //   label="User ID"
-              //   value={formData.userId}
-              //   placeholder="Enter UserId"
-              //   onChange={handleChange}
-              //   type="text"
-              // />
-
               <AsyncSelect
                 cacheOptions
                 loadOptions={loadOptions}
