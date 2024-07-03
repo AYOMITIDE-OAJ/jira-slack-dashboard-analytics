@@ -113,10 +113,9 @@ const Notifications = () => {
   const loadOptions = async (inputValue: string) => {
     try {
       const response = await DashboardApi.getAllUsers({ search: inputValue })
-      console.log('RESPONSE', response.records)
       return response.records?.map((user: any) => ({
         label: (
-          <p className="capitalize">{user.firstName + ' ' + user.lastName}</p>
+          <p className="capitalize">{user.firstName + ' ' + user.lastName + `(${user.email})`}</p>
         ),
         value: user._id,
       }))
