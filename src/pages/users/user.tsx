@@ -34,6 +34,7 @@ const User = () => {
   const [reqLoading, setReqLoading] = useState(false)
   const [resetLoading, setResetLoading] = useState(false)
   const [blockLoading, setBlockLoading] = useState(false)
+  const [editLoading, setEditLoading] = useState(false)
   const [user, setUser] = useState<any>()
   const [transactions, setTransactions] = useState([])
   const [balances, setBalances] = useState<any[]>([])
@@ -174,6 +175,22 @@ const User = () => {
       handleError(e)
     } finally {
       setBlockLoading(false)
+    }
+  }
+
+  const enableProfileEdit = async () => {
+    setEditLoading(true)
+    try {
+      const res = await DashboardApi.enableUserProfileEdit(String(userId))
+
+      if (res) {
+        handleGenericSuccess('User Profile Edit Enabled Successfully')
+        router.reload()
+      }
+    } catch (e: any) {
+      handleError(e)
+    } finally {
+      setEditLoading(false)
     }
   }
 
@@ -392,6 +409,22 @@ const User = () => {
                 </>
               )}
             </section>
+
+            {isCustomRole(userSession.role, [Roles.SuperAdmin, Roles.CRM]) && (
+              <>
+                <Button
+                  variant="success"
+                  size="md"
+                  className="mt-4"
+                  rounded={false}
+                  onClick={enableProfileEdit}
+                  loading={editLoading}
+                  // disabled={!user?.canEdit}
+                >
+                  Enable Profile Edit
+                </Button>
+              </>
+            )}
           </div>
         )}
 

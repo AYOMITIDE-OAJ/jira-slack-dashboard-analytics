@@ -1,5 +1,5 @@
 import Layout from '@/components/layout'
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import Button from '@/components/button'
 import { useSession } from 'next-auth/react'
 import FormInput from '@/components/form-input'
@@ -18,6 +18,7 @@ const Notifications = () => {
   const [reqLoading, setReqLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [selectedUser, setSelectedUser] = useState('')
+  const [notifications, setNotifications] = useState([])
 
   const [formData, setFormData] = useState({
     type: '',
@@ -110,12 +111,27 @@ const Notifications = () => {
     }
   }
 
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const [notificationRes] = await Promise.all([
+          DashboardApi.fetchPushNotifications(),
+        ])
+        console.log('notificationRes', notificationRes)
+        setNotifications(notificationRes.records)
+      } catch (err) {
+      } finally {
+        setLoading(false)
+      }
+    })()
+  }, [])
+
   const loadOptions = async (inputValue: string) => {
     try {
       const response = await DashboardApi.getAllUsers({ search: inputValue })
       return response.records?.map((user: any) => ({
         label: (
-          <p className="capitalize text-sm text-primary">
+          <p className="text-sm capitalize text-primary">
             {user.firstName + ' ' + user.lastName + `(${user.email})`}
           </p>
         ),

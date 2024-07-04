@@ -294,11 +294,27 @@ const DashboardApi = {
   }): Promise<any> {
     const {
       data: { data },
-    } = await axiosInstance.post(`/users/send-push-notification`, {
+    } = await axiosInstance.post(`/api/users/push-notification/send`, {
       title,
       message,
       userId,
     })
+
+    return data
+  },
+
+  async fetchPushNotifications(): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.get(`/api/users/push-notifications/fetch`)
+
+    return data
+  },
+
+  async enableUserProfileEdit(userId: string): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.patch(`/users/${userId}/allow-edit`)
 
     return data
   },
