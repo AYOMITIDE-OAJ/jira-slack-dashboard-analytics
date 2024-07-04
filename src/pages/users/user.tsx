@@ -32,6 +32,8 @@ const User = () => {
 
   const [loading, setLoading] = useState(false)
   const [reqLoading, setReqLoading] = useState(false)
+  const [resetLoading, setResetLoading] = useState(false)
+  const [blockLoading, setBlockLoading] = useState(false)
   const [user, setUser] = useState<any>()
   const [transactions, setTransactions] = useState([])
   const [balances, setBalances] = useState<any[]>([])
@@ -128,7 +130,7 @@ const User = () => {
   }
 
   const blockWithdrawal = async () => {
-    setReqLoading(true)
+    setBlockLoading(true)
     try {
       const res = await DashboardApi.blockUserWithdrawal(String(userId))
 
@@ -139,12 +141,12 @@ const User = () => {
     } catch (e: any) {
       handleError(e)
     } finally {
-      setReqLoading(false)
+      setBlockLoading(false)
     }
   }
 
   const resetTranxPin = async () => {
-    setReqLoading(true)
+    setResetLoading(true)
     try {
       const res = await DashboardApi.resetUserTranxPin(String(userId))
 
@@ -155,12 +157,12 @@ const User = () => {
     } catch (e: any) {
       handleError(e)
     } finally {
-      setReqLoading(false)
+      setResetLoading(false)
     }
   }
 
   const unblockWithdrawal = async () => {
-    setReqLoading(true)
+    setBlockLoading(true)
     try {
       const res = await DashboardApi.unblockUserWithdrawal(String(userId))
 
@@ -171,7 +173,7 @@ const User = () => {
     } catch (e: any) {
       handleError(e)
     } finally {
-      setReqLoading(false)
+      setBlockLoading(false)
     }
   }
 
@@ -339,7 +341,7 @@ const User = () => {
               </>
             )}
 
-            <section className='flex justify-between gap-4'>
+            <section className="flex justify-between gap-4">
               {isCustomRole(userSession.role, [
                 Roles.SuperAdmin,
                 Roles.CRM,
@@ -352,7 +354,7 @@ const User = () => {
                       className="mt-4"
                       rounded={false}
                       onClick={unblockWithdrawal}
-                      loading={reqLoading}
+                      loading={blockLoading}
                     >
                       Unblock Withdrawals
                     </Button>
@@ -363,7 +365,7 @@ const User = () => {
                       className="mt-4"
                       rounded={false}
                       onClick={() => setWithdrawalModalIsOpen(true)}
-                      loading={reqLoading}
+                      loading={blockLoading}
                     >
                       Block Withdrawals
                     </Button>
@@ -382,7 +384,7 @@ const User = () => {
                     className="mt-4"
                     rounded={false}
                     onClick={() => setResetModalIsOpen(true)}
-                    loading={reqLoading}
+                    loading={resetLoading}
                     disabled={!user?.transactionPin}
                   >
                     Reset Transaction Pin
