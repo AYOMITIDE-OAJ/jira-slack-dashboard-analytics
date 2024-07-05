@@ -1,7 +1,6 @@
 import Layout from '@/components/layout'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import Button from '@/components/button'
-import { useSession } from 'next-auth/react'
 import FormInput from '@/components/form-input'
 import { handleError, handleGenericError } from '@/utils/notify'
 import Select from '@/components/select'
@@ -11,9 +10,6 @@ import DashboardApi from '@/utils/api/dashboard-api'
 import AsyncSelect from 'react-select/async'
 
 const Notifications = () => {
-  const { data: session } = useSession()
-  const userSession = (session?.user as any)?.user
-
   const [loading, setLoading] = useState(false)
   const [reqLoading, setReqLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
@@ -26,41 +22,6 @@ const Notifications = () => {
     title: '',
     content: '',
   })
-
-  const pastNotifications = [
-    {
-      id: 1,
-      title: 'BVN error and App Update',
-      userType: 'All Users',
-      message:
-        'Over the last few hours, we received some complaints from some of our newly onboarded users about the error messages experienced at the BVN point of verification, and immediately, we swung into action. We are pleased to announce that the issues have been rectified with updates pushed to Play Store.',
-      time: '16:23 AM, 12 Dec 2022',
-    },
-    {
-      id: 2,
-      title: 'Rate update on USDT/USD',
-      userType: 'Premium Users',
-      message:
-        'Over the last few hours, we received some complaints from some of our newly onboarded users about the error messages experienced at the BVN point of verification, and immediately, we swung into action. We are pleased to announce that the issues have been rectified with updates pushed to Play Store.',
-      time: '16:23 AM, 12 Dec 2022',
-    },
-    {
-      id: 3,
-      title: 'BVN error and App Update',
-      userType: 'All Users',
-      message:
-        'Over the last few hours, we received some complaints from some of our newly onboarded users about the error messages experienced at the BVN point of verification, and immediately, we swung into action. We are pleased to announce that the issues have been rectified with updates pushed to Play Store.',
-      time: '16:23 AM, 12 Dec 2022',
-    },
-    {
-      id: 4,
-      title: 'Rate update on USDT/USD',
-      userType: 'Premium Users',
-      message:
-        'Over the last few hours, we received some complaints from some of our newly onboarded users about the error messages experienced at the BVN point of verification, and immediately, we swung into action. We are pleased to announce that the issues have been rectified with updates pushed to Play Store.',
-      time: '16:23 AM, 12 Dec 2022',
-    },
-  ]
 
   interface SelectOption {
     name: string
@@ -114,12 +75,11 @@ const Notifications = () => {
   useEffect(() => {
     ;(async () => {
       try {
-        const [notificationRes] = await Promise.all([
-          DashboardApi.fetchPushNotifications(),
-        ])
-        console.log('notificationRes', notificationRes)
-        setNotifications(notificationRes.records)
+        const notificationRes = await DashboardApi.fetchPushNotifications()
+
+        setNotifications(notificationRes)
       } catch (err) {
+        handleError(err)
       } finally {
         setLoading(false)
       }
@@ -208,9 +168,9 @@ const Notifications = () => {
               Past Notifications
             </h1>
           </div>
-          {pastNotifications.map((data) => (
+          {notifications.map((data: any) => (
             <NotificationCardLayout
-              key={data.id}
+              key={data._id}
               data={data}
               className={'className'}
             />

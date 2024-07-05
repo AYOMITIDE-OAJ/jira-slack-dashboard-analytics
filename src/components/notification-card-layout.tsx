@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils'
+import moment from 'moment'
 import React from 'react'
 
 interface Props {
@@ -17,9 +18,8 @@ export default function NotificationCardLayout({ data, className }: Props) {
       <aside className="my-8 flex justify-between">
         <div>
           <h2 className="text-xl font-bold text-primary">{data.title}</h2>
-          <p>{data.userType}</p>
         </div>
-        <p className="text-sm">{data.time}</p>
+        <p className="text-sm">{moment(data.createdAt).format('LLL')}</p>
       </aside>
       <main>
         <p className="text-md">{data.message}</p>
