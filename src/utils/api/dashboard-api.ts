@@ -294,7 +294,7 @@ const DashboardApi = {
   }): Promise<any> {
     const {
       data: { data },
-    } = await axiosInstance.post(`/api/users/push-notification/send`, {
+    } = await axiosInstance.post(`/users/push-notification/send`, {
       title,
       message,
       userId,
@@ -306,7 +306,7 @@ const DashboardApi = {
   async fetchPushNotifications(): Promise<any> {
     const {
       data: { data },
-    } = await axiosInstance.get(`/api/users/push-notifications/fetch`)
+    } = await axiosInstance.get(`/users/push-notifications/fetch`)
 
     return data
   },
