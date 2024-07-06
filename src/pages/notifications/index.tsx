@@ -13,7 +13,7 @@ const Notifications = () => {
   const [loading, setLoading] = useState(false)
   const [reqLoading, setReqLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedUser, setSelectedUser] = useState('all')
+  const [selectedUser, setSelectedUser] = useState('')
   const [notifications, setNotifications] = useState([])
 
   const [formData, setFormData] = useState({
