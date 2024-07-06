@@ -292,13 +292,15 @@ const DashboardApi = {
     message: string
     userId?: string
   }): Promise<any> {
+    const payload: any = { title, message }
+
+    if (userId) {
+      payload.userId = userId
+    }
+
     const {
       data: { data },
-    } = await axiosInstance.post(`/users/push-notifications/send`, {
-      title,
-      message,
-      userId,
-    })
+    } = await axiosInstance.post(`/users/push-notifications/send`, payload)
 
     return data
   },
