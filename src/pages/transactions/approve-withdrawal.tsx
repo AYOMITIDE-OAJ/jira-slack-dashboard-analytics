@@ -21,9 +21,10 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
-import { HiOutlineUserCircle } from 'react-icons/hi'
 
 const ApproveWithdrawal = () => {
+  const { data: session } = useSession()
+  const userSession = (session?.user as any)?.user
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [withdrawals, setWithdrawals] = useState([])
@@ -32,8 +33,6 @@ const ApproveWithdrawal = () => {
   const [requestLoading, setRequestLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [withdrawalId, setWithdrawalId] = useState('')
-  const { data: session } = useSession()
-  const userSession = (session?.user as any)?.user
 
   const columns: TableColumn<any>[] = [
     {
@@ -175,48 +174,44 @@ const ApproveWithdrawal = () => {
             />
             <KeyValueComponent name="Type" value={selectedWithdrawal?.type} />
           </div>
-          {/* <div className="m-auto">
-            {isCRM(
-              userSession?.role && (
-                <>
-                  <Button
-                    variant="danger"
-                    loading={requestLoading}
-                    onClick={() => openDeclineModal(selectedWithdrawal._id)}
-                    rounded={false}
-                    className="text-center"
-                  >
-                    Decline
-                  </Button>
-                </>
-              )
-            )}
-          </div> */}
-          <div className="m-auto grid grid-cols-2 gap-3 pt-3 md:pt-6">
-            {/* {isSuperAdmin(
-              userSession?.role && ( */}
-                <>
-                  <Button
-                    variant="danger"
-                    loading={requestLoading}
-                    onClick={() => openDeclineModal(selectedWithdrawal._id)}
-                    rounded={false}
-                    className="text-center"
-                  >
-                    Decline
-                  </Button>
-                  <Button
-                    variant="success"
-                    loading={requestLoading}
-                    onClick={() => approveWithdrawal(selectedWithdrawal._id)}
-                    rounded={false}
-                  >
-                    Approve
-                  </Button>
-                </>
-              {/* )
-            )} */}
-          </div>
+          {isSuperAdmin(userSession?.role) && (
+            <>
+              <div className="m-auto grid grid-cols-2 gap-3 pt-3 md:pt-6">
+                <Button
+                  variant="danger"
+                  loading={requestLoading}
+                  onClick={() => openDeclineModal(selectedWithdrawal._id)}
+                  rounded={false}
+                  className="text-center"
+                >
+                  Decline
+                </Button>
+                <Button
+                  variant="success"
+                  loading={requestLoading}
+                  onClick={() => approveWithdrawal(selectedWithdrawal._id)}
+                  rounded={false}
+                >
+                  Approve
+                </Button>
+              </div>
+            </>
+          )}
+          {isCRM(userSession?.role) && (
+            <>
+              <div className="m-auto">
+                <Button
+                  variant="danger"
+                  loading={requestLoading}
+                  onClick={() => openDeclineModal(selectedWithdrawal._id)}
+                  rounded={false}
+                  className="text-center"
+                >
+                  Decline
+                </Button>
+              </div>
+            </>
+          )}
         </div>
       </Modal>
       <DeclineWithdrawalModal
