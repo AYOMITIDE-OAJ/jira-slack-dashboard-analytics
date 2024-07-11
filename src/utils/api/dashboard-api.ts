@@ -113,10 +113,12 @@ const DashboardApi = {
     return data
   },
 
-  async declineWithdrawal(withdrawalId: string): Promise<any> {
+  async declineWithdrawal(withdrawalId: string, reason: string): Promise<any> {
     const {
       data: { data },
-    } = await axiosInstance.post(`/withdrawals/${withdrawalId}/decline`)
+    } = await axiosInstance.post(`/withdrawals/${withdrawalId}/reject`, {
+      reason,
+    })
 
     return data
   },

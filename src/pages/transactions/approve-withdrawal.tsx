@@ -1,4 +1,5 @@
 import Button from '@/components/button'
+import DeclineWithdrawalModal from '@/components/decline-withdrawal-modal'
 import KeyValueComponent from '@/components/key-value-component'
 import Layout from '@/components/layout'
 import Modal from '@/components/modal'
@@ -28,6 +29,8 @@ const ApproveWithdrawal = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [selectedWithdrawal, setSelectedWithdrawal] = useState<any>()
   const [requestLoading, setRequestLoading] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const [withdrawalId, setWithdrawalId] = useState('')
 
   const columns: TableColumn<any>[] = [
     {
@@ -86,10 +89,10 @@ const ApproveWithdrawal = () => {
     }
   }
 
-  const declineWithdrawal = async (withdrawalId: string) => {
+  const declineWithdrawal = async (withdrawalId: string, reason: string) => {
     setRequestLoading(true)
     try {
-      await DashboardApi.declineWithdrawal(withdrawalId)
+      await DashboardApi.declineWithdrawal(withdrawalId, reason)
       setModalIsOpen(false)
       handleGenericInfo('Withdrawal Declined')
       router.reload()
@@ -98,6 +101,12 @@ const ApproveWithdrawal = () => {
     } finally {
       setRequestLoading(false)
     }
+  }
+
+  const openDeclineModal = (id: string) => {
+    setModalIsOpen(false)
+    setIsOpen(true)
+    setWithdrawalId(id)
   }
 
   useEffect(() => {
@@ -167,7 +176,7 @@ const ApproveWithdrawal = () => {
             <Button
               variant="danger"
               loading={requestLoading}
-              onClick={() => declineWithdrawal(selectedWithdrawal._id)}
+              onClick={() => openDeclineModal(selectedWithdrawal._id)}
               rounded={false}
             >
               Decline
@@ -183,10 +192,16 @@ const ApproveWithdrawal = () => {
           </div>
         </div>
       </Modal>
+      <DeclineWithdrawalModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        withdrawalId={withdrawalId}
+        declineWithdrawal={declineWithdrawal}
+      />
     </Layout>
   )
 }
 
-export default withRole(ApproveWithdrawal, [Roles.SuperAdmin])
+export default withRole(ApproveWithdrawal, [Roles.SuperAdmin, Roles.CRM])
 
 ApproveWithdrawal.auth = true

@@ -95,7 +95,7 @@ export default function Sidebar({ setOpen }: Props) {
         {
           name: 'Approve Withdrawal',
           route: Routes.ApproveWithdrawal,
-          allowedRoles: [Roles.SuperAdmin],
+          allowedRoles: [Roles.SuperAdmin, Roles.CRM],
         },
       ],
       allowedRoles: [Roles.SuperAdmin, Roles.Admin, Roles.CRM],
