@@ -7,7 +7,7 @@ import withRole from '@/components/page-components/with-role'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
 import User from '@/components/user'
-import { isSuperAdmin, Roles } from '@/lib/roles'
+import { isCRM, isSuperAdmin, Roles } from '@/lib/roles'
 import DashboardApi from '@/utils/api/dashboard-api'
 import { formatCurrency } from '@/utils/helper'
 import {
@@ -176,15 +176,21 @@ const ApproveWithdrawal = () => {
             <KeyValueComponent name="Type" value={selectedWithdrawal?.type} />
           </div>
           <div className="m-auto">
-            <Button
-              variant="danger"
-              loading={requestLoading}
-              onClick={() => openDeclineModal(selectedWithdrawal._id)}
-              rounded={false}
-              className="text-center"
-            >
-              Decline
-            </Button>
+            {isCRM(
+              userSession?.role && (
+                <>
+                  <Button
+                    variant="danger"
+                    loading={requestLoading}
+                    onClick={() => openDeclineModal(selectedWithdrawal._id)}
+                    rounded={false}
+                    className="text-center"
+                  >
+                    Decline
+                  </Button>
+                </>
+              )
+            )}
           </div>
           <div className="m-auto grid grid-cols-2 gap-3 pt-3 md:pt-6">
             {isSuperAdmin(
