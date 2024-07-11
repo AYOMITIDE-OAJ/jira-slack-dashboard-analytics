@@ -175,7 +175,7 @@ const ApproveWithdrawal = () => {
             />
             <KeyValueComponent name="Type" value={selectedWithdrawal?.type} />
           </div>
-          <div className="m-auto">
+          {/* <div className="m-auto">
             {isCRM(
               userSession?.role && (
                 <>
@@ -191,10 +191,10 @@ const ApproveWithdrawal = () => {
                 </>
               )
             )}
-          </div>
+          </div> */}
           <div className="m-auto grid grid-cols-2 gap-3 pt-3 md:pt-6">
-            {isSuperAdmin(
-              userSession?.role && (
+            {/* {isSuperAdmin(
+              userSession?.role && ( */}
                 <>
                   <Button
                     variant="danger"
@@ -214,8 +214,8 @@ const ApproveWithdrawal = () => {
                     Approve
                   </Button>
                 </>
-              )
-            )}
+              {/* )
+            )} */}
           </div>
         </div>
       </Modal>
