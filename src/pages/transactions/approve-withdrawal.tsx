@@ -7,7 +7,7 @@ import withRole from '@/components/page-components/with-role'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
 import User from '@/components/user'
-import { Roles } from '@/lib/roles'
+import { isSuperAdmin, Roles } from '@/lib/roles'
 import DashboardApi from '@/utils/api/dashboard-api'
 import { formatCurrency } from '@/utils/helper'
 import {
@@ -16,6 +16,7 @@ import {
   handleGenericSuccess,
 } from '@/utils/notify'
 import moment from 'moment'
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
@@ -31,6 +32,8 @@ const ApproveWithdrawal = () => {
   const [requestLoading, setRequestLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [withdrawalId, setWithdrawalId] = useState('')
+  const { data: session } = useSession()
+  const userSession = (session?.user as any)?.user
 
   const columns: TableColumn<any>[] = [
     {
@@ -172,23 +175,41 @@ const ApproveWithdrawal = () => {
             />
             <KeyValueComponent name="Type" value={selectedWithdrawal?.type} />
           </div>
-          <div className="grid grid-cols-2 gap-3 pt-3 md:pt-6">
+          <div className="m-auto">
             <Button
               variant="danger"
               loading={requestLoading}
               onClick={() => openDeclineModal(selectedWithdrawal._id)}
               rounded={false}
+              className="text-center"
             >
               Decline
             </Button>
-            <Button
-              variant="success"
-              loading={requestLoading}
-              onClick={() => approveWithdrawal(selectedWithdrawal._id)}
-              rounded={false}
-            >
-              Approve
-            </Button>
+          </div>
+          <div className="m-auto grid grid-cols-2 gap-3 pt-3 md:pt-6">
+            {isSuperAdmin(
+              userSession?.role && (
+                <>
+                  <Button
+                    variant="danger"
+                    loading={requestLoading}
+                    onClick={() => openDeclineModal(selectedWithdrawal._id)}
+                    rounded={false}
+                    className="text-center"
+                  >
+                    Decline
+                  </Button>
+                  <Button
+                    variant="success"
+                    loading={requestLoading}
+                    onClick={() => approveWithdrawal(selectedWithdrawal._id)}
+                    rounded={false}
+                  >
+                    Approve
+                  </Button>
+                </>
+              )
+            )}
           </div>
         </div>
       </Modal>
