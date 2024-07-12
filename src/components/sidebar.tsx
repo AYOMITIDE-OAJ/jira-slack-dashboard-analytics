@@ -197,7 +197,10 @@ export default function Sidebar({ setOpen }: Props) {
                 </Link>
               ) : (
                 <div
-                  onClick={() => toggledAccordion(name)}
+                  onClick={() => {
+                    toggledAccordion(name)
+                    console.log('name', name)
+                  }}
                   className="cursor-pointer"
                 >
                   {children}
@@ -226,7 +229,12 @@ export default function Sidebar({ setOpen }: Props) {
                     </div>
                     {subRoutes && (
                       <div>
-                        {isSelected(name) ? <SlArrowUp /> : <SlArrowDown />}
+                        {isSelected(name) &&
+                        !router.pathname.includes(name.toLowerCase()) ? (
+                          <SlArrowUp />
+                        ) : (
+                          <SlArrowDown />
+                        )}
                       </div>
                     )}
                   </div>
@@ -234,9 +242,11 @@ export default function Sidebar({ setOpen }: Props) {
                 {subRoutes && (
                   <div
                     style={{
-                      height: isSelected(name)
-                        ? `${48 * subRoutes.filter((r) => r.allowedRoles.includes(userSession.role)).length}px`
-                        : '0px',
+                      height:
+                        isSelected(name) ||
+                        router.pathname.includes(name.toLowerCase())
+                          ? `${48 * subRoutes.filter((r) => r.allowedRoles.includes(userSession.role)).length}px`
+                          : '0px',
                     }}
                     className="overflow-y-hidden transition-all duration-150"
                   >
