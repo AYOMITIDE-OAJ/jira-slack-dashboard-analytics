@@ -13,7 +13,7 @@ const Notifications = () => {
   const [loading, setLoading] = useState(false)
   const [reqLoading, setReqLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedUser, setSelectedUser] = useState('')
+  const [selectedUser, setSelectedUser] = useState('specific')
   const [notifications, setNotifications] = useState([])
 
   const [formData, setFormData] = useState({
@@ -31,7 +31,6 @@ const Notifications = () => {
   const users: SelectOption[] = [
     { name: 'All Users', value: 'all' },
     { name: 'Specific User', value: 'specific' },
-    { name: 'Premium User', value: 'premium' },
   ]
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -73,6 +72,7 @@ const Notifications = () => {
   }
 
   useEffect(() => {
+    setLoading(true)
     ;(async () => {
       try {
         const notificationRes = await DashboardApi.fetchPushNotifications()
@@ -168,6 +168,7 @@ const Notifications = () => {
               Past Notifications
             </h1>
           </div>
+          
           {notifications.map((data: any) => (
             <NotificationCardLayout
               key={data._id}
