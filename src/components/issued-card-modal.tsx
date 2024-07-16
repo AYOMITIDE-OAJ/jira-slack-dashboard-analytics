@@ -29,13 +29,13 @@ export default function IssuedCardModal({
                 </div>
                 <div className="flex items-center justify-between">
                   <p className="text-black">Date: </p>
-                  <p className="text-neutral-600">
+                  <p className="text-neutral-600 text-xs">
                     {moment(tranx?.transaction_date).format('LLL')}
                   </p>
                 </div>
                 <div className="my-1 flex items-center justify-between">
                   <p className="text-black">Desc: </p>
-                  <p className="text-neutral-600">{tranx.description}</p>
+                  <p className="text-neutral-600 text-xs">{tranx.description}</p>
                 </div>
               </aside>
             ))
