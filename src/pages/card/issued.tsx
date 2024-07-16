@@ -1,31 +1,31 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import IssuedCardModal from '@/components/issued-card-modal'
 import Layout from '@/components/layout'
 import withRole from '@/components/page-components/with-role'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
 import TableSearch from '@/components/table-search'
-import TransactionDetailsModal from '@/components/transaction-details-modal'
 import User from '@/components/user'
 import { Routes } from '@/constants/routes'
 import { Roles } from '@/lib/roles'
 import DashboardApi from '@/utils/api/dashboard-api'
+import { handleError } from '@/utils/notify'
 import debounce from 'lodash.debounce'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
-import { CiCircleMore } from 'react-icons/ci'
 
 const Issued = () => {
   const [loading, setLoading] = useState(true)
   const [issuedCards, setIssuedCard] = useState([])
+  const [cardTranx, setCardTranx] = useState([])
   const [totalUsers, setTotalUsers] = useState<number>()
   const [isOpen, setIsOpen] = useState(false)
-  const [selected, setSelected] = useState<Record<string, any>>({})
+  const [selected, setSelected] = useState({})
   const [searchValue, setSearchValue] = useState('')
   const [tableLoading, setTableLoading] = useState(false)
   const indexPage = 1
-  const router = useRouter()
 
   const handleValueChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value)
@@ -92,13 +92,18 @@ const Issued = () => {
         <StatusPill status={row.isActive ? 'active' : 'inactive'} />
       ),
     },
-    // {
-    //   name: '',
-    //   selector: (row: any) => row,
-    //   cell: (row: any) => <CiCircleMore className="text-gray-300" size={35} />,
-    //   width: '100px',
-    // },
   ]
+
+  const handleRowClick = async (row: any) => {
+    setSelected(row)
+    try {
+      const tranxDetail = await DashboardApi.getIssuedCardTransactions(row._id)
+      setCardTranx(tranxDetail.transactions)
+      setIsOpen(true)
+    } catch (error) {
+      handleError(error)
+    }
+  }
 
   useEffect(() => {
     ;(async () => {
@@ -139,12 +144,13 @@ const Issued = () => {
           columns={columns}
           data={issuedCards}
           progressPending={tableLoading}
+          onRowClicked={handleRowClick}
         />
       </div>
-      <TransactionDetailsModal
+      <IssuedCardModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        transaction={selected}
+        transaction={cardTranx}
       />
     </Layout>
   )

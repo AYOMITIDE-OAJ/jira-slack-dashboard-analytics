@@ -226,6 +226,14 @@ const DashboardApi = {
     return data
   },
 
+  async getIssuedCardTransactions(cardId: string) {
+    const {
+      data: { data },
+    } = await axiosInstance.get(`/cards/issued/${cardId}/transactions`)
+
+    return data
+  },
+
   async resetUserCredential(userId: string): Promise<any> {
     const {
       data: { data },
