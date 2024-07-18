@@ -17,7 +17,7 @@ export default function IssuedCardModal({
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <div>
-        <h1 className="text-lg">Issued Card Transaction Details</h1>
+        <h1 className="text-lg font-bold">Issued Card Transaction Details</h1>
         <div className="max-h-[680px] divide-y divide-gray-200 overflow-y-scroll py-3 md:py-6">
           {transaction?.length > 0 ? (
             transaction?.map((tranx: any) => (
