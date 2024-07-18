@@ -18,8 +18,8 @@ export default function IssuedCardModal({
       <div>
         <h1 className="text-lg">Issued Card Transaction Details</h1>
         <div className="max-h-[680px] divide-y divide-gray-200 overflow-y-scroll py-3 md:py-6">
-          {transaction.length > 0 ? (
-            transaction.map((tranx: any) => (
+          {transaction?.length > 0 ? (
+            transaction?.map((tranx: any) => (
               <aside className="my-3" key={tranx?.transaction_date}>
                 <div className="my-1 flex items-center justify-between">
                   <p className="text-black">Amount: </p>
