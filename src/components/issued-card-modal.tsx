@@ -23,13 +23,13 @@ export default function IssuedCardModal({
             transaction?.map((tranx: any) => (
               <aside className="my-3 shadow-md" key={tranx?.transaction_date}>
                 <div className="my-1 flex items-center justify-between">
-                  <p className="text-black">Amount: </p>
-                  <p className="font-semibold text-primary">
+                  <p className="text-black text-xs">Amount: </p>
+                  <p className="font-semibold text-xs text-primary">
                     {tranx?.currency} {tranx.amount}
                   </p>
                 </div>
                 <div className="my-1 flex items-center justify-between">
-                  <p className="text-black">Type: </p>
+                  <p className="text-black text-xs">Type: </p>
                   <StatusPill
                     status={
                       tranx.card_transaction_type.toLowerCase() == 'debit'
@@ -39,21 +39,21 @@ export default function IssuedCardModal({
                   />
                 </div>
                 <div className="my-1 flex items-center justify-between">
-                  <p className="text-black">Card ID: </p>
+                  <p className="text-black text-xs">Card ID: </p>
                   <p className="text-xs">{tranx?.card_id}</p>
                 </div>
                 <div className="my-1 flex items-center justify-between">
-                  <p className="text-black">REF: </p>
+                  <p className="text-black text-xs">REF: </p>
                   <p className="text-xs">{tranx?.bridgecard_transaction_reference}</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p className="text-black">Date: </p>
+                  <p className="text-black text-xs">Date: </p>
                   <p className="text-xs text-neutral-600">
                     {moment(tranx?.transaction_date).format('LLL')}
                   </p>
                 </div>
                 <div className="my-1 flex items-center justify-between">
-                  <p className="text-black">Desc: </p>
+                  <p className="text-black text-xs">Desc: </p>
                   <p className="text-xs text-neutral-600">
                     {tranx.description}
                   </p>
