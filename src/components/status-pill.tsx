@@ -13,6 +13,8 @@ interface Props {
     | 'unverified'
     | 'pending'
     | 'processing'
+    | 'debit'
+    | 'credit'
   size?: 'xs' | 'sm' | 'base'
 }
 

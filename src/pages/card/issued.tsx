@@ -68,6 +68,7 @@ const Issued = () => {
       name: 'Brand',
       selector: (row: any) => row?.brand,
       cell: (row: any) => <p className="capitalize">{row?.brand}</p>,
+      width: '200px',
     },
     {
       name: 'Type',
