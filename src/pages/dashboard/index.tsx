@@ -3,12 +3,14 @@ import Layout from '@/components/layout'
 import StatusPill from '@/components/status-pill'
 import DashboardApi from '@/utils/api/dashboard-api'
 import { formatCurrency } from '@/utils/helper'
+import { handleError } from '@/utils/notify'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true)
+  const [dashboardAnalytics, setDashboardAnalytics] = useState([])
 
   const columns: TableColumn<any>[] = [
     {
@@ -56,10 +58,11 @@ const Dashboard = () => {
   useEffect(() => {
     ;(async () => {
       try {
-        const [overviewRes] = await Promise.allSettled([
-          DashboardApi.getDashBoardAnalytics(),
-        ])
+        const jiraSlackAnalytics = await DashboardApi.getDashBoardAnalytics()
+        console.log('jiraSlackAnalytics', jiraSlackAnalytics)
+        setDashboardAnalytics(jiraSlackAnalytics)
       } catch (err) {
+        handleError(err)
       } finally {
         setLoading(false)
       }

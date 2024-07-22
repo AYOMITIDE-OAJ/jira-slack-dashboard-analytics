@@ -2,6 +2,7 @@ import Layout from '@/components/layout'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
 import DashboardApi from '@/utils/api/dashboard-api'
+import { handleError } from '@/utils/notify'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
@@ -15,9 +16,9 @@ const JiraIssues = () => {
     ;(async () => {
       try {
         const jiraIssuesRes = await DashboardApi.getJiraIssues()
-        console.log('jiraIssuesRes', jiraIssuesRes)
         setEmployees(jiraIssuesRes)
       } catch (err) {
+        handleError(err)
       } finally {
         setIsLoading(false)
       }

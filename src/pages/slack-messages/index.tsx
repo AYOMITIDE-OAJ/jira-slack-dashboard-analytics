@@ -1,6 +1,7 @@
 import Layout from '@/components/layout'
 import Table from '@/components/table'
 import DashboardApi from '@/utils/api/dashboard-api'
+import { handleError } from '@/utils/notify'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
@@ -16,6 +17,7 @@ const SlackMessages = () => {
         const slackMessagesRes = await DashboardApi.getSlackMessages()
         setSlackMessages(slackMessagesRes)
       } catch (err) {
+        handleError(err)
       } finally {
         setIsLoading(false)
       }
