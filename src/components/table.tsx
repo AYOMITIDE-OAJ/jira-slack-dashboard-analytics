@@ -157,7 +157,7 @@ export default function Table(props: Partial<ITableProps>) {
 const Loader = () => (
   <div className="flex h-[200px] w-full items-center justify-center">
     <Image
-      src="/assets/svg/palremit-logo-icon.svg"
+      src="/assets/svg/logo-icon.svg"
       alt="Loading"
       height={40}
       width={40}

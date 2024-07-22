@@ -1,7 +1,5 @@
 import Layout from '@/components/layout'
 import StatusPill from '@/components/status-pill'
-import Table from '@/components/table'
-import TableSearch from '@/components/table-search'
 import DashboardApi from '@/utils/api/dashboard-api'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
@@ -10,14 +8,9 @@ import { useRouter } from 'next/router'
 import { Routes } from '@/constants/routes'
 import moment from 'moment'
 import User from '@/components/user'
-import withRole from '@/components/page-components/with-role'
-import { Roles, isSuperAdmin } from '@/lib/roles'
 import debounce from 'lodash.debounce'
-import { useSession } from 'next-auth/react'
 
 const Users = () => {
-  const { data: session } = useSession()
-  const userSession = (session?.user as any)?.user
   const router = useRouter()
   const [users, setUsers] = useState([])
   const [totalUsers, setTotalUsers] = useState<number>()
@@ -119,38 +112,11 @@ const Users = () => {
 
   return (
     <Layout header="Users" loading={loading}>
-      <div className="w-full xl:mt-5">
-        <div className="flex flex-col items-start justify-between gap-4 rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6 md:flex-row md:items-center">
-          <div>
-            {isSuperAdmin(userSession?.role) && totalUsers && (
-              <>
-                <h1 className="text-2xl font-medium text-gray-600">
-                  {totalUsers}
-                </h1>
-                <p className="text-xs">Total Users</p>
-              </>
-            )}
-          </div>
-          <TableSearch
-            name="searchValue"
-            value={searchValue}
-            placeholder="Search for user..."
-            onChange={handleValueChange}
-          />
-        </div>
-        <Table
-          columns={columns}
-          data={users}
-          progressPending={tableLoading}
-          onRowClicked={(row: any) =>
-            router.push({ pathname: Routes.User, query: { id: row._id } })
-          }
-        />
-      </div>
+      <div></div>
     </Layout>
   )
 }
 
-export default withRole(Users, [Roles.SuperAdmin, Roles.Admin, Roles.CRM])
+export default Users
 
 Users.auth = true

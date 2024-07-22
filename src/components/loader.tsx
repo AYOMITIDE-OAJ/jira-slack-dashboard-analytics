@@ -5,7 +5,7 @@ export default function Loader() {
   return (
     <div className="flex h-[500px] w-full flex-1 items-center justify-center">
       <Image
-        src="/assets/svg/palremit-logo-icon.svg"
+        src="/assets/svg/logo-icon.svg"
         alt="Loading"
         height={50}
         width={50}
@@ -21,7 +21,7 @@ export const PageLoader = () => (
     style={{ width: '100%', height: `calc(100vh - 200px)` }}
   >
     <Image
-      src="/assets/svg/palremit-logo-icon.svg"
+      src="/assets/svg/logo-icon.svg"
       alt="Loading"
       height={50}
       width={50}

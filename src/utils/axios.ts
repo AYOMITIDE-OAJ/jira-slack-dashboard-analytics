@@ -10,15 +10,6 @@ export default function createAxiosInstance(multipart = false) {
   if (typeof window !== 'undefined') {
     origin = window?.location?.origin
   }
-  // const instance = axios.create({
-  //   headers: {
-  //     'Content-Type': `${
-  //       multipart ? 'multipart/form-data' : 'application/json'
-  //     }`,
-  //   },
-  //   baseURL: BASE_API_URL,
-  //   timeout: 60000,
-  // })
 
   const instance = axios.create({
     headers: {
@@ -26,7 +17,7 @@ export default function createAxiosInstance(multipart = false) {
         multipart ? 'multipart/form-data' : 'application/json'
       }`,
     },
-    baseURL: `${origin}/api/proxy`,
+    baseURL: BASE_API_URL,
     timeout: 60000,
   })
 
