@@ -19,6 +19,15 @@ const DashboardApi = {
     return data
   },
 
+  // currently defaulted to random channel because that's where I've my application install on the workspace
+  async syncSlackMessages(channelName = 'random'): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.get(`/slack/fetch/${channelName}`)
+
+    return data
+  },
+
   async getSlackMessages(): Promise<any> {
     const {
       data: { data },

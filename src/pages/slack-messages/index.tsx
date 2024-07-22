@@ -1,7 +1,8 @@
+import Button from '@/components/button'
 import Layout from '@/components/layout'
 import Table from '@/components/table'
 import DashboardApi from '@/utils/api/dashboard-api'
-import { handleError } from '@/utils/notify'
+import { handleError, handleGenericSuccess } from '@/utils/notify'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
@@ -23,6 +24,15 @@ const SlackMessages = () => {
       }
     })()
   }, [])
+
+  const triggerSyncSlackMessages = async () => {
+    try {
+      await DashboardApi.syncSlackMessages()
+      handleGenericSuccess('Slack Messages Synced Successfully')
+    } catch (error) {
+      handleError(error)
+    }
+  }
   const columns: TableColumn<any>[] = [
     {
       name: 'Date',
@@ -43,6 +53,12 @@ const SlackMessages = () => {
   return (
     <Layout header="Slack Messages">
       <div className="mt-5 w-full overflow-hidden rounded-lg border border-gray-200 md:mt-10">
+        <aside className="m-4 flex justify-between">
+          <div></div>
+          <div onClick={() => triggerSyncSlackMessages()}>
+            <Button rounded={false}>Sync Slack Messages</Button>
+          </div>
+        </aside>
         <Table
           columns={columns}
           data={slackMessages}
