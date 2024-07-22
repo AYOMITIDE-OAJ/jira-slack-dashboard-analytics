@@ -1,22 +1,26 @@
 'use client'
 
-import DashboardApi from '@/utils/api/dashboard-api'
-import { handleError } from '@/utils/notify'
 import { createContext, useContext, useEffect, useState } from 'react'
 
 const AppContext = createContext<any>(undefined)
 
 export function AppWrapper({ children }: { children: React.ReactNode }) {
-  const [employees, setEmployees] = useState([])
-  const [isJiraIssuesLoading, setIsJiraIssuesLoading] = useState(false)
+  const [jiraIssues, setJiraIssues] = useState([])
+  const [slackMessages, setSlackMessages] = useState([])
+  const [patterns, setPatterns] = useState([])
+  const [issueMentionData, setIssueMentionData] = useState([])
 
   return (
     <AppContext.Provider
       value={{
-        employees,
-        setEmployees,
-        isJiraIssuesLoading,
-        setIsJiraIssuesLoading,
+        jiraIssues,
+        setJiraIssues,
+        slackMessages,
+        setSlackMessages,
+        patterns,
+        setPatterns,
+        issueMentionData,
+        setIssueMentionData,
       }}
     >
       {children}
@@ -24,7 +28,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
   )
 }
 
-export const useGlobalModalContext = () => {
+export const useGlobalContext = () => {
   return useContext(AppContext)
 }
 

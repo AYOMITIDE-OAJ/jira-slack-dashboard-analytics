@@ -1,6 +1,7 @@
 import Layout from '@/components/layout'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
+import { useGlobalContext } from '@/context/AppContext'
 import DashboardApi from '@/utils/api/dashboard-api'
 import { handleError } from '@/utils/notify'
 import moment from 'moment'
@@ -9,14 +10,14 @@ import { TableColumn } from 'react-data-table-component'
 
 const JiraIssues = () => {
   const [isLoading, setIsLoading] = useState(false)
-  const [employees, setEmployees] = useState([])
+  const { jiraIssues, setJiraIssues } = useGlobalContext()
 
   useEffect(() => {
     setIsLoading(true)
     ;(async () => {
       try {
         const jiraIssuesRes = await DashboardApi.getJiraIssues()
-        setEmployees(jiraIssuesRes)
+        setJiraIssues(jiraIssuesRes)
       } catch (err) {
         handleError(err)
       } finally {
@@ -53,7 +54,11 @@ const JiraIssues = () => {
   return (
     <Layout header="Jira Issues">
       <div className="mt-5 w-full overflow-hidden rounded-lg border border-gray-200 md:mt-10">
-        <Table columns={columns} data={employees} progressPending={isLoading} />
+        <Table
+          columns={columns}
+          data={jiraIssues}
+          progressPending={isLoading}
+        />
       </div>
     </Layout>
   )

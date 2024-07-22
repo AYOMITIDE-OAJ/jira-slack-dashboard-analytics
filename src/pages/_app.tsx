@@ -1,3 +1,4 @@
+import { AppWrapper } from '@/context/AppContext'
 import '@/styles/globals.css'
 import { SessionProvider } from 'next-auth/react'
 import type { AppProps } from 'next/app'
@@ -22,12 +23,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="description" content="Admin Dashboard" />
       </Head>
       {
-        // @ts-ignore
-        Component.auth ? (
-          <Component {...pageProps} />
-        ) : (
-          <Component {...pageProps} />
-        )
+        <AppWrapper>
+          <Component {...pageProps} />{' '}
+        </AppWrapper>
       }
       <ToastContainer theme="colored" />
     </SessionProvider>

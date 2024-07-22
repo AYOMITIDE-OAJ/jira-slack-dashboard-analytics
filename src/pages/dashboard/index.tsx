@@ -1,14 +1,15 @@
 import CardLayout from '@/components/card-layout'
 import ChartComponent from '@/components/chart-component'
 import Layout from '@/components/layout'
+import { useGlobalContext } from '@/context/AppContext'
 import DashboardApi from '@/utils/api/dashboard-api'
 import { handleError } from '@/utils/notify'
 import { useEffect, useState } from 'react'
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true)
-  const [patterns, setPatterns] = useState([])
-  const [issueMentionData, setIssueMentionData] = useState([])
+  const { issueMentionData, setIssueMentionData, patterns, setPatterns } =
+    useGlobalContext()
 
   useEffect(() => {
     ;(async () => {

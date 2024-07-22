@@ -1,6 +1,7 @@
 import Button from '@/components/button'
 import Layout from '@/components/layout'
 import Table from '@/components/table'
+import { useGlobalContext } from '@/context/AppContext'
 import DashboardApi from '@/utils/api/dashboard-api'
 import { handleError, handleGenericSuccess } from '@/utils/notify'
 import moment from 'moment'
@@ -9,7 +10,7 @@ import { TableColumn } from 'react-data-table-component'
 
 const SlackMessages = () => {
   const [isLoading, setIsLoading] = useState(false)
-  const [slackMessages, setSlackMessages] = useState([])
+  const { slackMessages, setSlackMessages } = useGlobalContext()
 
   useEffect(() => {
     setIsLoading(true)
