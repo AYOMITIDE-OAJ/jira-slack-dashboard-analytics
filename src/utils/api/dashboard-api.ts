@@ -35,6 +35,14 @@ const DashboardApi = {
 
     return data
   },
+
+  async createSlackMessages(message: string): Promise<any> {
+    const {
+      data: { data },
+    } = await axiosInstance.post(`/slack/create`, message)
+
+    return data
+  },
 }
 
 export default DashboardApi

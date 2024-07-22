@@ -1,4 +1,5 @@
 import Button from '@/components/button'
+import CreateSlackMessageModal from '@/components/create-slack-message'
 import Layout from '@/components/layout'
 import Table from '@/components/table'
 import { useGlobalContext } from '@/context/AppContext'
@@ -10,6 +11,7 @@ import { TableColumn } from 'react-data-table-component'
 
 const SlackMessages = () => {
   const [isLoading, setIsLoading] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const { slackMessages, setSlackMessages } = useGlobalContext()
 
   useEffect(() => {
@@ -34,6 +36,15 @@ const SlackMessages = () => {
       handleError(error)
     }
   }
+
+  const createSlackMessage = async (message: string) => {
+    try {
+      await DashboardApi.createSlackMessages(message)
+    } catch (error) {
+      handleError(error)
+    }
+  }
+
   const columns: TableColumn<any>[] = [
     {
       name: 'Date',
@@ -56,9 +67,14 @@ const SlackMessages = () => {
       <div className="mt-5 w-full overflow-hidden rounded-lg border border-gray-200 md:mt-10">
         <aside className="m-4 flex justify-between">
           <div></div>
-          <div onClick={() => triggerSyncSlackMessages()}>
-            <Button rounded={false}>Sync Slack Messages</Button>
-          </div>
+          <section className="flex gap-4">
+            <div onClick={() => triggerSyncSlackMessages()}>
+              <Button variant='black_white' rounded={false}>Sync Slack Messages</Button>
+            </div>
+            <div onClick={() => setIsOpen(true)}>
+              <Button rounded={false}>Create Slack Messages</Button>
+            </div>
+          </section>
         </aside>
         <Table
           columns={columns}
@@ -66,6 +82,11 @@ const SlackMessages = () => {
           progressPending={isLoading}
         />
       </div>
+      <CreateSlackMessageModal
+        createSlackMessage={createSlackMessage}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      />
     </Layout>
   )
 }
