@@ -1,4 +1,5 @@
 import CardLayout from '@/components/card-layout'
+import ChartComponent from '@/components/chart-component'
 import Layout from '@/components/layout'
 import StatusPill from '@/components/status-pill'
 import DashboardApi from '@/utils/api/dashboard-api'
@@ -10,7 +11,8 @@ import { TableColumn } from 'react-data-table-component'
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true)
-  const [dashboardAnalytics, setDashboardAnalytics] = useState([])
+  const [patterns, setPatterns] = useState([])
+  const [issueMentionData, setIssueMentionData] = useState([])
 
   const columns: TableColumn<any>[] = [
     {
@@ -59,8 +61,8 @@ const Dashboard = () => {
     ;(async () => {
       try {
         const jiraSlackAnalytics = await DashboardApi.getDashBoardAnalytics()
-        console.log('jiraSlackAnalytics', jiraSlackAnalytics)
-        setDashboardAnalytics(jiraSlackAnalytics)
+        setPatterns(jiraSlackAnalytics.patterns)
+        setIssueMentionData(jiraSlackAnalytics.issueMentionData)
       } catch (err) {
         handleError(err)
       } finally {
@@ -70,11 +72,11 @@ const Dashboard = () => {
   }, [])
 
   return (
-    <Layout header="Dashboard" loading={loading}>
+    <Layout header="Analytics Dashboard" loading={loading}>
       <div className="w-full space-y-4">
         <div className="grid grid-cols-1 gap-y-4 xl:grid-cols-4 xl:gap-x-4">
           <CardLayout className="py-5">
-            <div className="grid grid-rows-2 gap-5"></div>
+            <ChartComponent data={issueMentionData} />
           </CardLayout>
         </div>
       </div>
