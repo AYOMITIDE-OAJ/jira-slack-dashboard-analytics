@@ -37,14 +37,6 @@ const SlackMessages = () => {
     }
   }
 
-  const createSlackMessage = async (message: string) => {
-    try {
-      await DashboardApi.createSlackMessages(message)
-    } catch (error) {
-      handleError(error)
-    }
-  }
-
   const columns: TableColumn<any>[] = [
     {
       name: 'Date',
@@ -69,7 +61,9 @@ const SlackMessages = () => {
           <div></div>
           <section className="flex gap-4">
             <div onClick={() => triggerSyncSlackMessages()}>
-              <Button variant='black_white' rounded={false}>Sync Slack Messages</Button>
+              <Button variant="black_white" rounded={false}>
+                Sync Slack Messages
+              </Button>
             </div>
             <div onClick={() => setIsOpen(true)}>
               <Button rounded={false}>Create Slack Messages</Button>
@@ -82,11 +76,7 @@ const SlackMessages = () => {
           progressPending={isLoading}
         />
       </div>
-      <CreateSlackMessageModal
-        createSlackMessage={createSlackMessage}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-      />
+      <CreateSlackMessageModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </Layout>
   )
 }

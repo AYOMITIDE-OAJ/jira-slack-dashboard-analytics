@@ -36,10 +36,16 @@ const DashboardApi = {
     return data
   },
 
-  async createSlackMessages(message: string): Promise<any> {
+  async createSlackMessages(
+    channelName: string = 'random', // currently defaulted to random to communicate with bot app
+    message: string
+  ): Promise<any> {
     const {
       data: { data },
-    } = await axiosInstance.post(`/slack/create`, message)
+    } = await axiosInstance.post(`/slack/messages/send`, {
+      channelName,
+      message,
+    })
 
     return data
   },

@@ -1,25 +1,21 @@
 import React, { Dispatch, SetStateAction, useState, ChangeEvent } from 'react'
 import Modal from './modal'
 import Button from './button'
-import Input from './input'
 import TextArea from './text-area'
 import {
   handleError,
   handleGenericError,
   handleGenericSuccess,
 } from '@/utils/notify'
+import DashboardApi from '@/utils/api/dashboard-api'
 
 interface Props {
   isOpen: boolean
   setIsOpen: Dispatch<SetStateAction<boolean>>
-  createSlackMessage: (message: string) => Promise<void>
 }
 
-export default function CreateSlackMessageModal({
-  isOpen,
-  setIsOpen,
-  createSlackMessage,
-}: Props) {
+export default function CreateSlackMessageModal({ isOpen, setIsOpen }: Props) {
+  const [isRequestLoading, setIsRequestLoading] = useState(false)
   const [formData, setFormData] = useState({
     message: '',
   })
@@ -29,17 +25,20 @@ export default function CreateSlackMessageModal({
     setFormData({ ...formData, [name]: value })
   }
 
-  const handleSaveChanges = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleSaveChanges = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setIsRequestLoading(true)
     try {
       if (!formData.message) {
         handleGenericError('Message is required')
       }
-      createSlackMessage(formData.message)
-      handleGenericSuccess('Slack Message Created Successfully')
-      setIsOpen(false)
+      await DashboardApi.createSlackMessages('random', formData.message)
+      handleGenericSuccess('Slack Message Sent To Channel Successfully')
     } catch (error) {
       handleError(error)
+    } finally {
+      setIsOpen(false)
+      setIsRequestLoading(false)
     }
   }
 
@@ -48,7 +47,7 @@ export default function CreateSlackMessageModal({
       <main>
         <h2 className="text-md text-lg text-black">Create Slack Message</h2>
         <div>
-          <form onSubmit={() => handleSaveChanges}>
+          <form onSubmit={handleSaveChanges}>
             <p className="mb-2 mt-8 px-2 text-sm text-black">Message</p>
             <TextArea
               variant="dark"
@@ -60,7 +59,9 @@ export default function CreateSlackMessageModal({
             />
 
             <section className="my-10 mb-4">
-              <Button rounded={false}>Publish to slack</Button>
+              <Button disabled={isRequestLoading} rounded={false}>
+                Publish to slack
+              </Button>
             </section>
           </form>
         </div>
