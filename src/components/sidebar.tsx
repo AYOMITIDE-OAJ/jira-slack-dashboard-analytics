@@ -55,7 +55,6 @@ export default function Sidebar({ setOpen }: Props) {
 
   return (
     <aside className="fixed z-10 h-screen w-[300px] border-r border-gray-200 bg-white py-6">
-      {/*LOGO*/}
 
       {/*SIDE NAVS*/}
       <div className="mt-8 md:mt-14">
