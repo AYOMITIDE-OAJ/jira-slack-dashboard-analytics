@@ -56,7 +56,6 @@ export default function Sidebar({ setOpen }: Props) {
   return (
     <aside className="fixed z-10 h-screen w-[300px] border-r border-gray-200 bg-white py-6">
 
-      {/*SIDE NAVS*/}
       <div className="mt-8 md:mt-14">
         <div className="w-full">
           {routes.map(({ name, route, subRoutes }, index) => {
