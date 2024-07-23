@@ -5,4 +5,5 @@ export enum Routes {
   JiraIssues = '/jira-issues',
   SlackMessages = '/slack-messages',
   Settings = '/settings',
+  Logout = '/logout',
 }
