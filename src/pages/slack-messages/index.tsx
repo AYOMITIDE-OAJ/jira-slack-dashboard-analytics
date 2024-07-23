@@ -1,5 +1,5 @@
 import Button from '@/components/button'
-import CreateSlackMessageModal from '@/components/create-slack-message'
+import CreateSlackMessageModal from '@/components/create-slack-message-modal'
 import Layout from '@/components/layout'
 import Table from '@/components/table'
 import { useGlobalContext } from '@/context/AppContext'
