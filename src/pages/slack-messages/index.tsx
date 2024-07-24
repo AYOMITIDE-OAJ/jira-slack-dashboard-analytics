@@ -1,4 +1,3 @@
-import CreateSlackMessageModal from '@/components/create-slack-message-modal'
 import Layout from '@/components/layout'
 import Table from '@/components/table'
 import TableSearch from '@/components/table-search'
@@ -12,7 +11,6 @@ import { TableColumn } from 'react-data-table-component'
 
 const SlackMessages = () => {
   const [isLoading, setIsLoading] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const {
     slackMessages,
@@ -108,7 +106,6 @@ const SlackMessages = () => {
           progressPending={isLoading}
         />
       </div>
-      <CreateSlackMessageModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </Layout>
   )
 }
