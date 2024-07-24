@@ -12,9 +12,8 @@ import { TableColumn } from 'react-data-table-component'
 
 const JiraIssues = () => {
   const [isLoading, setIsLoading] = useState(false)
-  const { jiraIssues, setJiraIssues } = useGlobalContext()
   const [searchTerm, setSearchTerm] = useState('')
-  const [totalJiraIssues, setTotalJiraIssues] = useState<number>()
+  const { jiraIssues, setJiraIssues, totalJiraIssues, setTotalJiraIssues } = useGlobalContext()
 
   const fetchIssues = async (summary?: string) => {
     try {
@@ -22,7 +21,7 @@ const JiraIssues = () => {
       setJiraIssues(data)
       setTotalJiraIssues(data?.length)
     } catch (error) {
-      console.error('Error fetching Jira issues:', error)
+      handleError(error)
     }
   }
 

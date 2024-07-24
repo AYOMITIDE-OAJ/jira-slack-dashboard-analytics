@@ -21,10 +21,12 @@ const DashboardApi = {
     return data
   },
 
-  async getSlackMessages(): Promise<any> {
+  async getSlackMessages(text?: string): Promise<any> {
     const {
       data: { data },
-    } = await axiosInstance.get(`/slack/fetch-messages`)
+    } = await axiosInstance.get(`/slack/fetch-messages`, {
+      params: text ? { text } : {},
+    })
 
     return data
   },

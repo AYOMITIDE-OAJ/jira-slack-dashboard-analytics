@@ -9,6 +9,8 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
   const [slackMessages, setSlackMessages] = useState([])
   const [patterns, setPatterns] = useState([])
   const [issueMentionData, setIssueMentionData] = useState([])
+  const [totalSlackMessages, setTotalSlackMessages] = useState<number>()
+  const [totalJiraIssues, setTotalJiraIssues] = useState<number>()
 
   return (
     <AppContext.Provider
@@ -21,6 +23,10 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
         setPatterns,
         issueMentionData,
         setIssueMentionData,
+        totalSlackMessages,
+        setTotalSlackMessages,
+        totalJiraIssues,
+        setTotalJiraIssues,
       }}
     >
       {children}
