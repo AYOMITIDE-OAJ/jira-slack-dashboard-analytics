@@ -11,10 +11,12 @@ const DashboardApi = {
     return data
   },
 
-  async getJiraIssues(): Promise<any> {
+  async getJiraIssues(summary?: string): Promise<any> {
     const {
       data: { data },
-    } = await axiosInstance.get(`/jira/fetch-issues`)
+    } = await axiosInstance.get(`/jira/fetch-issues`, {
+      params: summary ? { summary } : {},
+    })
 
     return data
   },

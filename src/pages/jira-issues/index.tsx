@@ -1,29 +1,55 @@
 import Layout from '@/components/layout'
 import StatusPill from '@/components/status-pill'
 import Table from '@/components/table'
+import TableSearch from '@/components/table-search'
 import { useGlobalContext } from '@/context/AppContext'
 import DashboardApi from '@/utils/api/dashboard-api'
 import { handleError } from '@/utils/notify'
+import debounce from 'lodash.debounce'
 import moment from 'moment'
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { TableColumn } from 'react-data-table-component'
 
 const JiraIssues = () => {
   const [isLoading, setIsLoading] = useState(false)
   const { jiraIssues, setJiraIssues } = useGlobalContext()
+  const [searchTerm, setSearchTerm] = useState('')
+  const [totalJiraIssues, setTotalJiraIssues] = useState<number>()
 
-  useEffect(() => {
-    setIsLoading(true)
-    ;(async () => {
+  const fetchIssues = async (summary?: string) => {
+    try {
+      const data = await DashboardApi.getJiraIssues(summary)
+      setJiraIssues(data)
+      setTotalJiraIssues(data?.length)
+    } catch (error) {
+      console.error('Error fetching Jira issues:', error)
+    }
+  }
+
+  const handleValueChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value)
+  }
+
+  const debounceSearch = useCallback(
+    debounce(async (query) => {
+      setIsLoading(true)
       try {
-        const jiraIssuesRes = await DashboardApi.getJiraIssues()
-        setJiraIssues(jiraIssuesRes)
+        const res = await DashboardApi.getJiraIssues(query)
+        setJiraIssues(res)
       } catch (err) {
-        handleError(err)
       } finally {
         setIsLoading(false)
       }
-    })()
+    }, 500),
+    []
+  )
+
+  useEffect(() => {
+    debounceSearch(searchTerm)
+  }, [searchTerm])
+
+  useEffect(() => {
+    fetchIssues()
   }, [])
 
   const priorityMapping: {
@@ -86,6 +112,22 @@ const JiraIssues = () => {
   return (
     <Layout header="Jira Issues">
       <div className="mt-5 w-full overflow-hidden rounded-lg border border-gray-200 md:mt-10">
+        <div className="flex flex-col items-start justify-between gap-4 rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6 md:flex-row md:items-center">
+          <div>
+            <>
+              <h1 className="text-2xl font-medium text-gray-600">
+                {totalJiraIssues}
+              </h1>
+              <p className="text-xs"> Total Jira Issues</p>
+            </>
+          </div>
+          <TableSearch
+            name="searchValue"
+            value={searchTerm}
+            placeholder="Search for Jira Issue..."
+            onChange={handleValueChange}
+          />
+        </div>
         <Table
           columns={columns}
           data={jiraIssues}

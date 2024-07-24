@@ -51,6 +51,7 @@ const SlackMessages = () => {
       maxWidth: '150px',
     },
   ]
+
   return (
     <Layout header="Slack Messages">
       <div className="mt-5 w-full overflow-hidden rounded-lg border border-gray-200 md:mt-10">
