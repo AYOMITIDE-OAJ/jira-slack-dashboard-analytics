@@ -30,16 +30,16 @@ interface ChartComponentProps {
 
 const ChartComponent: React.FC<ChartComponentProps> = ({ patterns, issueMentionData }) => {
   // Prepare data for the chart
-  const issueData = issueMentionData.map(issue => ({
+  const issueData = issueMentionData?.map(issue => ({
     ...issue,
-    issue: issue.issue,
-    count: issue.count,
+    issue: issue?.issue,
+    count: issue?.count,
   }));
 
   // Example processing for patterns if needed (you can customize this part)
-  const patternData = patterns.map(pattern => ({
-    issue: pattern.mentionedIssues.join(', '),
-    count: pattern.mentionedIssues.length, // This is just an example; adjust based on your needs
+  const patternData = patterns?.map(pattern => ({
+    issue: pattern?.mentionedIssues?.join(', '),
+    count: pattern?.mentionedIssues?.length, // This is just an example; adjust based on your needs
   }));
 
   return (
@@ -59,7 +59,7 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ patterns, issueMentionD
           <YAxis tickFormatter={(value) => Math.floor(value).toString()} />
           <Tooltip />
           <Legend />
-          <Bar dataKey="count" fill="#255c57" />
+          <Bar className='p-4' dataKey="count" fill="#255c57" />
         </BarChart>
       </ResponsiveContainer>
     </div>
