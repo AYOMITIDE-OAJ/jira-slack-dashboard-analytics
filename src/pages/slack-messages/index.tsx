@@ -1,4 +1,6 @@
+import Button from '@/components/button'
 import Layout from '@/components/layout'
+import CreateSlackMessageModal from '@/components/slack-message-modal'
 import Table from '@/components/table'
 import TableSearch from '@/components/table-search'
 import { useGlobalContext } from '@/context/AppContext'
@@ -11,6 +13,7 @@ import { TableColumn } from 'react-data-table-component'
 
 const SlackMessages = () => {
   const [isLoading, setIsLoading] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const {
     slackMessages,
@@ -87,10 +90,14 @@ const SlackMessages = () => {
         <div className="flex flex-col items-start justify-between gap-4 rounded-sm border border-gray-200 bg-neutral-100 px-4 py-6 md:flex-row md:items-center">
           <div>
             <>
-              <h1 className="text-2xl font-medium text-gray-600">
-                {totalSlackMessages}
-              </h1>
-              <p className="text-xs"> Total Slack Messages</p>
+              <div>
+                <aside className="">
+                  <h1 className="text-2xl font-medium text-gray-600">
+                    {totalSlackMessages}
+                  </h1>
+                  <p className="text-xs"> Total Slack Messages</p>
+                </aside>
+              </div>
             </>
           </div>
           <TableSearch
@@ -106,6 +113,15 @@ const SlackMessages = () => {
           progressPending={isLoading}
         />
       </div>
+      <main className="my-5 flex justify-between">
+        <div></div>
+        <aside className="w-1/4">
+          <Button onClick={() => setIsOpen(true)} rounded={false}>
+            Create Slack Message
+          </Button>
+        </aside>
+      </main>
+      <CreateSlackMessageModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </Layout>
   )
 }

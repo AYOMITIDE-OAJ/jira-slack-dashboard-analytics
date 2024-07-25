@@ -59,7 +59,7 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ patterns, issueMentionD
           <YAxis tickFormatter={(value) => Math.floor(value).toString()} />
           <Tooltip />
           <Legend />
-          <Bar className='p-4' dataKey="count" fill="#255c57" />
+          <Bar className='px-8' dataKey="count" fill="#255c57" />
         </BarChart>
       </ResponsiveContainer>
     </div>

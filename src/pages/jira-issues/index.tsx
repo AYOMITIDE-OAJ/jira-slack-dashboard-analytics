@@ -101,9 +101,9 @@ const JiraIssues = () => {
     },
     {
       name: 'Status',
-      selector: (row: any) => row?.status.name,
+      selector: (row: any) => row?.status?.name,
       cell: (row: any) => (
-        <StatusPill status={row?.status.name == 'Closed' ? 'closed' : 'open'} />
+        <StatusPill status={row?.status?.name == 'Closed' ? 'closed' : 'open'} />
       ),
     },
   ]

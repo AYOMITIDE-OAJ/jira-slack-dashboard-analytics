@@ -28,7 +28,7 @@ const Dashboard = () => {
   return (
     <Layout header="Analytics Dashboard" loading={loading}>
       <div className="w-full space-y-4">
-        <div className="grid grid-cols-1 gap-y-4 xl:grid-cols-4 xl:gap-x-4">
+        <div className="">
           <CardLayout className="py-5">
             <ChartComponent
               issueMentionData={issueMentionData}
