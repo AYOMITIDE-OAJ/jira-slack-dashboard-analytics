@@ -107,12 +107,14 @@ const SlackMessages = () => {
             onChange={handleValueChange}
           />
         </div>
-        <main className="mb-4 mx-4 flex justify-between">
+        <main className="mx-4 mb-4 flex justify-between">
           <div></div>
           <aside className="w-1/4">
-            <Button onClick={() => setIsOpen(true)} rounded={false}>
-              Create Slack Message
-            </Button>
+            <div>
+              <Button onClick={() => setIsOpen(true)} rounded={false}>
+                Create Slack Message
+              </Button>
+            </div>
           </aside>
         </main>
         <Table
