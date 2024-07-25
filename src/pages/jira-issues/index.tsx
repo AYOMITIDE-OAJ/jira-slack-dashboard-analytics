@@ -91,13 +91,13 @@ const JiraIssues = () => {
         <StatusPill status={getPriorityStatus(row?.priority?.name)} />
       ),
 
-      minWidth: '100px',
+      minWidth: '150px',
     },
     {
       name: 'Summary',
       cell: (row: any) => <p>{row?.summary}</p>,
       selector: (row: any) => row?.summary,
-      minWidth: '350px',
+      minWidth: '250px',
     },
     {
       name: 'Status',

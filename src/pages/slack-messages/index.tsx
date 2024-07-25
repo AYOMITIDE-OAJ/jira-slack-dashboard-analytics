@@ -107,20 +107,21 @@ const SlackMessages = () => {
             onChange={handleValueChange}
           />
         </div>
+        <main className="mb-4 mx-4 flex justify-between">
+          <div></div>
+          <aside className="w-1/4">
+            <Button onClick={() => setIsOpen(true)} rounded={false}>
+              Create Slack Message
+            </Button>
+          </aside>
+        </main>
         <Table
           columns={columns}
           data={slackMessages}
           progressPending={isLoading}
         />
       </div>
-      <main className="my-5 flex justify-between">
-        <div></div>
-        <aside className="w-1/4">
-          <Button onClick={() => setIsOpen(true)} rounded={false}>
-            Create Slack Message
-          </Button>
-        </aside>
-      </main>
+
       <CreateSlackMessageModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </Layout>
   )
