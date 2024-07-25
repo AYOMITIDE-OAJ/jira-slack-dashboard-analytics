@@ -10,8 +10,8 @@
     "prepare": "husky install"
   },
   "author": {
-    "name": "Ogbu Ezekiel",
-    "email": "Zicozydasilva70@gmail.com"
+    "name": "Ayomitide OAJ",
+    "email": "ayomitide007@gmail.com"
   },
   "dependencies": {
     "@headlessui/react": "^2.0.3",
